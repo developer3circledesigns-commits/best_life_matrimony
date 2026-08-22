@@ -4,7 +4,7 @@
 
   <div id="pin-fam" class="relative hidden lg:flex w-screen h-screen items-center justify-center">
     <div class="absolute top-8 left-0 right-0 flex items-center justify-center z-30">
-      <h2 class="font-serif text-5xl font-bold text-white tracking-wide">Family Album</h2>
+      <h2 class="font-serif text-5xl font-bold text-white tracking-wide">Together We Choose</h2>
     </div>
     <div id="book-fam" class="relative w-[92vw] max-w-6xl h-[72vh] flex book-shadow" style="perspective:2800px; perspective-origin:50% 50%; will-change:transform">
       <style>
@@ -92,17 +92,17 @@
           <div class="absolute right-0 top-1 bottom-1 w-[6px] page-edge opacity-60 pointer-events-none"></div>
           <div class="absolute left-0 top-0 bottom-0 w-12 pointer-events-none z-10" style="background: linear-gradient(90deg, rgba(0,0,0,0.14) 0%, transparent 70%);"></div>
         </div>
-        <!-- CLOSED COVER — Family Album — full width closed, text on right half not cut by spine -->
+        <!-- CLOSED COVER — Together We Choose — full width closed, text on right half not cut by spine -->
         <div id="flip-cover" class="page absolute inset-0 will-change-transform" style="will-change:transform; transform-origin:left center; transform-style:preserve-3d; z-index:12">
           <div class="absolute inset-0 overflow-hidden" style="backface-visibility:hidden; border-radius:2px">
-            <img src="<?php echo asset('images/1.jpg'); ?>" alt="Family Album cover — real family" class="w-full h-full object-cover" loading="eager">
+            <img src="<?php echo asset('images/1.jpg'); ?>" alt="Together We Choose cover — real family" class="w-full h-full object-cover" loading="eager">
             <div class="absolute inset-0 bg-[#3a0c15]/55"></div>
 
             <div class="absolute inset-0 pointer-events-none" style="box-shadow: inset 0 0 0 1px rgba(246,230,180,0.15);"></div>
             <div class="absolute left-0 top-0 bottom-0 w-1 bg-black/10 pointer-events-none"></div>
           </div>
           <div class="page-back absolute inset-0 bg-[#fdf6e8] flex items-center justify-center" style="backface-visibility:hidden; border-radius:2px 0 0 2px; border-right:1px solid rgba(0,0,0,0.06)">
-            <p class="text-[11px] tracking-[0.2em] uppercase text-[#3a0c15]/20">Family Album</p>
+            <p class="text-[11px] tracking-[0.2em] uppercase text-[#3a0c15]/20">Together We Choose</p>
           </div>
         </div>
       </div>
@@ -115,7 +115,7 @@
 
   <!-- Mobile heading -->
   <div class="lg:hidden w-full pt-8 pb-4 text-center">
-    <h2 class="font-serif text-3xl font-bold text-white tracking-wide">Family Album</h2>
+    <h2 class="font-serif text-3xl font-bold text-white tracking-wide">Together We Choose</h2>
   </div>
 
   <!-- Mobile swipe — 6 images -->
