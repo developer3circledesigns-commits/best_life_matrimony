@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Families 04 — Real Book | BestLife Matrimony</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+<style>
+.font-serif{font-family:'Cormorant Garamond',serif}
+.book-wrap{perspective:2800px; perspective-origin:50% 50%}
+.book{transform-style:preserve-3d}
+.page{backface-visibility:hidden; transform-style:preserve-3d}
+.page-back{transform:rotateY(180deg)}
+.book-shadow{box-shadow:0 30px 70px rgba(0,0,0,0.45), 0 10px 20px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.08)}
+.page-edge{ background: repeating-linear-gradient(90deg, #fdf6e8 0px, #fdf6e8 2px, #e8ddd0 2px, #e8ddd0 3px); }
+.spine{ background: linear-gradient(90deg, #2a0a12 0%, #4a1322 20%, #5e1e2e 50%, #3a0c15 100%); box-shadow: inset 2px 0 6px rgba(0,0,0,0.4), inset -1px 0 2px rgba(255,255,255,0.1); }
+.curl-shadow{ background: linear-gradient(90deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0) 60%); }
+</style>
+</head>
+<body class="bg-[#0c0205] overflow-x-hidden antialiased">
+<div class="sticky top-0 z-50 bg-[#0c0205]/80 backdrop-blur border-b border-white/10"><div class="max-w-7xl mx-auto px-6 h-[52px] flex items-center justify-between text-[11px] tracking-[0.16em] uppercase text-white/50">01 — Real Book<span class="hidden md:inline text-[#e3c877]">Full width • real pages • curl</span></div></div>
+
+<section id="book-wrap-04" class="relative w-screen h-screen overflow-hidden flex items-center justify-center" style="background: linear-gradient(145deg, #3a0c15 0%, #4a1322 20%, #5e1e2e 35%, #6e2a2a 52%, #8a4a2f 68%, #a67d3a 82%, #c9a86a 90%, #e3c877 96%, #f6e6b4 100%);">
+  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(800px 400px at 50% 15%, rgba(255,246,232,0.08) 0%, transparent 70%);"></div>
+
+  <!-- Real Book — full width of section -->
+  <div id="book-04" class="book-wrap relative w-[92vw] max-w-6xl h-[70vh] flex items-stretch">
+    <!-- shadow beneath book -->
+    <div class="absolute -bottom-8 left-6 right-6 h-8 bg-black/30 blur-[18px] rounded-full pointer-events-none"></div>
+    <!-- outer cover -->
+    <div class="absolute -inset-3 bg-[#2a0a12] rounded-[4px] shadow-2xl pointer-events-none" style="box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 20px 50px rgba(0,0,0,0.4);"></div>
+    <div class="absolute -inset-3 rounded-[4px] border border-white/5 pointer-events-none"></div>
+
+    <!-- Book content -->
+    <div class="relative flex w-full h-full bg-[#fdf6e8] overflow-hidden book-shadow" style="border-radius:2px">
+      <!-- LEFT PAGE — hard page with image -->
+      <div class="w-1/2 h-full relative overflow-hidden bg-[#1a0a0f]" style="border-radius:2px 0 0 2px">
+        <div class="left-img-04 absolute inset-0">
+          <img src="https://images.unsplash.com/photo-1609220136736-443140cffec6?w=1200&q=80&auto=format&fit=crop" alt="Indian family together — real" class="w-full h-full object-cover">
+          <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(90deg, transparent 70%, rgba(0,0,0,0.18) 100%);"></div>
+        </div>
+        <div class="left-img-04 absolute inset-0">
+          <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1200&q=80&auto=format&fit=crop" alt="Parents siblings together — real" class="w-full h-full object-cover">
+          <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(90deg, transparent 70%, rgba(0,0,0,0.18) 100%);"></div>
+        </div>
+        <div class="left-img-04 absolute inset-0">
+          <img src="https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=1200&q=80&auto=format&fit=crop" alt="Family choosing together — real" class="w-full h-full object-cover">
+          <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(90deg, transparent 70%, rgba(0,0,0,0.18) 100%);"></div>
+        </div>
+        <!-- inner page curl gradient at gutter -->
+        <div class="absolute right-0 top-0 bottom-0 w-12 curl-shadow pointer-events-none z-10"></div>
+        <!-- page edge thickness left -->
+        <div class="absolute left-0 top-1 bottom-1 w-[6px] page-edge opacity-60 pointer-events-none"></div>
+      </div>
+
+      <!-- Spine -->
+      <div class="spine w-[22px] shrink-0 relative z-20 flex items-center justify-center">
+        <span class="text-[9px] tracking-[0.2em] uppercase text-[#f6e6b4]/40 [writing-mode:vertical-lr]">BestLife Matrimony</span>
+        <div class="absolute left-0 top-0 bottom-0 w-[8px] bg-gradient-to-r from-black/30 to-transparent"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-[8px] bg-gradient-to-l from-black/20 to-transparent"></div>
+      </div>
+
+      <!-- RIGHT PAGES — real turning pages -->
+      <div class="w-1/2 h-full relative bg-[#fdf6e8] overflow-hidden" style="perspective:2000px; border-radius:0 2px 2px 0">
+        <!-- Base page 3 (underneath) -->
+        <div class="absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-[#3a0c15] text-white">
+          <p class="font-serif italic text-2xl leading-relaxed text-[#f6e6b4]">Search Together. Choose Together. Begin Together.</p>
+          <p class="mt-4 text-sm leading-7 text-white/70">BestLife Matrimony makes it easier for families to explore suitable profiles while keeping the individual's preferences at the heart.</p>
+          <a href="#" class="mt-8 inline-flex h-10 px-6 bg-white text-[#3a0c15] font-bold text-sm items-center gap-2" style="border-radius:0">Explore Profiles →</a>
+          <p class="mt-6 text-[10px] tracking-[0.16em] uppercase text-white/25">Page 03 — End</p>
+        </div>
+        <!-- Base page 2 -->
+        <div class="absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-white">
+          <p class="text-sm leading-7 text-[#3a0c15]/70">Sometimes, the search isn't just yours. Parents, siblings and family members often play an important role in finding the right life partner.</p>
+          <p class="mt-4 text-sm leading-7 text-[#3a0c15]/70">BestLife Matrimony makes it easier for families to explore suitable profiles while keeping the individual's preferences and expectations at the heart of the journey.</p>
+        </div>
+
+        <!-- Flip Page B — real page with front/back -->
+        <div id="flip-04-b" class="page absolute inset-0 will-change-transform" style="will-change:transform; transform-origin:left center; transform-style:preserve-3d">
+          <div class="absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
+            <p class="text-[11px] tracking-[0.16em] uppercase text-[#3a0c15]/40 font-bold">Page 02</p>
+            <p class="mt-3 text-sm leading-7 text-[#3a0c15]/70">Sometimes, the search isn't just yours. Parents, siblings and family members often play an important role in finding the right life partner.</p>
+            <div class="mt-4 h-px bg-[#3a0c15]/10"></div>
+            <p class="mt-4 text-xs text-[#3a0c15]/50">Real book — page turns on scroll</p>
+          </div>
+          <div class="page-back absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-[#fdf6e8]" style="backface-visibility:hidden">
+            <p class="font-serif italic text-xl text-[#3a0c15]">Your family's support, your choice.</p>
+            <p class="mt-3 text-sm text-[#3a0c15]/60">Back of page 02</p>
+          </div>
+          <div class="absolute right-0 top-0 bottom-0 w-[1px] bg-black/10 pointer-events-none" style="backface-visibility:hidden"></div>
+        </div>
+
+        <!-- Flip Page A — front page -->
+        <div id="flip-04-a" class="page absolute inset-0 will-change-transform" style="will-change:transform; transform-origin:left center; transform-style:preserve-3d; z-index:5">
+          <div class="absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
+            <span class="inline-flex w-fit border border-[#3a0c15]/10 bg-[#fdf6e8] px-3 py-1 text-[11px] tracking-[0.16em] uppercase text-[#3a0c15] font-bold" style="border-radius:0">For Families</span>
+            <h2 class="mt-4 font-serif text-[34px] font-bold leading-[0.9] text-[#3a0c15]">Looking for a Life Partner<br><span class="italic text-[#8a4a2f]">for Someone You Love?</span></h2>
+            <p class="mt-4 text-sm leading-7 text-[#3a0c15]/60">Open book • Right page turns on scroll • Left image follows</p>
+            <p class="mt-6 text-[10px] tracking-[0.16em] uppercase text-[#3a0c15]/30">Page 01 / 03</p>
+          </div>
+          <div class="page-back absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
+            <p class="text-sm leading-7 text-[#3a0c15]/70">BestLife Matrimony makes it easier for families to explore suitable profiles.</p>
+          </div>
+        </div>
+
+        <!-- page edge thickness right -->
+        <div class="absolute right-0 top-1 bottom-1 w-[6px] page-edge opacity-60 pointer-events-none"></div>
+        <!-- curl shadow on gutter -->
+        <div class="absolute left-0 top-0 bottom-0 w-12 pointer-events-none z-10" style="background: linear-gradient(90deg, rgba(0,0,0,0.14) 0%, transparent 70%);"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-black/40 border border-white/10 px-4 py-2 backdrop-blur rounded-full">
+    <div class="h-1 w-24 bg-white/10 rounded-full overflow-hidden"><div id="progress-04" class="h-full bg-white w-0 will-change-transform" style="will-change:width"></div></div>
+    <span class="text-[10px] tracking-[0.16em] uppercase text-white/60">Scroll to turn real pages</span>
+  </div>
+</section>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const lenis=new Lenis({duration:1.2, lerp:0.1, smoothWheel:true, easing:t=>Math.min(1,1.001-Math.pow(2,-10*t))});
+lenis.on('scroll', ScrollTrigger.update); function raf(t){lenis.raf(t); requestAnimationFrame(raf);} requestAnimationFrame(raf);
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const leftImgs=document.querySelectorAll(".left-img-04");
+  gsap.set(leftImgs,{autoAlpha:0}); gsap.set(leftImgs[0],{autoAlpha:1});
+  const tl=gsap.timeline({scrollTrigger:{trigger:"#book-wrap-04", start:"top top", end:"+=240%", pin:true, scrub:1}});
+  // page 1 turn
+  tl.to("#flip-04-a",{rotateY:-180, duration:0.7, ease:"power2.inOut"},0)
+    .to(leftImgs[0],{autoAlpha:0, duration:0.35},0).to(leftImgs[1],{autoAlpha:1, duration:0.35},0.25)
+    .to("#flip-04-b",{rotateY:0, duration:0.7, ease:"power2.inOut"},0.75)
+    .to("#flip-04-b",{rotateY:-180, duration:0.7, ease:"power2.inOut"},1.4)
+    .to(leftImgs[1],{autoAlpha:0, duration:0.35},1.4).to(leftImgs[2],{autoAlpha:1, duration:0.35},1.65);
+  gsap.to("#progress-04",{width:"100%", ease:"none", scrollTrigger:{trigger:"#book-wrap-04", start:"top top", end:"+=240%", scrub:0.6}});
+  // subtle book tilt on scroll
+  gsap.to("#book-04",{rotateY:2, rotateX:1, scrollTrigger:{trigger:"#book-wrap-04", start:"top top", end:"+=240%", scrub:1}});
+}
+</script>
+</body>
+</html>

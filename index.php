@@ -8,12 +8,17 @@ require_once __DIR__ . '/includes/navbar.php';
   <div class="relative min-h-screen bg-[#0c0205] text-[#fff6e8] selection:bg-[#dcb04a] selection:text-[#3a0c15]">
     <?php include __DIR__ . '/sections/hero.php'; ?>
     <?php include __DIR__ . '/sections/intro.php'; ?>
-    <?php include __DIR__ . '/sections/why.php'; ?>
-    <?php include __DIR__ . '/sections/featured.php'; ?>
-    <?php include __DIR__ . '/sections/families.php'; ?>
-    <?php include __DIR__ . '/sections/stats.php'; ?>
+    <?php include __DIR__ . '/sections/profile-matches.php'; ?>
+    <?php include __DIR__ . '/sections/how-it-works.php'; ?>
+    <?php include __DIR__ . '/sections/why-bestlife.php'; ?>
+    <?php include __DIR__ . '/sections/featured-matches.php'; ?>
+    <?php include __DIR__ . '/sections/emotional.php'; ?>
+    <?php include __DIR__ . '/sections/for-families.php'; ?>
+    <?php include __DIR__ . '/sections/advertise.php'; ?>
+    <?php include __DIR__ . '/sections/marquee.php'; ?>
     <?php include __DIR__ . '/sections/faq.php'; ?>
-    <?php include __DIR__ . '/sections/cta.php'; ?>
+    <?php include __DIR__ . '/sections/marquee2.php'; ?>
+    <?php include __DIR__ . '/sections/final-cta.php'; ?>
   </div>
 </main>
 <?php

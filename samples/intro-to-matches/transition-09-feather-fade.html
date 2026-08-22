@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intro→Matches 09 — Feather Fade | Ultra Smooth</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+<style>.font-serif{font-family:'Cormorant Garamond',serif}</style>
+</head>
+<body class="bg-[#0c0205] overflow-x-hidden antialiased">
+<div class="fixed top-0 inset-x-0 z-50 bg-black/50 backdrop-blur border-b border-white/10">
+  <div class="max-w-[1600px] mx-auto px-6 h-[48px] flex items-center justify-between text-[11px] tracking-[0.16em] uppercase text-white/50">09 — Feather Fade <b class="text-[#e3c877]">SOFT OPACITY ONLY</b><span class="hidden md:inline text-white/30">No y shift >20px • most gentle</span></div>
+</div>
+
+<section id="intro09" class="relative flex flex-col justify-center py-16 lg:py-24 overflow-hidden" style="background: linear-gradient(135deg, #3a0c15 0%, #6e2a2a 48%, #f6e6b4 100%); min-height:88vh;">
+  <div id="intro09-content" class="relative max-w-[1600px] mx-auto px-6 lg:px-10 grid lg:grid-cols-12 gap-8 items-center w-full will-change-transform" style="will-change:opacity; transform:translateZ(0)">
+    <div class="lg:col-span-5"><div class="aspect-[4/5] overflow-hidden border border-white/15"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=900&q=80&auto=format&fit=crop" class="h-full w-full object-cover"></div></div>
+    <div class="lg:col-span-6 lg:col-start-7"><h2 class="font-serif text-[44px] font-light text-[#3a0c15]">Your Best Life</h2><p class="mt-2 text-sm text-[#3a0c15]/60">Only 16px parallax — no jank</p></div>
+  </div>
+</section>
+
+<section id="matches09" class="relative min-h-screen flex flex-col justify-center py-16 overflow-hidden" style="background: linear-gradient(135deg, #3a0c15 0%, #8a4a2f 64%, #f6e6b4 100%); margin-top:-40px; border-top-left-radius:40px; border-top-right-radius:40px;">
+  <div class="max-w-6xl mx-auto px-6 w-full"><h2 class="font-serif text-[38px] font-bold">Meet Profiles That Could Be<br><span class="italic bg-gradient-to-r from-[#f6e6b4] to-[#dcb04a] bg-clip-text text-transparent">Your Perfect Match.</span></h2></div>
+</section>
+<div class="h-[60vh] bg-[#FFFBF0] grid place-items-center text-[#3a0c15]/30 text-xs tracking-widest uppercase">Feather ends</div>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const lenis=new Lenis({duration:1.7, lerp:0.06, smoothWheel:true, syncTouch:true, easing:t=>1 - Math.pow(1-t,2.8)});
+lenis.on('scroll', ScrollTrigger.update); function raf(t){lenis.raf(t); requestAnimationFrame(raf);} requestAnimationFrame(raf);
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  gsap.to("#intro09-content",{ y:-16, opacity:0, ease:"power1.out", scrollTrigger:{trigger:"#intro09", start:"top top", end:"55% top", scrub:1.8 }});
+}
+</script>
+</body>
+</html>

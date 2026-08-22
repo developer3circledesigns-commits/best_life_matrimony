@@ -1,56 +1,20 @@
-<?php // IntroSection.php — reproduces IntroSection.tsx with parallax and reveal staggered animations ?>
-<section data-intro-section class="relative z-20 py-20 sm:py-28 px-4 sm:px-6 lg:px-8 overflow-hidden section-overlap border-t border-[#f6e6b4]/25 bg-[#0c0205]">
-  <div data-intro-inner class="relative max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center reveal-scale">
-    <!-- Left copy -->
-    <div class="lg:col-span-7">
-      <div class="reveal reveal-delay-1">
-        <span class="inline-flex items-center gap-2 rounded-full border border-[#f6e6b4]/20 bg-white/[0.06] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-[#e3c877] backdrop-blur-md">Brand Promise</span>
+<?php // IntroSection.php — hero intro with staggered entrance and pinned reveal ?>
+<section id="intro" class="relative min-h-screen h-screen flex items-center overflow-hidden border-t border-white/10 py-16 lg:py-0" style="background: linear-gradient(145deg, #3a0c15 0%, #4a1322 20%, #5e1e2e 35%, #6e2a2a 52%, #8a4a2f 68%, #a67d3a 82%, #c9a86a 90%, #e3c877 96%, #f6e6b4 100%);">
+  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(800px 400px at 50% 12%, rgba(255,246,232,0.07) 0%, transparent 70%);"></div>
+  <div id="intro-inner" class="relative max-w-6xl w-full mx-auto px-6 sm:px-6 lg:px-8" style="will-change:transform,opacity">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="inline-flex rounded-none border border-white/20 bg-white/10 px-3 py-1.5 text-[11px] tracking-[0.16em] uppercase text-white font-bold" style="border-radius:0">BestLife Matrimony</span>
+        <h2 class="font-serif text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#fff6e8] leading-[1.08] mt-4">Find Someone Who<br><span class="bg-gradient-to-r from-[#fbf1d3] via-[#e3c877] to-[#dcb04a] bg-clip-text text-transparent italic">Makes Life Better.</span></h2>
+        <p class="mt-6 text-sm leading-6 text-white/80">Whether you're beginning your search or helping someone you love find their life partner, we're here to make the journey easier.</p>
+        <a href="./register.php" class="mt-8 inline-flex h-10 px-6 rounded-none bg-white text-[#3a0c15] text-sm font-bold items-center gap-2" style="border-radius:0">Register Now →</a>
       </div>
-
-      <h2 class="reveal reveal-delay-2 mt-5 font-serif text-3xl sm:text-4xl lg:text-[42px] font-bold leading-[1.1] tracking-tight text-[#fff6e8]">
-        Your Best Life Could Begin With
-        <span class="bg-gradient-to-r from-[#f6e6b4] via-[#e3c877] to-[#dcb04a] bg-clip-text text-transparent italic"> One Connection.</span>
-      </h2>
-
-      <div class="reveal reveal-delay-3 mt-6 space-y-4 text-[15px] leading-[1.85] text-[#fff6e8]/80">
-        <p>Finding the right life partner is one of life's most important decisions. At BestLife Matrimony, we make the journey simpler, more personal and more meaningful.</p>
-        <p>Discover profiles based on your preferences, connect with compatible individuals and take the first step towards building a beautiful future together.</p>
-        <p class="font-medium text-[#f6e6b4]">Because the right match isn't just about finding someone. It's about finding someone who fits your life.</p>
-      </div>
-
-      <div class="reveal reveal-delay-4 mt-8">
-        <a href="./about.php" class="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-[#f6e6b4]/40 bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-8 text-[15px] font-bold text-[#3a0c15] shadow-xl shadow-[#dcb04a]/20 hover:scale-[1.02] hover:brightness-110 transition-all">
-          Know More About Us
-          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-      </div>
-    </div>
-
-    <!-- Right features list -->
-    <div class="lg:col-span-5">
-      <div class="reveal-right relative rounded-[2rem] border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.03] p-6 sm:p-7 backdrop-blur-xl">
-        <p class="text-xs font-bold uppercase tracking-widest text-[#e3c877]/80 mb-4">Why families trust us</p>
-        <ul class="space-y-4">
-          <?php
-          $reasonsIntro = [
-            ['t' => 'Genuine, verified profiles', 'd' => 'Photo & ID checked before you see them.'],
-            ['t' => 'Preference-first search', 'd' => 'Age, city, education, profession & values.'],
-            ['t' => 'Privacy with dignity', 'd' => 'You control what is visible and when.'],
-          ];
-          foreach ($reasonsIntro as $idx => $r): ?>
-            <li class="flex gap-3 rounded-2xl border border-white/10 bg-black/25 px-4 py-4 card-hover">
-              <span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-[#e3c877]"></span>
-              <div>
-                <p class="text-sm font-semibold text-[#fff6e8]"><?php echo htmlspecialchars($r['t']); ?></p>
-                <p class="text-xs leading-relaxed text-[#fff6e8]/70"><?php echo htmlspecialchars($r['d']); ?></p>
-              </div>
-            </li>
-          <?php endforeach; ?>
-        </ul>
-        <div class="mt-6 rounded-xl bg-[#f6e6b4] px-4 py-3 text-center">
-          <p class="font-serif text-sm font-bold text-[#3a0c15]">Trusted Profiles • Meaningful Matches • A Better Way to Begin</p>
-        </div>
+      <div class="snap-center shrink-0 w-full lg:w-auto">
+        <div class="h-[50vh] lg:h-[70vh] overflow-hidden bg-[#1a0a0f]"><img src="<?php echo asset('images/intro.jpg'); ?>" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=1200&q=80&auto=format&fit=crop'" alt="Real Indian couple" class="w-full h-full object-contain" loading="lazy"></div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- GSAP plugins — loaded once in assets/js/plugins.js -->
+<script src="assets/js/plugins.js"></script>

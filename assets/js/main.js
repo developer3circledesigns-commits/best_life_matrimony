@@ -1,19 +1,34 @@
-/* Main initialization order:
-   1. DOM loaded
-   2. Navigation
-   3. Lenis already initialized before
-   4. Parallax
-   5. Scroll reveals
-   6. Resize handling
-*/
+/* Main initialization — refresh handling */
 document.addEventListener('DOMContentLoaded', function(){
-  // Add loaded class for any CSS entrance trumping
   document.documentElement.classList.add('is-loaded');
-  // Ensure video autoplay after user gesture fallback
-  const v = document.querySelector('[data-hero-video]');
+  // scroll restoration
+  if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  var v = document.querySelector('[data-hero-video]');
   if (v) {
-    const tryPlay = function(){ v.play().catch(function(){}); };
+    var tryPlay = function(){ v.play().catch(function(){}); };
     document.addEventListener('click', tryPlay, {once:true});
     document.addEventListener('touchstart', tryPlay, {once:true, passive:true});
+  }
+  // ensure ScrollTrigger refresh after DOM ready
+  setTimeout(function(){
+    if(typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) ScrollTrigger.refresh();
+    if(window.__lenis && window.__lenis.resize) window.__lenis.resize();
+  }, 100);
+});
+window.addEventListener('load', function(){
+  document.documentElement.classList.add('is-loaded');
+  setTimeout(function(){
+    if(window.__lenis && window.__lenis.resize) window.__lenis.resize();
+    if(typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) ScrollTrigger.refresh();
+  }, 100);
+  setTimeout(function(){
+    if(window.__lenis && window.__lenis.resize) window.__lenis.resize();
+    if(typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) ScrollTrigger.refresh();
+  }, 600);
+});
+// handle refresh via keyboard (F5/Ctrl+R) — ensure scroll top is consistent
+window.addEventListener('beforeunload', function(){
+  if(window.__lenis && window.__lenis.scrollTo) {
+    try{ window.__lenis.scrollTo(0, {immediate:true}); }catch(e){}
   }
 });

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emotional 03 — Full Width Parallax | BestLife Matrimony</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+<style>.font-serif{font-family:'Cormorant Garamond',serif}</style>
+</head>
+<body class="bg-[#0c0205] overflow-x-hidden antialiased">
+<div class="sticky top-0 z-50 bg-[#0c0205]/80 backdrop-blur border-b border-white/10"><div class="max-w-7xl mx-auto px-6 h-[52px] flex items-center justify-between text-[11px] tracking-[0.16em] uppercase text-white/50">03 — Full Width Parallax<span class="hidden sm:inline text-[#e3c877]">Full bleed • 3 full slides</span></div></div>
+
+<section id="emo-03" class="relative w-screen overflow-hidden" style="background:#0c0205">
+  <div class="relative w-screen">
+    <div id="carousel-emo-03" class="flex w-screen will-change-transform" style="will-change:transform">
+      <div class="shrink-0 w-screen h-[86vh] flex">
+        <div class="w-[55%] h-full relative overflow-hidden"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1600&q=80&auto=format&fit=crop" class="w-full h-full object-cover"><div class="absolute inset-0 bg-[#3a0c15]/10"></div></div>
+        <div class="w-[45%] h-full bg-white flex flex-col justify-center px-10 lg:px-14">
+          <p class="text-[11px] tracking-[0.16em] uppercase text-[#3a0c15]/40 font-bold">Chapter — 01</p>
+          <h3 class="mt-3 font-serif text-3xl font-bold leading-[0.9] text-[#3a0c15]">Two People.<br><span class="italic text-[#8a4a2f]">Two Stories.</span></h3>
+          <p class="mt-4 font-serif italic text-lg leading-relaxed text-[#3a0c15]">Every person has a story. Every family has dreams.</p>
+          <p class="mt-3 text-sm leading-6 text-[#3a0c15]/60">And sometimes, two stories come together to create a new chapter.</p>
+        </div>
+      </div>
+      <div class="shrink-0 w-screen h-[86vh] flex">
+        <div class="w-[45%] h-full bg-[#fdf6e8] flex flex-col justify-center px-10 lg:px-14 border-r border-[#3a0c15]/5">
+          <p class="text-[11px] tracking-[0.16em] uppercase text-[#3a0c15]/40 font-bold">Chapter — 02</p>
+          <p class="mt-3 text-sm leading-7 text-[#3a0c15]/70">BestLife Matrimony is here to help you take that first step.</p>
+          <p class="mt-4 font-serif italic text-xl text-[#3a0c15]">One step closer to forever</p>
+        </div>
+        <div class="w-[55%] h-full relative overflow-hidden"><img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=1600&q=80&auto=format&fit=crop" class="w-full h-full object-cover"></div>
+      </div>
+      <div class="shrink-0 w-screen h-[86vh] flex">
+        <div class="w-[55%] h-full relative overflow-hidden"><img src="https://images.unsplash.com/photo-1520854221256-589c08d9f21a?w=1600&q=80&auto=format&fit=crop" class="w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div></div>
+        <div class="w-[45%] h-full bg-[#3a0c15] flex flex-col justify-center px-10 lg:px-14">
+          <p class="text-sm leading-7 text-white/80">Whether you're beginning your search or helping someone you love find their life partner, we're here to make the journey easier.</p>
+          <a href="#" class="mt-6 inline-flex h-11 px-7 bg-white text-[#3a0c15] font-bold text-sm items-center" style="border-radius:0">Register Now →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-black/40 border border-white/10 px-4 py-2 backdrop-blur rounded-full"><div class="h-1 w-20 bg-white/10 overflow-hidden"><div id="progress-emo-03" class="h-full bg-white w-0"></div></div><span class="text-[10px] tracking-[0.16em] uppercase text-white/60">Full width carousel</span></div>
+</section>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const lenis=new Lenis({duration:1.2, lerp:0.1, smoothWheel:true, easing:t=>Math.min(1,1.001-Math.pow(2,-10*t))});
+lenis.on('scroll', ScrollTrigger.update); function raf(t){lenis.raf(t); requestAnimationFrame(raf);} requestAnimationFrame(raf);
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  gsap.to("#carousel-emo-03",{x: () => -(2 * innerWidth), ease:"none", scrollTrigger:{trigger:"#emo-03", start:"top top", end:"+=250%", pin:true, scrub:1, invalidateOnRefresh:true}});
+  gsap.to("#progress-emo-03",{width:"100%", scrollTrigger:{trigger:"#emo-03", start:"top top", end:"+=250%", scrub:0.8}});
+}
+</script>
+</body>
+</html>

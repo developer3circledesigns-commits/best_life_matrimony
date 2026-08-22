@@ -21,11 +21,14 @@
     observer.observe(el);
   });
 
-  // FAQ accordion logic
+  // FAQ accordion logic — skip #faq (handled by sections/faq.php with stopImmediatePropagation)
   const faqItems = document.querySelectorAll('.faq-item');
   faqItems.forEach(function(item){
+    if(item.closest('#faq')) return;
     const btn = item.querySelector('.faq-trigger');
     if (!btn) return;
+    if(btn.dataset.bound === '1') return;
+    btn.dataset.bound='1';
     btn.addEventListener('click', function(){
       const isOpen = item.classList.contains('is-open');
       // close others? original allows one open — toggling single, but keep multiple? We'll enforce single-open like React's openIndex

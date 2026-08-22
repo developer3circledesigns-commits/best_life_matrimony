@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intro→Matches 07 — Fluid Lerp | Ultra Smooth</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+<style>.font-serif{font-family:'Cormorant Garamond',serif}html{scroll-behavior:auto}*{font-variant-ligatures:common-ligatures}</style>
+</head>
+<body class="bg-[#0c0205] overflow-x-hidden antialiased">
+<div class="fixed top-0 inset-x-0 z-50 bg-black/50 backdrop-blur border-b border-white/10">
+  <div class="max-w-[1600px] mx-auto px-6 h-[48px] flex items-center justify-between text-[11px] tracking-[0.16em] uppercase text-white/50">07 — Fluid Lerp <b class="text-[#e3c877]">ULTRA SMOOTH • LENIS ONLY</b><span class="hidden md:inline text-white/30">No GSAP • lerp 0.07 • duration 1.6</span></div>
+</div>
+
+<section id="intro07" class="relative flex flex-col justify-center py-16 lg:py-24 overflow-hidden" style="background: linear-gradient(135deg, #3a0c15 0%, #4a1322 18%, #5e1e2e 32%, #6e2a2a 48%, #8a4a2f 64%, #a67d3a 78%, #c9a86a 88%, #e3c877 94%, #f6e6b4 100%); min-height:88vh;">
+  <div id="intro07-content" class="relative max-w-[1600px] mx-auto px-6 lg:px-10 grid lg:grid-cols-12 gap-8 items-center w-full will-change-transform" style="will-change:transform,opacity; transform:translateZ(0)">
+    <div class="lg:col-span-5"><div class="aspect-[4/5] overflow-hidden border border-white/15 relative"><img id="intro07-img" src="https://images.unsplash.com/photo-1519741497674-611481863552?w=900&q=80&auto=format&fit=crop" class="absolute inset-0 h-[118%] w-full object-cover -top-[9%] will-change-transform" style="will-change:transform; transform:translateZ(0)"></div></div>
+    <div class="lg:col-span-6 lg:col-start-7"><h2 class="font-serif text-[44px] lg:text-[56px] font-light leading-[0.9] text-[#3a0c15]">Your Best Life<br><span class="font-serif italic">One Connection.</span></h2><p class="mt-4 text-[#3a0c15]/70 text-sm leading-7">Lenis-only fluid — every frame lerped 0.07, no ScrollTrigger refresh spikes.</p></div>
+  </div>
+</section>
+
+<section id="matches07" class="relative min-h-screen flex flex-col justify-center py-16 lg:py-20 overflow-hidden will-change-transform" style="background: linear-gradient(135deg, #3a0c15 0%, #5e1e2e 32%, #8a4a2f 64%, #f6e6b4 100%); will-change:transform; transform:translateZ(0); margin-top:-40px; border-top-left-radius:40px; border-top-right-radius:40px; box-shadow:0 -24px 60px rgba(0,0,0,0.35)">
+  <div class="relative max-w-6xl mx-auto px-6 w-full">
+    <h2 class="font-serif text-[36px] lg:text-[46px] font-bold leading-[0.9] text-[#3a0c15]">Meet Profiles That Could Be<br><span class="italic text-[#5a1a1a]">Your Perfect Match.</span></h2>
+    <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="rounded-[18px] border border-white/10 bg-white/[0.04] p-6">01 — Age & Location</div>
+      <div class="rounded-[18px] border border-white/10 bg-white/[0.04] p-6">02 — Education</div>
+      <div class="rounded-[18px] border border-white/10 bg-white/[0.04] p-6">03 — Family</div>
+      <div class="rounded-[18px] border border-[#f6e6b4]/20 bg-[#f6e6b4] p-6 text-[#3a0c15]">04 — Preferences</div>
+    </div>
+  </div>
+</section>
+<div class="h-[60vh] bg-[#FFFBF0] grid place-items-center text-[#3a0c15]/30 text-xs tracking-widest uppercase">Fluid lerp ends — try feather scroll</div>
+
+<script>
+const lenis = new Lenis({ duration:1.6, lerp:0.07, smoothWheel:true, syncTouch:true, touchMultiplier:1.4, easing:t=>1 - Math.pow(1-t,3) }); // cubic out ultra smooth
+let rafId;
+function raf(t){ lenis.raf(t); requestAnimationFrame(raf); } requestAnimationFrame(raf);
+
+const introContent = document.getElementById('intro07-content');
+const introImg = document.getElementById('intro07-img');
+const matches = document.getElementById('matches07');
+let targetIntroY=0, curIntroY=0, targetIntroO=1, curIntroO=1, targetImgY=0, curImgY=0, targetMatchesY=0, curMatchesY=0;
+
+lenis.on('scroll', ({scroll})=>{
+  const introRect = document.getElementById('intro07').getBoundingClientRect();
+  const vpH = innerHeight;
+  const progressIntro = Math.max(0, Math.min(1, (vpH - introRect.top)/(vpH + introRect.height)));
+  // intro fades after 30% of viewport
+  const s = scroll;
+  targetIntroY = Math.min(40, Math.max(-40, (s - 300)*0.04));
+  targetIntroO = Math.max(0, 1 - Math.max(0, s - 200)/600);
+  // image micro parallax
+  targetImgY = (progressIntro - 0.5)*18;
+  // matches slight lift
+  const mRect = matches.getBoundingClientRect();
+  const pM = Math.max(0, Math.min(1, (vpH - mRect.top)/(vpH + mRect.height)));
+  targetMatchesY = (1 - pM)*18;
+});
+
+(function loop(){
+  curIntroY += (targetIntroY - curIntroY)*0.07;
+  curIntroO += (targetIntroO - curIntroO)*0.09;
+  curImgY += (targetImgY - curImgY)*0.07;
+  curMatchesY += (targetMatchesY - curMatchesY)*0.07;
+  introContent.style.transform = `translate3d(0,${curIntroY.toFixed(2)}px,0)`;
+  introContent.style.opacity = curIntroO.toFixed(3);
+  introImg.style.transform = `translate3d(0,${curImgY.toFixed(2)}px,0)`;
+  matches.style.transform = `translate3d(0,${curMatchesY.toFixed(2)}px,0)`;
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

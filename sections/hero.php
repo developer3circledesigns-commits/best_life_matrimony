@@ -23,16 +23,6 @@
       <span class="bg-gradient-to-r from-[#fbf1d3] via-[#e3c877] to-[#dcb04a] bg-clip-text text-transparent italic"> Makes Life Better.</span>
     </h1>
 
-    <!-- Subtitle -->
-    <p class="hero-entrance-2 mt-6 max-w-2xl text-lg sm:text-xl font-medium text-[#f4e3c9]">
-      Where meaningful connections become lifelong relationships.
-    </p>
-
-    <!-- Description -->
-    <p class="hero-entrance-3 mt-4 max-w-2xl text-sm sm:text-base leading-relaxed text-[#fff6e8]">
-      Your search for a life partner deserves more than a list of profiles. BestLife Matrimony brings together genuine profiles, meaningful preferences, and trusted connections to help you discover someone truly compatible.
-    </p>
-
     <!-- Action Buttons -->
     <div class="hero-entrance-4 mt-9 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
       <a href="./register.php" class="inline-flex h-12 sm:h-[52px] w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-[#f6e6b4] bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-8 text-base font-bold text-[#3a0c15] transition-all hover:scale-[1.03] hover:brightness-110 active:scale-95 shadow-none">
@@ -63,3 +53,33 @@
     </div>
   </div>
 </section>
+<script>
+(function(){
+  var v=document.querySelector('[data-hero-video]');
+  if(!v) return;
+  // 1st second frame as requested
+  var frame1s = 1;
+  v.addEventListener('loadedmetadata', function(){
+    try{
+      if(v.duration && v.duration > 0){
+        if(v.duration < 1) frame1s = Math.max(0.37, v.duration * 0.3);
+        else frame1s = 1;
+      }
+    }catch(e){}
+  });
+  v.addEventListener('ended', function(){
+    try{
+      v.pause();
+      // seek to 1st second and hold
+      setTimeout(function(){
+        try{ v.currentTime = frame1s; }catch(e){}
+        v.pause();
+        v.removeAttribute('loop');
+        v.autoplay = false;
+      }, 40);
+    }catch(e){}
+  });
+  // ensure no loop attribute
+  v.removeAttribute('loop');
+})();
+</script>

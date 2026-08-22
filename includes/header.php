@@ -13,7 +13,7 @@ $pageDescription = $pageDescription ?? $siteConfig['description'];
   <link rel="icon" type="image/svg+xml" href="<?php echo asset('images/favicon.svg'); ?>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <!-- Tailwind CDN for utility parity (production build would use compiled CSS) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -24,11 +24,13 @@ $pageDescription = $pageDescription ?? $siteConfig['description'];
           fontFamily: {
             sans: ['Plus Jakarta Sans','ui-sans-serif','system-ui'],
             serif: ['Cormorant Garamond','Georgia','serif'],
+            display: ['Instrument Serif','Georgia','serif'],
           }
         }
       }
     }
   </script>
+  <style>.font-display{font-family:'Instrument Serif',Georgia,serif}</style>
   <link rel="stylesheet" href="<?php echo asset('css/style.css'); ?>" />
 </head>
 <body class="bg-[#0c0205] text-[#fff6e8] antialiased selection:bg-[#dcb04a] selection:text-[#3a0c15]">

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intro → Profile Matches Transitions | BestLife Matrimony</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>.font-serif{font-family:'Cormorant Garamond',serif}</style>
+</head>
+<body class="bg-[#0c0205] text-[#fff6e8] antialiased">
+<div class="max-w-6xl mx-auto px-6 py-10">
+  <a href="../../index.php" class="text-xs tracking-widest uppercase text-[#e3c877] hover:text-white">← Back to Home</a>
+  <h1 class="mt-4 font-serif text-4xl font-bold">Second → Third Section — Vertical Scroll Transitions</h1>
+  <p class="mt-2 text-white/60 max-w-3xl">Second section (Atelier burgundy→gold) → Third section (Profile Matches burgundy, full-screen, marquee stagger). All international-level, only <code class="bg-white/10 px-1 py-0.5 rounded text-[#e3c877]">transform+opacity</code>, <code class="bg-white/10 px-1 py-0.5 rounded">will-change</code>, Lenis + GSAP scrub.</p>
+
+  <div class="mt-8 flex items-center gap-3">
+    <span class="h-px flex-1 bg-white/10"></span>
+    <span class="text-[11px] tracking-[0.2em] uppercase text-white/40">01–06 • Standard International</span>
+    <span class="h-px flex-1 bg-white/10"></span>
+  </div>
+  <div class="mt-6 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <a href="./transition-01-parallax-overlap.html" class="group rounded-2xl border border-[#e3c877]/30 bg-white/[0.04] overflow-hidden hover:border-[#e3c877]/50 transition">
+      <div class="h-36 bg-gradient-to-br from-[#3a0c15] via-[#6e2a2a] to-[#f6e6b4] p-6 flex flex-col justify-end relative"><span class="absolute top-3 left-3 bg-[#e3c877] text-[#3a0c15] text-[10px] font-bold px-2 py-1 rounded-full">★</span><span class="text-[11px] tracking-[0.16em] uppercase text-white/90 mt-6">01 • Parallax Overlap</span><p class="font-serif text-xl font-bold mt-1 text-white">Baseline</p></div>
+      <div class="p-4 text-xs leading-6 text-white/60"><p><b class="text-white">No pin.</b> Intro `y:-70 opacity:0`, matches `margin-top:-40px radius 40px`, marquee `xPercent`.</p><span class="mt-3 inline-flex text-[#e3c877] group-hover:underline">Open →</span></div>
+    </a>
+    <a href="./transition-02-pinned-depth.html" class="group rounded-2xl border border-white/10 bg-white/[0.04] overflow-hidden hover:border-[#e3c877]/30 transition">
+      <div class="h-36 bg-gradient-to-br from-[#0c0205] to-[#3a0c15] p-6 flex flex-col justify-end"><span class="text-[11px] tracking-[0.16em] uppercase text-[#e3c877]">02 • Pinned Depth</span><p class="font-serif text-xl font-bold mt-1">Apple Stack</p></div>
+      <div class="p-4 text-xs leading-6 text-white/60"><p><b class="text-white">Pinned 85%.</b> Intro pinned, matches `y:80 scale:0.96→1`.</p><span class="mt-3 inline-flex text-[#e3c877] group-hover:underline">Open →</span></div>
+    </a>
+    <a href="./transition-03-clip-reveal.html" class="group rounded-2xl border border-white/10 bg-white/[0.04] overflow-hidden hover:border-[#e3c877]/30 transition">
+      <div class="h-36 bg-gradient-to-br from-[#3a0c15] to-[#f6e6b4] p-6 flex flex-col justify-end"><span class="text-[11px] tracking-[0.16em] uppercase text-[#e3c877]">03 • Clip Reveal</span><p class="font-serif text-xl font-bold mt-1">Editorial Inset</p></div>
+      <div class="p-4 text-xs leading-6 text-white/60"><p><b class="text-white">Clip inset</b> `inset(0 0 22% 0)` scrub.</p><span class="mt-3 inline-flex text-[#e3c877] group-hover:underline">Open →</span></div>
+    </a>
+    <a href="./transition-04-perspective-morph.html" class="group rounded-2xl border border-white/10 bg-white/[0.04] overflow-hidden hover:border-[#e3c877]/30 transition">
+      <div class="h-36 bg-gradient-to-br from-[#1a0a0f] to-[#e3c877] p-6 flex flex-col justify-end"><span class="text-[11px] tracking-[0.16em] uppercase text-[#e3c877]">04 • Perspective Morph</span><p class="font-serif text-xl font-bold mt-1">Immersive</p></div>
+      <div class="p-4 text-xs leading-6 text-white/60"><p><b class="text-white">Perspective 1200px</b> `scale:0.93 rotateX:5`.</p><span class="mt-3 inline-flex text-[#e3c877] group-hover:underline">Open →</span></div>
+    </a>
+    <a href="./transition-05-velocity-skew.html" class="group rounded-2xl border border-white/10 bg-white/[0.04] overflow-hidden hover:border-[#e3c877]/30 transition">
+      <div class="h-36 bg-gradient-to-br from-[#0c0205] to-[#a67d3a] p-6 flex flex-col justify-end"><span class="text-[11px] tracking-[0.16em] uppercase text-[#e3c877]">05 • Velocity Skew</span><p class="font-serif text-xl font-bold mt-1">Lenis Velocity</p></div>
+      <div class="p-4 text-xs leading-6 text-white/60"><p><b class="text-white">Velocity</b> `skewY velocity*0.04`.</p><span class="mt-3 inline-flex text-[#e3c877] group-hover:underline">Open →</span></div>
+    </a>
+    <a href="./transition-06-smooth-stack.html" class="group rounded-2xl border border-[#e3c877]/20 bg-gradient-to-br from-[#3a0c15] to-[#FFFBF0] overflow-hidden hover:border-[#e3c877]/40 transition">
+      <div class="h-36 p-6 flex flex-col justify-end"><span class="text-[11px] tracking-[0.16em] uppercase text-[#e3c877]">06 • Smooth Stack</span><p class="font-serif text-xl font-bold mt-1">Lightest</p></div>
+      <div class="p-4 text-xs leading-6 text-white/60"><p><b class="text-white">Lightest</b> `y:-40 opacity:0` + overlap.</p><span class="mt-3 inline-flex text-[#e3c877] group-hover:underline">Open →</span></div>
+    </a>
+  </div>
+
+  <div class="mt-12 flex items-center gap-3">
+    <span class="h-px flex-1 bg-gradient-to-r from-transparent via-[#e3c877]/40 to-transparent"></span>
+    <span class="text-[11px] tracking-[0.2em] uppercase text-[#e3c877] font-bold">New — 07 to 12 • Ultra Smooth</span>
+    <span class="h-px flex-1 bg-gradient-to-r from-transparent via-[#e3c877]/40 to-transparent"></span>
+  </div>
+  <p class="mt-2 text-center text-xs text-white/40">Buttery 60fps • lerp 0.06-0.07 • duration 1.6-1.8 • cubic/expo easing • micro distances 12-20px</p>
+
+  <div class="mt-6 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <a href="./transition-07-fluid-lerp.html" class="group rounded-2xl border border-[#e3c877]/30 bg-gradient-to-br from-[#0c0205] to-[#1a0a0f] overflow-hidden hover:border-[#e3c877]/50 transition">
+      <div class="h-36 p-6 flex flex-col justify-end relative"><span class="absolute top-3 left-3 bg-[#e3c877] text-[#3a0c15] text-[10px] font-bold px-2 py-1 rounded-full">★ SMOOTHEST</span><span class="text-[11px] tracking-[0.16em] uppercase text-[#e3c877] mt-6">07 • Fluid Lerp</span><p class="font-serif text-xl font-bold mt-1">Lenis Only</p></div>
+      <div class="p-4 text-xs leading-6 text-white/60"><p><b class="text-white">No GSAP.</b> Pure `lerp 0.07` `cubic` `duration 1.6`, `targetY lerp` per frame. Zero ScrollTrigger spikes.</p><span class="mt-3 inline-flex text-[#e3c877] group-hover:underline">Open →</span></div>
+    </a>
+    <a href="./transition-08-silk-overlap.html" class="group rounded-2xl border border-white/10 bg-white/[0.04] overflow-hidden hover:border-[#e3c877]/30 transition">
+      <div class="h-36 bg-gradient-to-br from-[#3a0c15] to-[#f6e6b4]/40 p-6 flex flex-col justify-end"><span class="text-[11px] tracking-[0.16em] uppercase text-[#e3c877]">08 • Silk Overlap</span><p class="font-serif text-xl font-bold mt-1">Silk • 1.6</p></div>
+      <div class="p-4 text-xs leading-6 text-white/60"><p><b class="text-white">Silk.</b> `scrub:1.6 power2.out` `y:-36` micro, `duration 1.6 lerp 0.07`.</p><span class="mt-3 inline-flex text-[#e3c877] group-hover:underline">Open →</span></div>
+    </a>
+    <a href="./transition-09-feather-fade.html" class="group rounded-2xl border border-white/10 bg-white/[0.04] overflow-hidden hover:border-[#e3c877]/30 transition">
+      <div class="h-36 bg-gradient-to-br from-[#1a0a0f] to-[#3a0c15] p-6 flex flex-col justify-end"><span class="text-[11px] tracking-[0.16em] uppercase text-[#e3c877]">09 • Feather Fade</span><p class="font-serif text-xl font-bold mt-1">Soft Opacity</p></div>
+      <div class="p-4 text-xs leading-6 text-white/60"><p><b class="text-white">Gentlest.</b> Only `y:-16 opacity:0` `scrub 1.8 power1.out` `lerp 0.06`.</p><span class="mt-3 inline-flex text-[#e3c877] group-hover:underline">Open →</span></div>
+    </a>
+    <a href="./transition-10-whisper-parallax.html" class="group rounded-2xl border border-white/10 bg-white/[0.04] overflow-hidden hover:border-[#e3c877]/30 transition">
+      <div class="h-36 bg-gradient-to-br from-[#0c0205] to-[#a67d3a] p-6 flex flex-col justify-end"><span class="text-[11px] tracking-[0.16em] uppercase text-[#e3c877]">10 • Whisper</span><p class="font-serif text-xl font-bold mt-1">Micro 12px</p></div>
+      <div class="p-4 text-xs leading-6 text-white/60"><p><b class="text-white">Whisper.</b> `y:-12 yPercent:5` `scrub 1.8` `lerp 0.06` — barely moves, silk.</p><span class="mt-3 inline-flex text-[#e3c877] group-hover:underline">Open →</span></div>
+    </a>
+    <a href="./transition-11-velvet-stack.html" class="group rounded-2xl border border-white/10 bg-white/[0.04] overflow-hidden hover:border-[#e3c877]/30 transition">
+      <div class="h-36 bg-gradient-to-br from-[#3a0c15] to-[#FFFBF0]/40 p-6 flex flex-col justify-end"><span class="text-[11px] tracking-[0.16em] uppercase text-[#e3c877]">11 • Velvet Stack</span><p class="font-serif text-xl font-bold mt-1">Velvet • 1.7</p></div>
+      <div class="p-4 text-xs leading-6 text-white/60"><p><b class="text-white">Velvet.</b> `radius 40→32` `y:20→0` `power1.out lerp 0.065`.</p><span class="mt-3 inline-flex text-[#e3c877] group-hover:underline">Open →</span></div>
+    </a>
+    <a href="./transition-12-liquid-morph.html" class="group rounded-2xl border border-white/10 bg-white/[0.04] overflow-hidden hover:border-[#e3c877]/30 transition">
+      <div class="h-36 bg-gradient-to-br from-[#1a0a0f] to-[#e3c877]/30 p-6 flex flex-col justify-end"><span class="text-[11px] tracking-[0.16em] uppercase text-[#e3c877]">12 • Liquid Morph</span><p class="font-serif text-xl font-bold mt-1">Liquid • expo</p></div>
+      <div class="p-4 text-xs leading-6 text-white/60"><p><b class="text-white">Liquid.</b> `scale 0.98 y:18` `expo.out scrub 1.6` `duration 1.65`.</p><span class="mt-3 inline-flex text-[#e3c877] group-hover:underline">Open →</span></div>
+    </a>
+  </div>
+
+  <div class="mt-10 rounded-2xl border border-[#e3c877]/20 bg-black/30 p-6 text-sm leading-7 text-white/60">
+    <p class="font-bold text-[#e3c877]">How to choose smooth:</p>
+    <ol class="list-decimal list-inside">
+      <li>Open: <code class="bg-white/10 px-1 py-0.5 rounded">http://localhost/BestLife_Matrimony/samples/intro-to-matches/transition-07-*.html</code></li>
+      <li>Compare feather scroll — 07 Fluid Lerp is buttery Lenis-only, 09 Feather is softest.</li>
+      <li>Reply e.g. <code class="bg-white/10 px-1 py-0.5 rounded">Use 07 Fluid Lerp</code> — I will wire intro→matches ultra-smooth.</li>
+    </ol>
+  </div>
+</div>
+</body>
+</html>
