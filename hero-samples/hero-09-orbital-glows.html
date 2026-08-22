@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hero 09 — Orbital Gold Glow | BestLife Matrimony</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #2c0710; --wine: #800020; --wine-light: #8a1a35;
+      --gold: #c9a227; --gold-bright: #e3c877; --gold-pale: #f6e6b4;
+      --cream: #fff6e8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html.lenis, html.lenis body { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    body { font-family: "DM Sans", sans-serif; background: var(--bg); color: var(--cream); overflow-x: hidden; }
+    ::selection { background: var(--gold); color: #3a0c15; }
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #1c0409; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(var(--wine-light), var(--gold)); border-radius: 8px; }
+
+    .hero { position: relative; min-height: 100svh; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 6rem 1.5rem 4rem; }
+    .hero-bg {
+      position: absolute; inset: -20% 0;
+      background: linear-gradient(150deg, #4d0b1d, #7a1630 55%, #8f1d33);
+      will-change: transform;
+    }
+
+    /* glowing orbital orbs at different depths */
+    .orb {
+      position: absolute; border-radius: 50%; pointer-events: none; will-change: transform;
+    }
+    .orb-halo {
+      width: clamp(20rem, 40vw, 40rem); height: clamp(20rem, 40vw, 40rem);
+      left: -10rem; top: -8rem;
+      background: radial-gradient(circle, rgba(220,176,74,.4), transparent 65%);
+      filter: blur(64px);
+    }
+    .orb-halo2 {
+      width: clamp(18rem, 34vw, 34rem); height: clamp(18rem, 34vw, 34rem);
+      right: -9rem; bottom: -7rem;
+      background: radial-gradient(circle, rgba(154,51,80,.55), transparent 65%);
+      filter: blur(64px);
+    }
+    .orb-ring {
+      width: clamp(16rem, 30vw, 30rem); height: clamp(16rem, 30vw, 30rem);
+      right: 16%; top: 10%;
+      border: 1px solid rgba(246,230,180,.25);
+      border-radius: 50%;
+      animation: orbit 26s linear infinite;
+    }
+    .orb-ring::after {
+      content: ""; position: absolute; top: -6px; left: 50%;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--gold-bright);
+      box-shadow: 0 0 18px 4px rgba(220,176,74,.75);
+    }
+    @keyframes orbit { to { transform: rotate(360deg); } }
+
+    .portrait {
+      position: absolute; bottom: 0; height: clamp(30vh, 42vh, 46vh); aspect-ratio: 2/3;
+      pointer-events: none; will-change: transform; z-index: 2;
+    }
+    .portrait img { width: 100%; height: 100%; object-fit: contain; object-position: bottom; filter: drop-shadow(0 24px 44px rgba(0,0,0,.5)); }
+    .portrait.bride { left: clamp(-3rem, 3vw, 0); }
+    .portrait.groom { right: clamp(-3rem, 3vw, 0); }
+
+    .content { position: relative; z-index: 4; text-align: center; max-width: 46rem; will-change: transform, opacity; }
+    .content .kicker { font-size: .72rem; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; color: var(--gold-pale); }
+    .content h1 {
+      margin-top: 1.2rem; font-family: "Playfair Display", serif;
+      font-size: clamp(2.3rem, 6.6vw, 4.2rem); font-weight: 800; line-height: 1.05;
+    }
+    .content h1 .gold {
+      background: linear-gradient(120deg, var(--gold-pale), var(--gold-bright), var(--gold), var(--gold-pale));
+      background-size: 240% 100%;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      animation: shimmer 5s linear infinite;
+    }
+    @keyframes shimmer { to { background-position: 240% 0; } }
+    .content p { margin: 1.2rem auto 0; max-width: 32rem; font-size: 1.04rem; line-height: 1.7; color: rgba(243,230,216,.85); }
+    .content .cta { margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn { padding: .95rem 2.1rem; border-radius: 999px; font-weight: 600; font-size: .98rem; text-decoration: none; border: 1px solid transparent; cursor: pointer; transition: transform .25s ease, box-shadow .25s ease, background .25s ease; }
+    .btn-gold { background: linear-gradient(92deg, #dcb04a, #e3c877, #dcb04a); color: #3a0c15; box-shadow: 0 18px 40px -16px rgba(220,176,74,.8); }
+    .btn-gold:hover { transform: translateY(-3px); }
+    .btn-ghost { border-color: rgba(255,255,255,.35); background: rgba(255,255,255,.08); backdrop-filter: blur(6px); color: var(--cream); }
+    .btn-ghost:hover { background: rgba(255,255,255,.18); transform: translateY(-3px); }
+
+    .scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 5; display: flex; flex-direction: column; align-items: center; gap: .6rem; will-change: opacity; }
+    .scroll-mouse { width: 26px; height: 42px; border: 1.5px solid rgba(246,230,180,.5); border-radius: 999px; display: flex; justify-content: center; padding-top: 7px; }
+    .scroll-mouse i { width: 3px; height: 8px; border-radius: 999px; background: var(--gold-bright); animation: wheel 1.7s infinite ease-in-out; }
+    @keyframes wheel { 0%{transform:translateY(0);opacity:1} 60%{transform:translateY(12px);opacity:0} 100%{transform:translateY(0);opacity:0} }
+    .scroll-hint span { font-size: .64rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(246,230,180,.75); }
+
+    .section { min-height: 100svh; display: flex; align-items: center; justify-content: center; background: linear-gradient(160deg, #3a0a16, #2c0710 55%, #20050a); padding: 6rem 1.5rem; }
+    .section-inner { max-width: 60rem; text-align: center; }
+    .section h2 { font-family: "Playfair Display", serif; font-size: clamp(2rem,5vw,3.2rem); line-height: 1.12; }
+    .section h2 .gold { background: linear-gradient(92deg, var(--gold-pale), var(--gold)); background-clip: text; -webkit-background-clip: text; color: transparent; }
+    .section p { margin-top: 1.2rem; color: rgba(243,230,216,.78); line-height: 1.7; max-width: 40rem; margin-inline: auto; }
+    footer { padding: 2.2rem 1.5rem; text-align: center; font-size: .8rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(246,230,180,.5); border-top: 1px solid rgba(246,230,180,.12); background: #20050a; }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-bg" id="bg"></div>
+
+    <div class="orb orb-halo" data-depth="0.25" id="halo1"></div>
+    <div class="orb orb-halo2" data-depth="0.5" id="halo2"></div>
+    <div class="orb orb-ring" data-depth="0.75" id="ring"></div>
+
+    <div class="portrait bride" data-depth="0.35" id="bride">
+      <img src="../src/images/bride-wave.gif" alt="Bride" />
+    </div>
+    <div class="portrait groom" data-depth="0.6" id="groom">
+      <img src="../src/images/groom-wave.gif" alt="Groom" />
+    </div>
+
+    <div class="content" id="content">
+      <span class="kicker">BestLife Matrimony</span>
+      <h1>Guided By Trust, <span class="gold">Lit By Love.</span></h1>
+      <p>
+        Soft golden glows orbit the screen at different depths, each drifting at its own speed as
+        you scroll — a warm, romantic hero that glows rather than shouts.
+      </p>
+      <div class="cta">
+        <a class="btn btn-gold" href="#">Register Now</a>
+        <a class="btn btn-ghost" href="#">Explore Matches</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint" id="scrollHint">
+      <span class="scroll-mouse"><i></i></span>
+      <span>Scroll</span>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="section-inner">
+      <h2>A Glow That <span class="gold">Follows You.</span></h2>
+      <p>
+        Depth-driven parallax on halos, an orbiting golden ring and the two portraits —
+        each layer moves slightly differently, creating a serene, three-dimensional glow.
+      </p>
+    </div>
+  </section>
+
+  <footer>BestLife Matrimony &bull; Hero Sample 09</footer>
+
+  <script src="https://unpkg.com/lenis@1.3.26/dist/lenis.min.js"></script>
+  <script>
+    const lenis = new Lenis({ autoRaf: true, duration: 1.2 });
+
+    const bg = document.getElementById("bg");
+    const content = document.getElementById("content");
+    const hint = document.getElementById("scrollHint");
+    const depthEls = [...document.querySelectorAll("[data-depth]")];
+
+    function animate() {
+      const y = lenis.scroll;
+      const p = Math.min(1, y / (window.innerHeight * 0.9));
+
+      bg.style.transform = `translate3d(0, ${y * 0.16}px, 0)`;
+
+      depthEls.forEach((el) => {
+        const d = parseFloat(el.dataset.depth);
+        // layers with lower depth move slower (further away), higher depth faster
+        el.style.transform = `translate3d(0, ${y * (0.5 - d) * 0.9}px, 0)`;
+      });
+
+      content.style.opacity = Math.max(0, 1 - p * 1.15);
+      content.style.transform = `translate3d(0, ${-y * 0.18}px, 0)`;
+      hint.style.opacity = Math.max(0, 1 - p * 1.6);
+      requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>

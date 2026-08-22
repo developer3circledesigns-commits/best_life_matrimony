@@ -1,0 +1,36 @@
+# =============================================
+#  BestLife Matrimony - React SPA (Hostinger)
+#  Rewrites all routes to index.html so client
+#  side routing works on shared hosting.
+# =============================================
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # If the request is NOT a real file or directory,
+  # serve index.html so React Router can handle it.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
+# =============================================
+#  Caching (optional but recommended)
+# =============================================
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# Compress text-based assets
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain application/javascript application/json image/svg+xml
+</IfModule>
+
+# Prevent Apache from listing directories
+Options -Indexes

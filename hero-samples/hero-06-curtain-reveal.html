@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hero 06 — Curtain Reveal | BestLife Matrimony</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #2c0710; --wine: #800020; --wine-light: #8a1a35;
+      --gold: #c9a227; --gold-bright: #e3c877; --gold-pale: #f6e6b4;
+      --cream: #fff6e8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html.lenis, html.lenis body { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    body { font-family: "DM Sans", sans-serif; background: var(--bg); color: var(--cream); overflow-x: hidden; }
+    ::selection { background: var(--gold); color: #3a0c15; }
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #1c0409; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(var(--wine-light), var(--gold)); border-radius: 8px; }
+
+    /* Sticky curtain stage */
+    .stage {
+      position: relative;
+      height: 220vh;
+    }
+    .pin {
+      position: sticky; top: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .backdrop {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(56rem 40rem at 20% 112%, rgba(220,176,74,.16), transparent 60%),
+        radial-gradient(50rem 36rem at 84% -10%, rgba(201,162,39,.16), transparent 60%),
+        linear-gradient(160deg, #6b0f26, #8a1a35 50%, #9a2033);
+    }
+
+    /* content revealed behind the curtains */
+    .center {
+      position: absolute; inset: 0; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 2rem;
+      will-change: transform, opacity;
+    }
+    .center .kicker { font-size: .72rem; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; color: var(--gold-pale); }
+    .center h1 {
+      margin-top: 1.2rem; font-family: "Playfair Display", serif;
+      font-size: clamp(2.3rem, 6.6vw, 4.2rem); font-weight: 800; line-height: 1.05;
+    }
+    .center h1 .gold { background: linear-gradient(92deg, var(--gold-pale), var(--gold-bright), var(--gold)); background-clip: text; -webkit-background-clip: text; color: transparent; }
+    .center p { margin: 1.2rem auto 0; max-width: 32rem; font-size: 1.04rem; line-height: 1.7; color: rgba(243,230,216,.85); }
+    .center .cta { margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn { padding: .95rem 2.1rem; border-radius: 999px; font-weight: 600; font-size: .98rem; text-decoration: none; border: 1px solid transparent; cursor: pointer; transition: transform .25s ease, box-shadow .25s ease, background .25s ease; }
+    .btn-gold { background: linear-gradient(92deg, #dcb04a, #e3c877, #dcb04a); color: #3a0c15; box-shadow: 0 18px 40px -16px rgba(220,176,74,.8); }
+    .btn-gold:hover { transform: translateY(-3px); }
+    .btn-ghost { border-color: rgba(255,255,255,.35); background: rgba(255,255,255,.08); backdrop-filter: blur(6px); color: var(--cream); }
+    .btn-ghost:hover { background: rgba(255,255,255,.18); transform: translateY(-3px); }
+
+    /* the two curtain panels */
+    .curtain {
+      position: absolute; top: 0; bottom: 0; width: 50%; z-index: 4;
+      overflow: hidden; will-change: transform;
+    }
+    .curtain.left { left: 0; }
+    .curtain.right { right: 0; }
+    .curtain .img {
+      position: absolute; top: 0; bottom: 0; width: 200%;
+      background-size: cover; background-position: center;
+      will-change: transform;
+    }
+    .curtain.left .img { left: 0; background-image: url("../src/images/bride-wave.gif"); }
+    .curtain.right .img { right: 0; background-image: url("../src/images/groom-wave.gif"); }
+    .curtain::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,4,9,.85), rgba(44,7,16,.15) 60%);
+    }
+    .curtain .label {
+      position: absolute; left: 50%; bottom: 12%;
+      transform: translateX(-50%);
+      font-family: "Playfair Display", serif;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      color: var(--gold-pale); z-index: 2;
+      letter-spacing: .04em; white-space: nowrap;
+    }
+
+    /* hinge line in the middle */
+    .hinge {
+      position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; z-index: 3;
+      background: linear-gradient(to bottom, transparent, rgba(246,230,180,.65), transparent);
+    }
+
+    .progress-track {
+      position: absolute; left: 50%; bottom: 6.5rem; transform: translateX(-50%);
+      width: 180px; height: 3px; border-radius: 3px;
+      background: rgba(246,230,180,.18); z-index: 5; overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+      border-radius: 3px;
+    }
+    .scroll-hint { position: absolute; bottom: 2.4rem; left: 50%; transform: translateX(-50%); z-index: 6; font-size: .64rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(246,230,180,.75); will-change: opacity; }
+
+    .section { min-height: 100svh; display: flex; align-items: center; justify-content: center; background: linear-gradient(160deg, #3a0a16, #2c0710 55%, #20050a); padding: 6rem 1.5rem; }
+    .section-inner { max-width: 60rem; text-align: center; }
+    .section h2 { font-family: "Playfair Display", serif; font-size: clamp(2rem,5vw,3.2rem); line-height: 1.12; }
+    .section h2 .gold { background: linear-gradient(92deg, var(--gold-pale), var(--gold)); background-clip: text; -webkit-background-clip: text; color: transparent; }
+    .section p { margin-top: 1.2rem; color: rgba(243,230,216,.78); line-height: 1.7; max-width: 40rem; margin-inline: auto; }
+    footer { padding: 2.2rem 1.5rem; text-align: center; font-size: .8rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(246,230,180,.5); border-top: 1px solid rgba(246,230,180,.12); background: #20050a; }
+  </style>
+</head>
+<body>
+
+  <div class="stage" id="stage">
+    <div class="pin">
+      <div class="backdrop" id="backdrop"></div>
+
+      <div class="center" id="center">
+        <span class="kicker">BestLife Matrimony</span>
+        <h1>Two Lives, <span class="gold">One Beautiful Beginning.</span></h1>
+        <p>
+          Scroll down to open the curtains. Her story moves left, his moves right — and your
+          story begins right in the middle, revealed as the world makes way for it.
+        </p>
+        <div class="cta">
+          <a class="btn btn-gold" href="#">Register Now</a>
+          <a class="btn btn-ghost" href="#">Explore Matches</a>
+        </div>
+      </div>
+
+      <div class="curtain left" id="curtainLeft">
+        <div class="img" id="leftImg"></div>
+        <span class="label">Her Story</span>
+      </div>
+      <div class="curtain right" id="curtainRight">
+        <div class="img" id="rightImg"></div>
+        <span class="label">His Story</span>
+      </div>
+
+      <div class="hinge"></div>
+
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="scroll-hint" id="scrollHint">Scroll to open</div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="section-inner">
+      <h2>The Reveal <span class="gold">Is The Promise.</span></h2>
+      <p>
+        A theatrical, sticky curtain reveal: the two portraits slide apart on scroll while the
+        headline lifts into place. Dramatic, romantic, and unmistakably memorable.
+      </p>
+    </div>
+  </section>
+
+  <footer>BestLife Matrimony &bull; Hero Sample 06</footer>
+
+  <script src="https://unpkg.com/lenis@1.3.26/dist/lenis.min.js"></script>
+  <script>
+    const lenis = new Lenis({ autoRaf: true, duration: 1.2 });
+
+    const stage = document.getElementById("stage");
+    const left = document.getElementById("curtainLeft");
+    const right = document.getElementById("curtainRight");
+    const leftImg = document.getElementById("leftImg");
+    const rightImg = document.getElementById("rightImg");
+    const center = document.getElementById("center");
+    const bar = document.getElementById("progressBar");
+    const hint = document.getElementById("scrollHint");
+
+    function animate() {
+      const y = lenis.scroll;
+      const total = stage.offsetHeight - window.innerHeight;
+      const p = Math.min(1, Math.max(0, y / total));
+
+      // curtains part
+      left.style.transform = `translate3d(${-p * 105}%, 0, 0)`;
+      right.style.transform = `translate3d(${p * 105}%, 0, 0)`;
+      // inner images slide the opposite way for parallax inside the curtain
+      leftImg.style.transform = `translate3d(${p * 8}%, 0, 0) scale(1.12)`;
+      rightImg.style.transform = `translate3d(${-p * 8}%, 0, 0) scale(1.12)`;
+
+      // headline rises + fades in as curtains open
+      const appear = Math.min(1, p * 2.4);
+      center.style.opacity = appear;
+      center.style.transform = `translate3d(0, ${(1 - appear) * 60}px, 0)`;
+
+      bar.style.width = `${p * 100}%`;
+      hint.style.opacity = Math.max(0, 1 - p * 3);
+      requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
