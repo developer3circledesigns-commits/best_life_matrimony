@@ -44,35 +44,35 @@ BestLife_Matrimony/
 
 ```bash
 npm install
-npm run dev      # start dev server (HMR)
-npm run lint     # oxlint
-npm run build    # typecheck + production build -> public_html/
-npm run preview  # preview the production build
+npm run dev                  # start dev server (HMR)
+npm run lint                 # oxlint
+npm run build:hostinger      # typecheck + production build -> public_html/ + 404.html
+npm run hostinger:zip        # build + zip public_html -> bestlife_hostinger.zip
+npm run preview              # preview the production build
 ```
 
 ## Deploying to Hostinger shared hosting
 
-The production build outputs directly into **`public_html/`**, which matches
-Hostinger's web root.
+See full guide: **`DEPLOY_HOSTINGER.md:1`**
+
+**Quick (shared hosting, no Node on server):**
 
 1. **Build locally:**
    ```bash
-   npm run build
+   npm run build:hostinger   # vite.config.ts:29 outDir public_html + copy404Plugin
    ```
-2. **Upload** the **contents** of the `public_html/` folder (not the folder
-   itself) to your Hostinger `public_html/` directory via File Manager or
-   FTP (e.g. FileZilla).
-3. Make sure the included **`.htaccess`** was uploaded (it enables React
-   Router client-side routing on shared hosting). If you use the Hostinger
-   File Manager, hidden files like `.htaccess` are uploaded by FTP/FileZilla
-   automatically — just enable "Show hidden files" to verify.
-4. Done — your site is live. Any route (e.g. `/about`) now resolves to the
-   SPA instead of a 404.
+2. **Upload** the **contents** of the `public_html/` folder to Hostinger `public_html/` (File Manager or FTP). Or upload `bestlife_hostinger.zip` and Extract in place.
+3. Verify **`.htaccess`** (`public/.htaccess:1`) is present (enable "Show hidden files") — it handles React Router SPA fallback, caching, and security headers. `404.html` is auto-generated from `index.html` for Hostinger fallback.
+4. Live — `/about`, `/matches`, `/register` etc. resolve via SPA, not 404.
+
+**Git-based deploy (Hostinger pulls `hostinger` branch):**
+- Branches: `main` = source, `hostinger` = built static at root (ready for hPanel → Advanced → Git → branch `hostinger` → path `public_html`)
+- CI: `.github/workflows/deploy-hostinger.yml:1` auto-builds on push to `main` and pushes to `hostinger` + optional FTP (needs `FTP_*` secrets). If push is rejected (PAT without `workflow` scope), add the workflow via GitHub web UI.
 
 ### Deploying into a subfolder instead of the domain root
 
 If the app is served from a subfolder (e.g. `public_html/bestlife`),
-update `vite.config.ts`:
+update `vite.config.ts:8`:
 
 ```ts
 export default defineConfig({
@@ -81,11 +81,12 @@ export default defineConfig({
 })
 ```
 
-and add the subfolder to the `.htaccess` rewrite:
+and update `public/.htaccess:12`:
 
 ```apache
 RewriteBase /bestlife/
-RewriteRule . /bestlife/index.html [L]
+RewriteRule ^ /bestlife/index.html [L]
+ErrorDocument 404 /bestlife/index.html
 ```
 
 ## Adding shadcn/ui components
