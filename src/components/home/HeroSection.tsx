@@ -133,7 +133,7 @@ export default function HeroSection() {
           >
             <Link to="/matches" className="justify-center">Explore Matches</Link>
           </Button>
-        </div>
+        </motion.div>
 
         {/* Trust Indicators */}
         <motion.div 
@@ -158,7 +158,7 @@ export default function HeroSection() {
             <span className="h-4 w-4 text-[#e3c877]" aria-hidden="true">✦</span>
             <span>A Better Way to Begin</span>
           </div>
-        </div>
+        </motion.div>
       </motion.div>
     </section>
   )
