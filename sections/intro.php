@@ -53,7 +53,6 @@
       </div>
       <div class="reveal-p mt-8 flex flex-wrap gap-3">
         <a href="./about.php" class="inline-flex h-[46px] items-center gap-2 bg-[#fff6e8] text-[#0c0205] px-7 text-sm font-bold tracking-wide hover:bg-white transition">Know More About Us <span>→</span></a>
-        <span class="inline-flex h-[46px] items-center border border-white/15 px-5 text-xs tracking-[0.16em] uppercase text-white/60">Scroll • Parallax</span>
       </div>
     </div>
   </div>
