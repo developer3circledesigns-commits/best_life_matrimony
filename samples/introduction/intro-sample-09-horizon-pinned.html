@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intro 09 — Horizon Pinned Horizontal | BestLife Matrimony</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+<style>::selection{background:#dcb04a;color:#3a0c15}.font-serif{font-family:'Cormorant Garamond',serif}.font-sans{font-family:'Plus Jakarta Sans',sans-serif}</style>
+</head>
+<body class="bg-[#0c0205] text-[#fff6e8] antialiased overflow-x-hidden">
+<div class="sticky top-0 z-50 bg-[#0c0205]/80 backdrop-blur border-b border-white/10">
+  <div class="max-w-7xl mx-auto px-6 h-[56px] flex items-center justify-between text-[11px] tracking-[0.18em] uppercase text-white/50">
+    <span>09 — Horizon <em class="text-[#e3c877] not-italic">Pinned Horizontal</em></span><span class="hidden md:inline text-white/30">International — vertical scroll drives horizontal</span>
+  </div>
+</div>
+<div class="h-[30vh] bg-[#3a0c15] grid place-items-center text-white/30 text-xs tracking-[0.2em] uppercase">Hero — scroll to trigger horizon</div>
+
+<section id="horizon-wrap" class="relative bg-[#0c0205] hidden lg:block">
+  <div id="horizon-pin" class="relative h-screen overflow-hidden border-y border-white/5">
+    <div id="horizon-track" class="absolute inset-0 flex will-change-transform" style="will-change:transform">
+      <div class="shrink-0 w-[58vw] h-full flex flex-col justify-center px-16 border-r border-white/5 bg-[#0c0205]">
+        <p class="text-[11px] tracking-[0.2em] uppercase font-bold text-[#e3c877]">02 / Brand Promise</p>
+        <h2 class="mt-4 font-serif text-[56px] font-bold leading-[0.88] tracking-tight">Your Best Life<br>Could Begin With<br><span class="italic bg-gradient-to-r from-[#f6e6b4] to-[#dcb04a] bg-clip-text text-transparent">One Connection.</span></h2>
+        <p class="mt-6 text-xs tracking-[0.18em] uppercase text-white/30">Hold scroll →</p>
+        <div class="mt-6 h-px w-24 bg-gradient-to-r from-[#e3c877] to-transparent"></div>
+      </div>
+      <div class="shrink-0 w-[42vw] h-full flex flex-col justify-center px-10 bg-[#0c0205]">
+        <div class="rounded-[22px] border border-white/10 bg-white/[0.04] p-7">
+          <span class="text-[11px] tracking-[0.18em] uppercase text-[#e3c877] font-bold">01 — The Decision</span>
+          <p class="mt-4 text-[17px] leading-[1.85] text-white/75">Finding the right life partner is one of life's most important decisions. At BestLife Matrimony, we make the journey simpler, more personal and more meaningful.</p>
+        </div>
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=500&q=80&auto=format&fit=crop" class="mt-6 h-40 w-full object-cover rounded-2xl border border-white/10" alt="">
+      </div>
+      <div class="shrink-0 w-[42vw] h-full flex flex-col justify-center px-10 bg-[#0c0205]">
+        <div class="rounded-[22px] border border-white/10 bg-white/[0.04] p-7">
+          <span class="text-[11px] tracking-[0.18em] uppercase text-[#e3c877] font-bold">02 — The Discovery</span>
+          <p class="mt-4 text-[17px] leading-[1.85] text-white/75">Discover profiles based on your preferences, connect with compatible individuals and take the first step towards building a beautiful future together.</p>
+        </div>
+        <div class="mt-6 rounded-xl bg-[#f6e6b4] px-5 py-4 text-center"><p class="text-sm font-bold text-[#3a0c15]">Preference-first search • Verified</p></div>
+      </div>
+      <div class="shrink-0 w-[50vw] h-full flex flex-col justify-center px-16 bg-gradient-to-r from-[#0c0205] to-[#3a0c15]/20">
+        <p class="font-serif italic text-[26px] leading-relaxed text-[#f6e6b4]">“Because the right match isn't just about finding someone.<br>It's about finding someone who fits your life.”</p>
+        <a href="../../about.php" class="mt-8 inline-flex h-[52px] w-fit items-center gap-2 rounded-full bg-gradient-to-r from-[#dcb04a] to-[#e3c877] px-8 text-sm font-bold text-[#3a0c15]">Know More About Us →</a>
+      </div>
+    </div>
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3 rounded-full bg-black/50 border border-white/10 px-4 py-2 backdrop-blur">
+      <div class="h-1 w-28 bg-white/10 rounded-full overflow-hidden"><div id="horizon-progress" class="h-full bg-[#e3c877] w-0"></div></div>
+      <span class="text-[10px] tracking-[0.18em] uppercase text-white/50">Horizontal</span>
+    </div>
+  </div>
+  <!-- mobile fallback -->
+</section>
+<div class="lg:hidden px-6 py-16 bg-[#0c0205] border-y border-white/5">
+  <h2 class="font-serif text-3xl font-bold leading-none">Your Best Life Could Begin With <span class="italic text-[#e3c877]">One Connection.</span></h2>
+  <p class="mt-4 text-white/70 leading-7 text-sm">Finding the right life partner is one of life's most important decisions...<br><br>Because the right match isn't just about finding someone. It's about finding someone who fits your life.</p>
+  <a href="../../about.php" class="mt-6 inline-flex h-11 px-6 rounded-full bg-[#e3c877] text-[#3a0c15] font-bold text-sm items-center">Know More About Us</a>
+</div>
+<div class="h-[50vh] bg-[#0c0205] border-t border-white/5 grid place-items-center text-white/20 text-xs tracking-widest uppercase">Next section</div>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const lenis=new Lenis({autoRaf:true, lerp:0.08});
+lenis.on('scroll', ScrollTrigger.update);
+if(matchMedia('(min-width: 1024px)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const track=document.getElementById('horizon-track');
+  const getScroll=()=>-(track.scrollWidth - innerWidth);
+  gsap.to(track,{x:getScroll, ease:"none", scrollTrigger:{trigger:"#horizon-pin", pin:true, scrub:1, start:"top top", end:()=>`+=${track.scrollWidth - innerWidth}`, invalidateOnRefresh:true}});
+  gsap.to("#horizon-progress",{width:"100%", ease:"none", scrollTrigger:{trigger:"#horizon-pin", start:"top top", end:()=>`+=${track.scrollWidth - innerWidth}`, scrub:0.6}});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intro Sample 02 — Split Sticky + Image Parallax | BestLife Matrimony</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<style>::selection{background:#dcb04a;color:#3a0c15}.font-serif{font-family:'Cormorant Garamond',serif}.font-sans{font-family:'Plus Jakarta Sans',sans-serif} html{scrollbar-gutter:stable}</style>
+</head>
+<body class="bg-[#0c0205] text-[#fff6e8] antialiased overflow-x-hidden">
+<div class="sticky top-0 z-50 bg-[#0c0205]/80 backdrop-blur-xl border-b border-white/10">
+  <div class="max-w-7xl mx-auto px-6 h-[64px] flex items-center justify-between text-xs tracking-widest uppercase text-white/50">
+    <span>Sample 02 — Split Sticky Parallax</span><span class="hidden sm:inline text-[#e3c877]">Left text sticky • Right image parallax</span>
+  </div>
+</div>
+<div class="h-[25vh] flex items-center justify-center bg-[#3a0c15] text-white/40 text-sm tracking-[0.2em] uppercase">Hero placeholder — scroll</div>
+
+<section id="intro-02" class="relative bg-[#0c0205] border-t border-[#f6e6b4]/10 overflow-hidden">
+  <!-- horizontal progress line pinned at top of section -->
+  <div class="sticky top-[64px] z-20 h-px w-full bg-white/5">
+    <div id="progress" class="h-px w-0 bg-gradient-to-r from-[#dcb04a] to-[#e3c877]"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-20 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+    <!-- LEFT — sticky copy -->
+    <div class="lg:col-span-6 lg:sticky lg:top-28 self-start">
+      <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.05] px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#e3c877]">
+        <span class="h-1.5 w-1.5 rounded-full bg-[#e3c877]"></span> Brand Promise
+      </div>
+      <h2 class="mt-6 font-serif text-[34px] sm:text-[44px] lg:text-[48px] font-bold leading-[0.95] tracking-tight">
+        <span class="block">Your Best Life</span>
+        <span class="block">Could Begin With</span>
+        <span class="block bg-gradient-to-r from-[#f6e6b4] via-[#e3c877] to-[#dcb04a] bg-clip-text text-transparent italic">One Connection.</span>
+      </h2>
+      <div class="mt-7 space-y-4 text-[15.5px] leading-[1.85] text-[#fff6e8]/70">
+        <p>Finding the right life partner is one of life's most important decisions. At BestLife Matrimony, we make the journey simpler, more personal and more meaningful.</p>
+        <p>Discover profiles based on your preferences, connect with compatible individuals and take the first step towards building a beautiful future together.</p>
+        <p class="font-medium text-[#f6e6b4] border-l-2 border-[#dcb04a]/40 pl-4 py-1">Because the right match isn't just about finding someone. It's about finding someone who fits your life.</p>
+      </div>
+      <a href="../../about.php" class="mt-8 inline-flex h-[48px] items-center gap-2 rounded-full bg-gradient-to-r from-[#dcb04a] to-[#e3c877] px-7 text-sm font-bold text-[#3a0c15] hover:brightness-110 transition">
+        Know More About Us
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+      <!-- horizontal sm marquee under CTA -->
+      <div class="mt-10 overflow-hidden rounded-full border border-white/10 bg-white/[0.03] py-2">
+        <div id="hz-line" class="flex gap-8 whitespace-nowrap text-[11px] tracking-[0.18em] uppercase text-white/40 will-change-transform">
+          <span>Trusted Profiles •</span><span>Meaningful Matches •</span><span>Verified Families •</span><span>Privacy First •</span><span>Trusted Profiles •</span><span>Meaningful Matches •</span><span>Verified Families •</span><span>Privacy First •</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT — parallax image stack -->
+    <div class="lg:col-span-6 space-y-6">
+      <!-- card 1 with parallax image -->
+      <div class="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.04] backdrop-blur p-2">
+        <div class="relative h-[420px] sm:h-[460px] overflow-hidden rounded-[20px]">
+          <img id="parallax-img-1" src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=900&q=80&auto=format&fit=crop" alt="Couple" class="absolute inset-0 h-[130%] w-full object-cover -top-[15%] will-change-transform" style="will-change:transform">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/0 to-transparent"></div>
+          <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-2xl bg-black/40 backdrop-blur-md border border-white/15 px-4 py-3">
+            <div>
+              <p class="text-sm font-semibold text-white">Genuine Connections</p>
+              <p class="text-xs text-white/60">Verified profiles, real families</p>
+            </div>
+            <span class="h-9 w-9 grid place-items-center rounded-full bg-[#e3c877] text-[#3a0c15]">✦</span>
+          </div>
+        </div>
+      </div>
+      <!-- two small stat cards with stagger -->
+      <div class="grid grid-cols-2 gap-4">
+        <div class="reveal-card rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] p-5">
+          <p class="font-serif text-3xl font-bold text-[#e3c877]">10k+</p>
+          <p class="text-xs uppercase tracking-widest text-white/60 mt-1">Happy couples</p>
+        </div>
+        <div class="reveal-card rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] p-5">
+          <p class="font-serif text-3xl font-bold text-[#e3c877]">100%</p>
+          <p class="text-xs uppercase tracking-widest text-white/60 mt-1">Verified profiles</p>
+        </div>
+      </div>
+      <div class="reveal-card rounded-2xl border border-[#f6e6b4]/15 bg-[#f6e6b4] p-4 text-center">
+        <p class="text-sm font-bold text-[#3a0c15]">A Better Way to Begin — with trust & dignity</p>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="h-[40vh] bg-[#0c0205] border-t border-white/5 grid place-items-center text-white/20 text-xs tracking-widest uppercase">Next section</div>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  gsap.to("#progress", {width:"100%", ease:"none", scrollTrigger:{trigger:"#intro-02", start:"top top", end:"bottom bottom", scrub:0.5}});
+  gsap.to("#parallax-img-1", {yPercent: 18, ease:"none", scrollTrigger:{trigger:"#intro-02", start:"top bottom", end:"bottom top", scrub:1.2}});
+  gsap.to("#hz-line", {xPercent:-25, ease:"none", scrollTrigger:{trigger:"#intro-02", start:"top bottom", end:"bottom top", scrub:1}});
+  gsap.from(".reveal-card", {y:30, opacity:0, stagger:0.12, duration:0.8, ease:"power3.out", scrollTrigger:{trigger:".reveal-card", start:"top 90%"}})
+}
+</script>
+</body>
+</html>

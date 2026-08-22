@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intro Sample 01 — Editorial Center Parallax | BestLife Matrimony</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<style>
+  *{font-variant-ligatures:common-ligatures}
+  ::selection{background:#dcb04a;color:#3a0c15}
+  .font-serif{font-family:'Cormorant Garamond',Georgia,serif}
+  .font-sans{font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+  /* Lenis smooth prevention - no overflow hacks */
+  html{scroll-behavior:auto}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="bg-[#0c0205] text-[#fff6e8] antialiased overflow-x-hidden">
+<!-- DEMO NAV PLACEHOLDER -->
+<div class="sticky top-0 z-50 bg-[#0c0205]/80 backdrop-blur-xl border-b border-white/10">
+  <div class="max-w-7xl mx-auto px-6 h-[64px] flex items-center justify-between text-xs tracking-widest uppercase text-white/50">
+    <span>Sample 01 — Editorial Center Parallax</span><span class="hidden sm:inline text-[#e3c877]">Scroll to see parallax ↓</span>
+  </div>
+</div>
+
+<!-- Faux hero spacer so pinning works in standalone -->
+<div class="h-[30vh] flex items-center justify-center bg-[#3a0c15] text-white/40 text-sm tracking-[0.2em] uppercase">Hero Section (placeholder) — scroll down</div>
+
+<!-- ===================== INTRO SECTION 01 ===================== -->
+<section id="intro-01" class="relative py-24 sm:py-32 lg:py-36 bg-[#0c0205] overflow-hidden isolate">
+  <!-- Decorative horizontal marquee BG parallax layer -->
+  <div class="absolute inset-0 pointer-events-none select-none overflow-hidden" aria-hidden="true">
+    <div id="marquee-track" class="absolute top-[18%] sm:top-[22%] left-0 whitespace-nowrap will-change-transform" style="will-change:transform">
+      <p class="text-[18vw] sm:text-[12vw] font-serif font-bold leading-none tracking-tighter text-white/[0.03] flex gap-12">
+        <span>BestLife Matrimony</span><span>BestLife Matrimony</span><span>BestLife Matrimony</span><span>BestLife Matrimony</span>
+      </p>
+    </div>
+    <!-- subtle radial vignette -->
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0c0205] via-transparent to-[#0c0205]"></div>
+    <!-- thin gold line that scales on scroll -->
+    <div class="absolute left-1/2 -translate-x-1/2 top-12 sm:top-16 h-px w-24 bg-gradient-to-r from-transparent via-[#e3c877]/60 to-transparent"></div>
+  </div>
+
+  <!-- parallax floating orbs -->
+  <div id="orb1" class="absolute -top-10 -right-20 w-[380px] h-[380px] rounded-full bg-[#3a0c15]/40 blur-[80px] pointer-events-none will-change-transform"></div>
+  <div id="orb2" class="absolute top-[45%] -left-32 w-[420px] h-[420px] rounded-full bg-[#dcb04a]/[0.07] blur-[90px] pointer-events-none will-change-transform"></div>
+
+  <div class="relative max-w-3xl mx-auto px-6 sm:px-8 text-center">
+    <!-- Eyebrow -->
+    <div class="reveal flex justify-center">
+      <span class="inline-flex items-center gap-2 rounded-full border border-[#f6e6b4]/15 bg-white/[0.06] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-[#e3c877] backdrop-blur">
+        <span class="h-1.5 w-1.5 rounded-full bg-[#e3c877] animate-pulse"></span>
+        Introduction — Brand Promise
+      </span>
+    </div>
+
+    <!-- Heading with word stagger -->
+    <h2 class="mt-7 font-serif text-[32px] sm:text-[46px] lg:text-[52px] font-bold leading-[0.98] tracking-tight text-[#fff6e8]">
+      <span class="block overflow-hidden"><span class="reveal-line inline-block" style="will-change:transform">Your Best Life Could Begin With</span></span>
+      <span class="block overflow-hidden"><span class="reveal-line inline-block bg-gradient-to-r from-[#f6e6b4] via-[#e3c877] to-[#dcb04a] bg-clip-text text-transparent italic pb-1" style="will-change:transform">One Connection.</span></span>
+    </h2>
+
+    <!-- Decorative divider that draws on scroll -->
+    <div class="mt-8 flex justify-center">
+      <div id="divider" class="h-px w-0 bg-gradient-to-r from-transparent via-[#e3c877] to-transparent will-change-transform" style="will-change:width"></div>
+    </div>
+
+    <!-- Body copy — parallax fade -->
+    <div id="copy" class="mt-8 space-y-5 text-[15px] sm:text-[16.5px] leading-[1.9] text-[#fff6e8]/75 font-sans">
+      <p class="reveal">Finding the right life partner is one of life's most important decisions. At BestLife Matrimony, we make the journey simpler, more personal and more meaningful.</p>
+      <p class="reveal">Discover profiles based on your preferences, connect with compatible individuals and take the first step towards building a beautiful future together.</p>
+      <p class="reveal font-medium text-[#f6e6b4] text-[16px] sm:text-[17px] leading-relaxed pt-2 border-t border-white/10 mt-6 !pt-6">
+        Because the right match isn't just about finding someone.<br class="hidden sm:block"> It's about finding someone who fits your life.
+      </p>
+    </div>
+
+    <!-- CTA -->
+    <div class="reveal mt-10 flex justify-center">
+      <a href="../../about.php" class="group inline-flex h-[52px] items-center justify-center gap-2 rounded-full border border-[#f6e6b4]/30 bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-8 text-[14px] font-bold tracking-wide text-[#3a0c15] shadow-lg shadow-[#dcb04a]/20 transition-all hover:scale-[1.02] hover:brightness-110 active:scale-95">
+        Know More About Us
+        <span class="flex h-7 w-7 items-center justify-center rounded-full bg-[#3a0c15] text-[#e3c877] transition-transform group-hover:translate-x-0.5">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </span>
+      </a>
+    </div>
+    <p class="mt-4 text-[11px] tracking-[0.18em] uppercase text-white/30">Trusted • Verified • Private</p>
+  </div>
+</section>
+
+<div class="h-[40vh] bg-[#0c0205] border-t border-white/5 flex items-center justify-center text-white/20 text-xs tracking-widest uppercase">Next section placeholder</div>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// Respect reduced motion
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { /* no animation */ } else {
+
+// marquee horizontal parallax — moves opposite to scroll
+gsap.to("#marquee-track", {
+  xPercent: -25,
+  ease: "none",
+  scrollTrigger: { trigger:"#intro-01", start:"top bottom", end:"bottom top", scrub: 1.2 }
+});
+// orbs parallax at different speeds
+gsap.to("#orb1", { y: -120, ease:"none", scrollTrigger:{trigger:"#intro-01", start:"top bottom", end:"bottom top", scrub:1.5}});
+gsap.to("#orb2", { y: 120, ease:"none", scrollTrigger:{trigger:"#intro-01", start:"top bottom", end:"bottom top", scrub:1.0}});
+
+// Heading lines clip reveal
+gsap.from(".reveal-line", {
+  yPercent: 110, duration: 1.1, stagger:0.15, ease:"expo.out",
+  scrollTrigger:{trigger:"#intro-01", start:"top 78%"}
+});
+// Divider draw
+gsap.to("#divider", {
+  width: "420px", duration:1, ease:"power3.out",
+  scrollTrigger:{trigger:"#intro-01", start:"top 75%"}
+});
+// Body copy stagger parallax fade-up
+gsap.from("#copy .reveal", {
+  y: 30, opacity:0, duration:0.9, stagger:0.12, ease:"power3.out",
+  scrollTrigger:{trigger:"#copy", start:"top 85%"}
+});
+gsap.from(".reveal", {
+  y: 18, opacity:0, duration:0.8, stagger:0.08, ease:"power3.out",
+  scrollTrigger:{trigger:"#intro-01", start:"top 82%"}
+});
+}
+</script>
+</body>
+</html>

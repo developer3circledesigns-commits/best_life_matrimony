@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intro 08 — Maison Noir | International Luxury | BestLife Matrimony</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+<style>::selection{background:#dcb04a;color:#3a0c15}.font-serif{font-family:'Cormorant Garamond',serif}.font-sans{font-family:'Plus Jakarta Sans',sans-serif}</style>
+</head>
+<body class="bg-[#080208] text-[#fff6e8] antialiased overflow-x-hidden">
+<div class="sticky top-0 z-50 bg-[#080208]/70 backdrop-blur-xl border-b border-white/[0.07]">
+  <div class="max-w-[1400px] mx-auto px-6 lg:px-8 h-[56px] flex items-center justify-between">
+    <span class="text-[11px] tracking-[0.2em] uppercase text-white/50">08 — Maison <em class="text-[#e3c877] not-italic">Noir International</em></span>
+    <span class="hidden md:inline text-[11px] tracking-[0.16em] uppercase text-white/25">Gold foil • Depth parallax • Editorial</span>
+  </div>
+</div>
+<div class="h-[30vh] bg-[#3a0c15] grid place-items-center text-white/30 text-[11px] tracking-[0.2em] uppercase">Hero placeholder</div>
+
+<section id="maison" class="relative min-h-[88vh] bg-[#080208] overflow-hidden flex items-center border-t border-white/5">
+  <!-- parallax gold foil texture -->
+  <div id="foil" class="absolute inset-0 opacity-[0.035] will-change-transform" style="background: radial-gradient(800px 600px at 30% 20%, #e3c877 0%, transparent 60%), radial-gradient(700px 500px at 90% 80%, #dcb04a 0%, transparent 60%); will-change:transform"></div>
+  <!-- vertical hairlines -->
+  <div class="absolute inset-y-0 left-[6%] w-px bg-white/[0.04] hidden lg:block"></div>
+  <div class="absolute inset-y-0 right-[6%] w-px bg-white/[0.04] hidden lg:block"></div>
+
+  <div class="relative max-w-[1400px] mx-auto px-6 lg:px-8 py-16 lg:py-20 grid lg:grid-cols-12 gap-10 w-full items-center">
+    <div class="lg:col-span-6 lg:pr-10">
+      <div class="inline-flex items-center gap-3">
+        <span class="h-px w-10 bg-[#e3c877]"></span>
+        <span class="text-[11px] tracking-[0.2em] uppercase font-bold text-[#e3c877]">Brand Promise</span>
+        <span class="text-[11px] tracking-[0.16em] uppercase text-white/30">— Since 2026</span>
+      </div>
+      <h2 class="mt-6 font-serif font-light text-[44px] sm:text-[58px] lg:text-[64px] leading-[0.88] tracking-[-0.035em]">
+        Your Best Life<br>
+        <span class="font-semibold">Could Begin With</span><br>
+        <span class="italic font-normal bg-gradient-to-r from-[#f6e6b4] via-[#e3c877] to-[#dcb04a] bg-clip-text text-transparent">One Connection.</span>
+      </h2>
+      <div class="mt-8 max-w-xl space-y-4 text-[15px] leading-[1.9] text-white/60">
+        <p>Finding the right life partner is one of life's most important decisions. At BestLife Matrimony, we make the journey simpler, more personal and more meaningful.</p>
+        <p>Discover profiles based on your preferences, connect with compatible individuals and take the first step towards building a beautiful future together.</p>
+      </div>
+      <div class="mt-6 relative border border-[#e3c877]/15 bg-[#e3c877]/[0.06] px-6 py-4 overflow-hidden">
+        <div class="absolute left-0 top-0 bottom-0 w-[3px] bg-[#e3c877]"></div>
+        <p class="font-serif italic text-[17px] text-[#f6e6b4] leading-relaxed">Because the right match isn't just about finding someone. It's about finding someone who fits your life.</p>
+      </div>
+      <a href="../../about.php" class="mt-8 inline-flex h-[48px] items-center gap-3 rounded-full border border-[#f6e6b4]/20 bg-gradient-to-r from-[#dcb04a] to-[#e3c877] px-7 text-sm font-bold text-[#3a0c15] hover:brightness-110 transition">Know More About Us <span class="h-7 w-7 grid place-items-center rounded-full bg-[#3a0c15] text-[#e3c877]">→</span></a>
+    </div>
+
+    <div class="lg:col-span-6 relative">
+      <!-- image with parallax and offset border -->
+      <div class="relative">
+        <div class="absolute -inset-3 border border-[#e3c877]/15 rounded-[20px] pointer-events-none hidden sm:block"></div>
+        <div class="relative overflow-hidden rounded-[18px] border border-white/10 bg-[#1a0a0f]">
+          <div class="relative h-[560px] overflow-hidden">
+            <img id="maison-img" src="https://images.unsplash.com/photo-1520854221256-589c4c4d0366?w=900&q=80&auto=format&fit=crop" alt="Portrait" class="absolute inset-0 h-[122%] w-full object-cover -top-[11%] will-change-transform" style="will-change:transform">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+            <!-- floating metrics with parallax -->
+            <div id="metric-1" class="absolute top-6 right-6 rounded-2xl bg-black/45 backdrop-blur-md border border-white/15 px-4 py-3 flex items-center gap-3 will-change-transform">
+              <span class="h-8 w-8 grid place-items-center rounded-full bg-[#e3c877] text-[#3a0c15] text-xs font-bold">✓</span>
+              <div><p class="text-xs font-bold text-white">Verified</p><p class="text-[11px] text-white/60">Photo & ID checked</p></div>
+            </div>
+            <div id="metric-2" class="absolute bottom-6 left-6 right-6 rounded-2xl bg-[#f6e6b4] px-4 py-3 flex items-center justify-between will-change-transform">
+              <p class="text-sm font-bold text-[#3a0c15]">Trusted Profiles • Meaningful Matches</p>
+              <span class="text-[#3a0c15]">✦</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- horizontal parallax strip -->
+      <div class="mt-4 overflow-hidden rounded-full border border-white/10 bg-white/[0.03] py-2">
+        <div id="maison-marquee" class="flex gap-8 whitespace-nowrap text-[11px] tracking-[0.18em] uppercase text-white/40 will-change-transform">Privacy First • Families Involved • Genuine — Privacy First • Families Involved • Genuine —</div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="h-[40vh] bg-[#080208] border-t border-white/5 grid place-items-center text-white/20 text-xs tracking-widest uppercase">Next section</div>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const lenis=new Lenis({autoRaf:true, lerp:0.075});
+lenis.on('scroll', ScrollTrigger.update);
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  gsap.to("#maison-img", {yPercent:12, ease:"none", scrollTrigger:{trigger:"#maison", start:"top bottom", end:"bottom top", scrub:1.3}});
+  gsap.to("#foil", {y:-60, ease:"none", scrollTrigger:{trigger:"#maison", start:"top bottom", end:"bottom top", scrub:1}});
+  gsap.to("#metric-1", {y:-30, ease:"none", scrollTrigger:{trigger:"#maison", start:"top bottom", end:"bottom top", scrub:1.1}});
+  gsap.to("#metric-2", {y:-18, ease:"none", scrollTrigger:{trigger:"#maison", start:"top bottom", end:"bottom top", scrub:0.9}});
+  gsap.to("#maison-marquee", {xPercent:-22, ease:"none", scrollTrigger:{trigger:"#maison", start:"top bottom", end:"bottom top", scrub:1}});
+  gsap.from("#maison h2", {y:30, opacity:0, duration:1, ease:"expo.out", scrollTrigger:{trigger:"#maison", start:"top 78%"}});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intro Sample 06 — Cinematic Image Strip | BestLife Matrimony</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<style>::selection{background:#dcb04a;color:#3a0c15}.font-serif{font-family:'Cormorant Garamond',serif}.font-sans{font-family:'Plus Jakarta Sans',sans-serif}</style>
+</head>
+<body class="bg-[#0c0205] text-[#fff6e8] antialiased overflow-x-hidden">
+<div class="sticky top-0 z-50 bg-[#0c0205]/85 backdrop-blur border-b border-white/10">
+  <div class="max-w-7xl mx-auto px-6 h-[64px] flex items-center justify-between text-xs tracking-widest uppercase text-white/50">
+    <span>Sample 06 — Cinematic + Horizontal Image Strip Parallax</span><span class="hidden sm:inline text-[#e3c877]">Clip-path reveal + strip</span>
+  </div>
+</div>
+<div class="h-[28vh] bg-[#3a0c15] grid place-items-center text-white/40 text-sm tracking-[0.2em] uppercase">Hero placeholder</div>
+
+<section id="intro-06" class="relative bg-[#0c0205] overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16 sm:py-20 grid lg:grid-cols-12 gap-10 items-center">
+    <div class="lg:col-span-7">
+      <span class="inline-flex rounded-full border border-[#f6e6b4]/15 bg-white/5 px-4 py-1.5 text-[11px] font-bold tracking-[0.18em] uppercase text-[#e3c877]">Brand Promise</span>
+      <h2 class="mt-6 font-serif text-[34px] sm:text-[48px] font-bold leading-[0.92] tracking-tight overflow-hidden">
+        <span class="reveal-clip block overflow-hidden"><span class="inline-block will-change-transform" style="will-change:transform">Your Best Life Could</span></span>
+        <span class="reveal-clip block overflow-hidden"><span class="inline-block will-change-transform">Begin With <em class="bg-gradient-to-r from-[#f6e6b4] via-[#e3c877] to-[#dcb04a] bg-clip-text text-transparent">One Connection.</em></span></span>
+      </h2>
+      <div class="mt-8 space-y-4 text-[15.5px] leading-[1.85] text-white/70 max-w-xl">
+        <p class="reveal-p">Finding the right life partner is one of life's most important decisions. At BestLife Matrimony, we make the journey simpler, more personal and more meaningful.</p>
+        <p class="reveal-p">Discover profiles based on your preferences, connect with compatible individuals and take the first step towards building a beautiful future together.</p>
+        <div class="reveal-p rounded-xl border-l-4 border-[#e3c877] bg-white/[0.04] pl-5 py-3 pr-4">
+          <p class="font-medium text-[#f6e6b4]">Because the right match isn't just about finding someone. It's about finding someone who fits your life.</p>
+        </div>
+      </div>
+      <a href="../../about.php" class="reveal-p mt-8 inline-flex h-[50px] items-center gap-2 rounded-full bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-7 text-sm font-bold text-[#3a0c15]">Know More About Us <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+    </div>
+
+    <!-- Right — vertical image with horizontal strip that parallax -->
+    <div class="lg:col-span-5 relative">
+      <div class="relative overflow-hidden rounded-[28px] border border-white/10 p-2 bg-white/[0.04] backdrop-blur">
+        <div class="relative h-[520px] overflow-hidden rounded-[20px]">
+          <img id="main-img" src="https://images.unsplash.com/photo-1520854221256-589c4c4d0366?w=900&q=80&auto=format&fit=crop" class="absolute inset-0 h-[125%] w-full object-cover -top-[12%] will-change-transform" alt="Couple">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+          <!-- floating badge -->
+          <div id="badge" class="absolute top-4 left-4 rounded-full bg-[#f6e6b4] text-[#3a0c15] px-4 py-2 text-xs font-bold shadow will-change-transform">✦ Trusted Profiles</div>
+        </div>
+      </div>
+      <!-- horizontal strip thumbnails that move on scroll -->
+      <div class="mt-4 overflow-hidden rounded-2xl border border-white/10 bg-black/30 backdrop-blur">
+        <div id="strip" class="flex gap-3 p-3 will-change-transform">
+          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=200&q=80&auto=format&fit=crop" class="h-16 w-24 object-cover rounded-xl shrink-0" alt="">
+          <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=200&q=80&auto=format&fit=crop" class="h-16 w-24 object-cover rounded-xl shrink-0" alt="">
+          <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=200&q=80&auto=format&fit=crop" class="h-16 w-24 object-cover rounded-xl shrink-0" alt="">
+          <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=200&q=80&auto=format&fit=crop" class="h-16 w-24 object-cover rounded-xl shrink-0" alt="">
+          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=200&q=80&auto=format&fit=crop" class="h-16 w-24 object-cover rounded-xl shrink-0" alt="">
+          <img src="https://images.unsplash.com/photo-1520854221256-589c4c4d0366?w=200&q=80&auto=format&fit=crop" class="h-16 w-24 object-cover rounded-xl shrink-0" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="h-[40vh] bg-[#0c0205] border-t border-white/5 grid place-items-center text-white/20 text-xs tracking-widest uppercase">Next section</div>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  gsap.from(".reveal-clip span", {yPercent:100, duration:1, stagger:0.12, ease:"expo.out", scrollTrigger:{trigger:"#intro-06", start:"top 78%"}});
+  gsap.from(".reveal-p", {y:24, opacity:0, stagger:0.1, duration:0.8, ease:"power3.out", scrollTrigger:{trigger:"#intro-06", start:"top 72%"}});
+  gsap.to("#main-img", {yPercent:14, ease:"none", scrollTrigger:{trigger:"#intro-06", start:"top bottom", end:"bottom top", scrub:1.2}});
+  gsap.to("#badge", {y:-20, ease:"none", scrollTrigger:{trigger:"#intro-06", start:"top bottom", end:"bottom top", scrub:1}});
+  gsap.to("#strip", {xPercent:-18, ease:"none", scrollTrigger:{trigger:"#intro-06", start:"top bottom", end:"bottom top", scrub:1}});
+}
+</script>
+</body>
+</html>
