@@ -1,0 +1,136 @@
+/* BestLife Matrimony — PHP migrated styles
+   Mirrors src/index.css tokens + Tailwind utility parity where CDN not present.
+   Preserves design exactly: burgundy, golds, blur, fonts, responsive.
+*/
+
+/* ---------- Design Tokens (from src/index.css) ---------- */
+:root {
+  --color-bg-dark: #0c0205;
+  --color-bg-burgundy: #800020;
+  --color-bg-burgundy-dark: #3a0c15;
+  --color-bg-burgundy-darker: #24060d;
+  --color-bg-light: #fdf9f1;
+  --color-text-primary: #fff6e8;
+  --color-text-secondary: #f4e3c9;
+  --color-text-muted: #f6e6b4;
+  --color-text-dark: #2b1a1e;
+  --color-text-dark-muted: #5a3a3f;
+  --color-gold-primary: #dcb04a;
+  --color-gold-secondary: #e3c877;
+  --color-gold-light: #f6e6b4;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+}
+
+/* ---------- Base ---------- */
+* { scrollbar-width: thin; scrollbar-color: #dcb04a #0c0205; }
+html { scroll-behavior: auto; } /* Lenis controls */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+body {
+  font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  background: #0c0205;
+  color: #fff6e8;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.font-serif { font-family: "Cormorant Garamond", Georgia, Cambria, "Times New Roman", serif; }
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  html { scroll-behavior: auto !important; }
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slide-up { from { opacity:0; transform: translateY(20px);} to {opacity:1; transform:translateY(0);} }
+@keyframes pulse-soft { 0%,100% { opacity:1 } 50% { opacity:.7 } }
+
+/* ---------- Navbar hide on scroll ---------- */
+.navbar-root.nav-hidden { transform: translateY(-100%); }
+
+/* ---------- Hero specific ---------- */
+.hero-section { position: relative; min-height: 100vh; min-height: 100svh; }
+.hero-bg { will-change: transform; transform: translateZ(0); }
+.hero-content { will-change: transform, opacity; transform: translateZ(0); }
+
+/* entrance stagger fallback when JS disabled */
+.hero-entrance { animation: slide-up .8s cubic-bezier(.25,.1,.25,1) both; }
+.hero-entrance-2 { animation: slide-up .8s .2s cubic-bezier(.25,.1,.25,1) both; }
+.hero-entrance-3 { animation: slide-up .8s .3s cubic-bezier(.25,.1,.25,1) both; }
+.hero-entrance-4 { animation: slide-up .8s .4s cubic-bezier(.25,.1,.25,1) both; }
+.hero-entrance-5 { animation: slide-up .8s .5s cubic-bezier(.25,.1,.25,1) both; }
+.hero-entrance-6 { animation: slide-up .8s .6s cubic-bezier(.25,.1,.25,1) both; }
+
+/* ---------- Reveal system (replaces Framer whileInView) ---------- */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s cubic-bezier(.25,.1,.25,1), transform .7s cubic-bezier(.25,.1,.25,1); will-change: opacity, transform; }
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: .08s; }
+.reveal-delay-2 { transition-delay: .16s; }
+.reveal-delay-3 { transition-delay: .24s; }
+.reveal-delay-4 { transition-delay: .32s; }
+.reveal-delay-5 { transition-delay: .4s; }
+
+.reveal-left { opacity:0; transform: translateX(-24px); }
+.reveal-left.is-visible { opacity:1; transform: translateX(0); }
+.reveal-right { opacity:0; transform: translateX(24px); }
+.reveal-right.is-visible { opacity:1; transform: translateX(0); }
+.reveal-scale { opacity:0; transform: scale(.96) translateY(12px); }
+.reveal-scale.is-visible { opacity:1; transform: scale(1) translateY(0); }
+
+.stagger > * { opacity:0; transform: translateY(24px) scale(.98); transition: opacity .6s cubic-bezier(.25,.1,.25,1), transform .6s cubic-bezier(.25,.1,.25,1); }
+.stagger.is-visible > * { opacity:1; transform: translateY(0) scale(1); }
+.stagger.is-visible > *:nth-child(1){ transition-delay:.05s }
+.stagger.is-visible > *:nth-child(2){ transition-delay:.13s }
+.stagger.is-visible > *:nth-child(3){ transition-delay:.21s }
+.stagger.is-visible > *:nth-child(4){ transition-delay:.29s }
+.stagger.is-visible > *:nth-child(5){ transition-delay:.37s }
+.stagger.is-visible > *:nth-child(6){ transition-delay:.45s }
+
+/* ---------- Card hovers (preserve) ---------- */
+.card-hover { transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; }
+.card-hover:hover { transform: translateY(-4px); border-color: rgba(246,230,180,.4); }
+
+/* ---------- FAQ accordion ---------- */
+.faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s ease, opacity .3s ease; opacity: 0; }
+.faq-item.is-open .faq-answer { grid-template-rows: 1fr; opacity: 1; }
+.faq-answer-inner { overflow: hidden; }
+.faq-icon { transition: transform .3s ease, background .3s ease, color .3s ease, border-color .3s ease; }
+.faq-item.is-open .faq-icon { transform: rotate(180deg); background:#800020; color:#fff; border-color:#800020; }
+
+/* ---------- Buttons — ensure exact gradient parity ---------- */
+.btn-gold { background: linear-gradient(90deg, #dcb04a, #e3c877, #dcb04a); border:1px solid rgba(246,230,180,.4); color:#3a0c15; font-weight:700; }
+.btn-gold:hover { filter: brightness(1.08); transform: scale(1.02); }
+.btn-ghost { background: rgba(58,12,21,.8); border:1px solid rgba(246,230,180,.6); color:#fff6e8; backdrop-filter: blur(8px); }
+.btn-ghost:hover { background:#5a1322; border-color:#f6e6b4; }
+
+/* ---------- Responsive tweaks to prevent overflow ---------- */
+img, video { max-width: 100%; }
+section { overflow-clip-margin: 0; }
+
+/* Ensure rounded overlapped hero→intro seam matches React: -mt-8 rounded-t-[2.5rem] */
+.section-overlap { margin-top: -2rem; border-top-left-radius: 2.5rem; border-top-right-radius: 2.5rem; }
+
+/* Utility: line clamp not needed */
+
+/* ---------- Print hide ---------- */
+@media print { .navbar-root, footer { display:none !important; } }
+
+/* ---------- Focus ---------- */
+:focus-visible { outline: 2px solid #e3c877; outline-offset: 2px; }
+
+/* ---------- Accessibility: skip link ---------- */
+.skip-link { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+.skip-link:focus { left:1rem; top:1rem; width:auto; height:auto; padding:.5rem 1rem; background:#fff6e8; color:#3a0c15; border-radius:9999px; z-index:9999; }

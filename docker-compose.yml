@@ -1,0 +1,10 @@
+services:
+  web:
+    build: .
+    container_name: bestlife-matrimony
+    ports:
+      - "8080:80"
+    volumes:
+      # live reload for dev (comment out for prod)
+      - .:/var/www/html
+    restart: unless-stopped
