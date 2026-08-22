@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "oxlint",
-    "preview": "vite preview"
+    "build:hostinger": "tsc -b && vite build",
+    "preview": "vite preview",
+    "hostinger:zip": "npm run build:hostinger && powershell -Command \"if (Test-Path bestlife_hostinger.zip) { Remove-Item bestlife_hostinger.zip -Force }; Compress-Archive -Path public_html/* -DestinationPath bestlife_hostinger.zip -Force; Write-Host '✓ bestlife_hostinger.zip created' -ForegroundColor Green; Get-Item bestlife_hostinger.zip | Format-List Name,Length,LastWriteTime\"",
+    "hostinger:clean": "powershell -Command \"if (Test-Path public_html) { Remove-Item -Recurse -Force public_html }\"",
+    "lint": "oxlint"
   },
   "dependencies": {
     "@heroui/react": "^2.8.10",

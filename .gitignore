@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 public_html
+bestlife_hostinger.zip
 *.local
 
 # Editor directories and files
