@@ -19,7 +19,7 @@
   <div data-hero-content class="hero-content relative z-10 max-w-4xl mx-auto flex flex-col items-center">
     <!-- Main Title -->
     <h1 class="hero-entrance font-serif text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#fff6e8] leading-[1.08]">
-      Find Someone Who <span class="bg-gradient-to-r from-[#6b1020] via-[#8b1428] to-[#a01830] bg-clip-text text-transparent italic">Makes Life Better.</span>
+      Find Someone Who <span class="text-white italic">Makes Life Better.</span>
     </h1>
 
     <!-- Action Buttons -->
