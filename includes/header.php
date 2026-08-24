@@ -32,6 +32,7 @@ $pageDescription = $pageDescription ?? $siteConfig['description'];
   </script>
   <style>.font-display{font-family:'Instrument Serif',Georgia,serif}</style>
   <link rel="stylesheet" href="<?php echo asset('css/style.css'); ?>" />
+  <?php echo isset($pageHeadExtra) ? $pageHeadExtra : ''; ?>
 </head>
 <body class="bg-[#0c0205] text-[#fff6e8] antialiased selection:bg-[#dcb04a] selection:text-[#3a0c15]">
   <div class="relative min-h-screen bg-[#0c0205] text-[#fff6e8]">

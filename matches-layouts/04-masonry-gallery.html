@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Layout 04 — Masonry Gallery | BestLife</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:'Inter',sans-serif;background:#fdf8f3}
+.top{position:sticky;top:0;z-index:10;background:rgba(253,248,243,.85);backdrop-filter:blur(10px);border-bottom:1px solid #e8ddd3;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
+.brand{font-family:'Playfair Display',serif;font-weight:700;color:#6b1020}
+.pill{background:#6b1020;color:#fff;font-size:10px;letter-spacing:.12em;padding:6px 10px;border-radius:20px}
+.bar{max-width:1280px;margin:12px auto;padding:0 16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.search{flex:1;max-width:420px;position:relative}
+.search input{width:100%;padding:10px 14px 10px 36px;border-radius:30px;border:1px solid #e8ddd3}
+.search i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#999}
+.chip{padding:8px 14px;border-radius:20px;border:1px solid #e8ddd3;background:#fff;font-size:13px;white-space:nowrap}
+.chip.active{background:#1a1a1a;color:#fff}
+.masonry{max-width:1280px;margin:14px auto;padding:0 16px;columns:4;column-gap:16px}
+@media(max-width:1100px){.masonry{columns:3}}
+@media(max-width:720px){.masonry{columns:2}}
+@media(max-width:480px){.masonry{columns:1}}
+.item{break-inside:avoid;margin-bottom:16px;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.06);position:relative}
+.item img{width:100%;display:block}
+.overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65),transparent 55%)}
+.meta{position:absolute;bottom:0;left:0;right:0;padding:14px;color:#fff}
+.name{font-weight:700;font-size:15px}
+.sub{font-size:11px;opacity:.85}
+.badges{position:absolute;top:10px;left:10px;display:flex;gap:6px}
+.b{font-size:10px;padding:4px 7px;border-radius:20px;font-weight:700}
+.b.online{background:#0f9d58;color:#fff}
+.b.premium{background:#fff;color:#6b1020}
+.b.verified{background:#111;color:#fff}
+.actions{position:absolute;top:10px;right:10px;display:flex;gap:6px}
+.actions span{width:28px;height:28px;display:grid;place-items:center;background:rgba(255,255,255,.9);border-radius:50%;font-size:12px}
+</style>
+</head>
+<body>
+<div class="top"><span class="brand">BestLife Matrimony</span><span class="pill">04 — MASONRY GALLERY</span><a href="00-index.html" style="font-size:12px;border:1px solid #ddd;padding:6px 10px;border-radius:20px;text-decoration:none;color:#111">← All</a></div>
+
+<div class="bar">
+  <div style="display:flex;gap:8px;overflow:auto;scrollbar-width:none"><span class="chip active">For You</span><span class="chip">Tamil</span><span class="chip">Engineering</span><span class="chip">Bangalore</span><span class="chip">Doctor</span><span class="chip">Never Married</span></div>
+  <div class="search"><i class="bi bi-search"></i><input placeholder="Search profiles, city, profession"></div>
+</div>
+<p style="max-width:1280px;margin:0 auto;padding:0 16px;font-size:12px;color:#8a7a6a">24 profiles • Tap photo to view • Hover for quick actions • Pinterest-style discovery</p>
+
+<div class="masonry">
+  <div class="item"><img src="https://picsum.photos/seed/mas1/400/520"><div class="overlay"></div><div class="badges"><span class="b online">Online</span></div><div class="actions"><span><i class="bi bi-heart"></i></span></div><div class="meta"><div class="name">Ananya, 26 • 5'4"</div><div class="sub">Chennai • MBA • Product Manager</div></div></div>
+  <div class="item"><img src="https://picsum.photos/seed/mas2/400/640"><div class="overlay"></div><div class="badges"><span class="b premium">Premium</span></div><div class="meta"><div class="name">Divya, 25 • 5'3"</div><div class="sub">Coimbatore • Entrepreneur</div></div></div>
+  <div class="item"><img src="https://picsum.photos/seed/mas3/400/460"><div class="overlay"></div><div class="meta"><div class="name">Priya, 24 • 5'2"</div><div class="sub">Chennai • Teacher</div></div></div>
+  <div class="item"><img src="https://picsum.photos/seed/mas4/400/580"><div class="overlay"></div><div class="badges"><span class="b verified">Verified ✓</span></div><div class="meta"><div class="name">Meera, 27 • 5'6"</div><div class="sub">Bangalore • Doctor • MBBS</div></div></div>
+  <div class="item"><img src="https://picsum.photos/seed/mas5/400/500"><div class="overlay"></div><div class="meta"><div class="name">Sneha, 28 • 5'5"</div><div class="sub">Mumbai • Finance • CA</div></div></div>
+  <div class="item"><img src="https://picsum.photos/seed/mas6/400/620"><div class="overlay"></div><div class="badges"><span class="b premium">Top Pick</span></div><div class="meta"><div class="name">Kavya, 26 • 5'7"</div><div class="sub">Hyderabad • Software Engineer</div></div></div>
+  <div class="item"><img src="https://picsum.photos/seed/mas7/400/480"><div class="overlay"></div><div class="meta"><div class="name">Lakshmi, 29 • 5'5"</div><div class="sub">Trichy • Business • Hindu</div></div></div>
+  <div class="item"><img src="https://picsum.photos/seed/mas8/400/560"><div class="overlay"></div><div class="badges"><span class="b online">Online now</span></div><div class="meta"><div class="name">Aishwarya, 26 • 5'4"</div><div class="sub">Coimbatore • Arts • Christian</div></div></div>
+  <div class="item"><img src="https://picsum.photos/seed/mas9/400/600"><div class="overlay"></div><div class="meta"><div class="name">Nithya, 25 • 5'3"</div><div class="sub">Bangalore • Designer</div></div></div>
+  <div class="item"><img src="https://picsum.photos/seed/mas10/400/500"><div class="overlay"></div><div class="badges"><span class="b verified">Verified</span></div><div class="meta"><div class="name">Shruthi, 27 • 5'6"</div><div class="sub">Chennai • Lawyer</div></div></div>
+  <div class="item"><img src="https://picsum.photos/seed/mas11/400/540"><div class="overlay"></div><div class="meta"><div class="name">Harini, 26 • 5'4"</div><div class="sub">Mumbai • Marketing</div></div></div>
+  <div class="item"><img src="https://picsum.photos/seed/mas12/400/480"><div class="overlay"></div><div class="meta"><div class="name">Janani, 28 • 5'7"</div><div class="sub">Delhi • Doctor</div></div></div>
+</div>
+</body>
+</html>

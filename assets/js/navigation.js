@@ -32,19 +32,8 @@
   // Esc
   document.addEventListener('keydown', function(e){ if (e.key==='Escape' && isOpen) setOpen(false); });
 
-  // hide on scroll (like shouldHideOnScroll)
-  let lastY = window.scrollY;
-  let ticking = false;
-  function onScroll(){
-    const y = window.scrollY || (window.__lenis && window.__lenis.scroll) || 0;
-    const delta = y - lastY;
-    // only hide after 80px and scrolling down
-    if (y > 80 && delta > 4 && !isOpen) navbar.classList.add('nav-hidden');
-    else if (delta < -4 || y <= 80) navbar.classList.remove('nav-hidden');
-    lastY = y; ticking=false;
-  }
-  function requestTick(){ if(!ticking){ ticking=true; requestAnimationFrame(onScroll);} }
-  // listen lenis scroll + window scroll
-  if (window.__lenis && window.__lenis.on) window.__lenis.on('scroll', requestTick);
-  window.addEventListener('scroll', requestTick, { passive:true });
+  // UX: top navbar must NEVER hide on vertical scroll (matches.php requirement — from top to bottom always visible)
+  // Completely disable hide-on-scroll — keep navbar pinned
+  navbar.classList.remove('nav-hidden');
+  // No scroll listeners — intentional: navbar stays visible always
 })();
