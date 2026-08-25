@@ -6,6 +6,7 @@
       data-hero-video
       src="./assets/videos/bride-groom-cinematic-hq.mp4"
       autoplay
+      loop
       muted
       playsinline
       preload="auto"
@@ -56,29 +57,27 @@
 (function(){
   var v=document.querySelector('[data-hero-video]');
   if(!v) return;
-  // 1st second frame as requested
-  var frame1s = 1;
-  v.addEventListener('loadedmetadata', function(){
-    try{
-      if(v.duration && v.duration > 0){
-        if(v.duration < 1) frame1s = Math.max(0.37, v.duration * 0.3);
-        else frame1s = 1;
-      }
-    }catch(e){}
-  });
+  v.loop = true;
+  v.muted = true;
+  v.setAttribute('loop','');
+  v.setAttribute('autoplay','');
+  v.setAttribute('playsinline','');
+  function tryPlay(){
+    var p=v.play();
+    if(p&&p.catch) p.catch(function(){});
+  }
   v.addEventListener('ended', function(){
-    try{
-      v.pause();
-      // seek to 1st second and hold
-      setTimeout(function(){
-        try{ v.currentTime = frame1s; }catch(e){}
-        v.pause();
-        v.removeAttribute('loop');
-        v.autoplay = false;
-      }, 40);
-    }catch(e){}
+    try{ v.currentTime=0; }catch(e){}
+    tryPlay();
   });
-  // ensure no loop attribute
-  v.removeAttribute('loop');
+  v.addEventListener('canplay', tryPlay, {once:true});
+  document.addEventListener('visibilitychange', function(){
+    if(!document.hidden) tryPlay();
+  });
+  // iOS / autoplay policy fallback — play on first interaction
+  var once=function(){ tryPlay(); document.removeEventListener('click',once); document.removeEventListener('touchstart',once); };
+  document.addEventListener('click', once, {once:true});
+  document.addEventListener('touchstart', once, {once:true});
+  tryPlay();
 })();
 </script>

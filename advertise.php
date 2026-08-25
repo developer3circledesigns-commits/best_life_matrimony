@@ -1,28 +1,56 @@
 <?php
 $pageTitle = 'Advertise With Us — BestLife Matrimony';
-$pageDescription = 'Partner with BestLife Matrimony to reach engaged audiences planning weddings.';
+$pageDescription = 'Advertise where trust is earned. Brand-safe, moderated, verified audience.';
+$pageHeadExtra = <<<HTML
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Inter',sans-serif;background:#fff;color:#111}
+  div.bg-\[\#0c0205\]{background:#fff}
+  div.text-\[\#fff6e8\]{color:#111}
+  .navbar-root{background:rgba(255,255,255,.9) !important;backdrop-filter:blur(10px);border-bottom:1px solid #eee !important}
+  footer{background:#fff !important;border-top:1px solid #eee !important}
+</style>
+HTML;
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 ?>
-<main class="flex-1 bg-transparent">
-  <section class="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
-    <div class="reveal max-w-3xl rounded-3xl border border-[#f6e6b4]/20 bg-black/35 p-8 sm:p-12 backdrop-blur-md shadow-2xl">
-      <h1 class="font-serif text-4xl font-bold tracking-tight text-[#fff6e8] sm:text-5xl">Advertise with us</h1>
-      <p class="mt-6 text-lg text-[#f3e6d8]/90">Partner with BestLife Matrimony to reach engaged audiences — individuals and families actively planning matrimonial and wedding decisions.</p>
-      <ul class="mt-6 grid grid-cols-2 gap-2 text-xs text-[#fff6e8]/80">
-        <li>• Wedding Services</li><li>• Jewellery</li><li>• Bridal Wear</li><li>• Photography</li><li>• Venues & Catering</li><li>• Honeymoon Travel</li>
-      </ul>
-      <a href="./index.php" class="mt-8 inline-flex h-11 items-center justify-center rounded-full border border-[#f6e6b4]/50 bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-8 font-semibold text-[#3a0c15] shadow-lg hover:scale-105 transition-transform">Back to Home</a>
+<main class="flex-1 bg-white text-[#111]">
+  <section class="mx-auto max-w-[900px] px-4 py-12 text-center">
+    <h1 class="mt-3 text-[36px] font-bold leading-[1.05] tracking-[-.02em] text-[#111]">Advertise<br>where trust is<br>earned.</h1>
+    <p class="mx-auto mt-3 max-w-[560px] text-[15px] leading-6 text-[#666]">Brand-safe, moderated, verified audience. No clutter. No dark patterns. Just families making one of life's most important decisions — and the brands they invite in.</p>
+    <div class="mt-5 flex flex-wrap justify-center gap-2">
+      <a href="./contact.php" class="inline-flex items-center gap-2 bg-[#111] px-5 py-3 text-sm font-semibold text-white hover:opacity-90">Enquire <i class="bi bi-arrow-right"></i></a>
+      <a href="./contact.php" class="inline-flex items-center gap-2 border border-[#ddd] bg-white px-5 py-3 text-sm font-semibold text-[#111] hover:bg-[#fafafa]"><i class="bi bi-file-earmark-text"></i> Brand Guidelines PDF</a>
+    </div>
+    <p class="mt-3 text-xs text-[#8a7a6a]">Reply in 4 hours • Media kit • Rate card on request</p>
+  </section>
+
+  <section class="mx-auto grid max-w-[900px] grid-cols-1 gap-3.5 px-4 pb-6 md:grid-cols-3" aria-label="Trust pillars">
+    <div class="border border-[#eee] bg-white px-4 py-6 text-center">
+      <i class="bi bi-shield-lock text-[22px] text-[#111]"></i>
+      <p class="mt-2 text-sm font-bold text-[#111]">Brand Safe</p>
+      <p class="mt-1 text-xs leading-5 text-[#666]">Human moderated, verified profiles only</p>
+    </div>
+    <div class="border border-[#eee] bg-white px-4 py-6 text-center">
+      <i class="bi bi-eye-slash text-[22px] text-[#111]"></i>
+      <p class="mt-2 text-sm font-bold text-[#111]">No Tracking Tricks</p>
+      <p class="mt-1 text-xs leading-5 text-[#666]">Consent-first, pixel optional</p>
+    </div>
+    <div class="border border-[#eee] bg-white px-4 py-6 text-center">
+      <i class="bi bi-receipt text-[22px] text-[#111]"></i>
+      <p class="mt-2 text-sm font-bold text-[#111]">Transparent</p>
+      <p class="mt-1 text-xs leading-5 text-[#666]">Clear specs, invoices, reports</p>
     </div>
   </section>
-  <!-- Advertise categories section for visual completeness -->
-  <section class="relative py-16 px-4 sm:px-6 lg:px-8" style="background:#800020;">
-    <div class="max-w-6xl mx-auto">
-      <div class="reveal relative overflow-hidden rounded-3xl border border-[#f6e6b4]/30 bg-black/55 p-8 sm:p-12 backdrop-blur-xl text-center">
-        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-[#fff6e8]">Put Your Brand in Front of a <span class="bg-gradient-to-r from-[#f6e6b4] via-[#e3c877] to-[#dcb04a] bg-clip-text text-transparent italic">Growing Community.</span></h2>
-        <p class="mt-4 text-sm text-[#fff6e8]/80 max-w-2xl mx-auto">High-intent audiences — perfect for wedding services, jewellery, bridal wear, photography, venues and more.</p>
-        <a href="./contact.php" class="mt-6 inline-flex h-11 items-center justify-center rounded-full bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-8 text-sm font-bold text-[#3a0c15]">Enquire Now</a>
-      </div>
+
+  <section class="mx-auto max-w-[900px] px-4 pb-10 text-center">
+    <p class="text-xs text-[#8a7a6a]">Trusted by 40+ partners • Jewellery, venues, hospitality</p>
+    <div class="mt-3 flex justify-center gap-4 text-[22px] text-[#111] opacity-50">
+      <i class="bi bi-gem" aria-hidden="true"></i>
+      <i class="bi bi-buildings" aria-hidden="true"></i>
+      <i class="bi bi-camera" aria-hidden="true"></i>
+      <i class="bi bi-airplane" aria-hidden="true"></i>
     </div>
   </section>
 </main>
