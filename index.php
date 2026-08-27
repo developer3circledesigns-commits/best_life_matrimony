@@ -21,6 +21,7 @@ require_once __DIR__ . '/includes/navbar.php';
     <?php include __DIR__ . '/sections/final-cta.php'; ?>
   </div>
 </main>
+
 <?php
 require_once __DIR__ . '/includes/footer.php';
 require_once __DIR__ . '/includes/scripts.php';

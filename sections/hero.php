@@ -25,8 +25,8 @@
 
     <!-- Action Buttons -->
     <div class="hero-entrance-4 mt-9 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-      <a href="./register.php" class="inline-flex h-12 sm:h-[52px] w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-[#f6e6b4] bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-8 text-base font-bold text-[#3a0c15] transition-all hover:scale-[1.03] hover:brightness-110 active:scale-95 shadow-none">
-        Register Now
+      <a href="<?php echo register_cta_href(); ?>" class="inline-flex h-12 sm:h-[52px] w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-[#f6e6b4] bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-8 text-base font-bold text-[#3a0c15] transition-all hover:scale-[1.03] hover:brightness-110 active:scale-95 shadow-none">
+        <?php echo register_cta_label(); ?>
         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </a>
       <a href="./matches.php" class="inline-flex h-12 sm:h-[52px] w-full sm:w-auto items-center justify-center rounded-full border border-[#f6e6b4]/60 bg-[#3a0c15]/80 px-8 text-base font-semibold text-[#fff6e8] backdrop-blur-sm transition-all hover:bg-[#5a1322] hover:border-[#f6e6b4] active:scale-95">

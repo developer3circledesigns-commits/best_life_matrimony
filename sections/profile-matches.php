@@ -1,7 +1,6 @@
 <?php // Profile Matches Section — Matches Sample 05 Marquee Stagger — lag-free ?>
 <section id="profile-matches" class="relative min-h-screen flex flex-col justify-center py-16 lg:py-20 overflow-hidden will-change-transform" style="background: linear-gradient(135deg, #3a0c15 0%, #4a1322 18%, #5e1e2e 32%, #6e2a2a 48%, #8a4a2f 64%, #a67d3a 78%, #c9a86a 88%, #e3c877 94%, #f6e6b4 100%); min-height:100vh; min-height:100svh; margin-top:-40px; border-radius:0; box-shadow:0 -20px 60px rgba(0,0,0,0.35); z-index:10; will-change:transform;">
-  <!-- vignette to keep text legible on gold wash — no vibe issues, only transform/opacity elsewhere -->
-  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(900px 600px at 30% 15%, rgba(58,12,21,0.45) 0%, rgba(58,12,21,0.18) 42%, transparent 72%);"></div>
+  <!-- vignette to keep text legible on gold wash -->  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(900px 600px at 30% 15%, rgba(58,12,21,0.45) 0%, rgba(58,12,21,0.18) 42%, transparent 72%);"></div>
   <!-- Marquee background — horizontal parallax -->
   <div class="absolute inset-0 flex flex-col justify-center gap-4 opacity-[0.05] pointer-events-none select-none overflow-hidden" aria-hidden="true">
     <div id="marquee-pm" class="flex gap-8 whitespace-nowrap text-[10vw] font-serif font-bold will-change-transform" style="will-change:transform"><span>Perfect Match • </span><span>Perfect Match • </span><span>Perfect Match • </span><span>Perfect Match • </span></div>

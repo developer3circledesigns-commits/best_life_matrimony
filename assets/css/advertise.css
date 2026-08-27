@@ -1,0 +1,23 @@
+/* Advertise page — scoped light-theme overrides.
+   Kept separate from global style.css so it only loads on the advertise page
+   and never bleeds into other pages. */
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #f4f2ee;
+  color: #111;
+}
+body div.bg-\[\#0c0205\] {
+  background: #f4f2ee;
+}
+body div.text-\[\#fff6e8\] {
+  color: #111;
+}
+body .navbar-root {
+  background: rgba(255, 255, 255, .92) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #eee !important;
+}
+body footer {
+  background: #fff !important;
+  border-top: 1px solid #eee !important;
+}

@@ -49,8 +49,8 @@
         </div>
         <div class="pt-6 text-center lg:text-left">
           <p class="font-serif italic text-[#f6e6b4]">Your future starts with a connection.</p>
-          <a href="./register.php" class="mt-4 inline-flex h-11 px-6 rounded-none bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] text-[#3a0c15] font-bold text-sm items-center gap-2 hover:brightness-110 transition will-change-transform" style="will-change:transform; border-radius:0">
-            Create Your Profile
+          <a href="<?php echo register_cta_href(); ?>" class="mt-4 inline-flex h-11 px-6 rounded-none bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] text-[#3a0c15] font-bold text-sm items-center gap-2 hover:brightness-110 transition will-change-transform" style="will-change:transform; border-radius:0">
+            <?php echo register_cta_label('My Profile', 'Create Your Profile'); ?>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
         </div>

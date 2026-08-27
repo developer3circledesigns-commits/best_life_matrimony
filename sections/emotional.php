@@ -35,7 +35,7 @@
         </div>
         <div class="w-1/2 h-full flex flex-col justify-center px-14 bg-[#3a0c15] text-white">
           <p class="text-sm leading-7 text-white/80 max-w-md">Whether you're beginning your search or helping someone you love find their life partner, we're here to make the journey easier.</p>
-          <a href="./register.php" class="mt-8 inline-flex h-11 px-7 rounded-none bg-white text-[#3a0c15] font-bold text-sm items-center gap-2 hover:bg-[#f6e6b4] transition will-change-transform" style="will-change:transform; border-radius:0">Register Now →</a>
+          <a href="<?php echo register_cta_href(); ?>" class="mt-8 inline-flex h-11 px-7 rounded-none bg-white text-[#3a0c15] font-bold text-sm items-center gap-2 hover:bg-[#f6e6b4] transition will-change-transform" style="will-change:transform; border-radius:0"><?php echo register_cta_label(); ?> →</a>
           <p class="mt-3 text-xs tracking-[0.16em] uppercase text-white/40">Trusted • Private • Family-first</p>
         </div>
       </div>
@@ -57,7 +57,7 @@
     </div>
     <div class="snap-center shrink-0 w-screen">
       <div class="h-64 overflow-hidden bg-[#1a0a0f]"><img src="<?php echo asset('images/second.jpg'); ?>" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&q=80&auto=format&fit=crop'" alt="Real Indian couple" class="w-full h-full object-cover" loading="lazy"></div>
-      <div class="bg-[#3a0c15] p-6"><p class="text-sm leading-6 text-white/80">Whether you're beginning your search or helping someone you love find their life partner, we're here to make the journey easier.</p><a href="./register.php" class="mt-4 inline-flex h-10 px-6 rounded-none bg-white text-[#3a0c15] text-sm font-bold items-center gap-2" style="border-radius:0">Register Now →</a></div>
+      <div class="bg-[#3a0c15] p-6"><p class="text-sm leading-6 text-white/80">Whether you're beginning your search or helping someone you love find their life partner, we're here to make the journey easier.</p><a href="<?php echo register_cta_href(); ?>" class="mt-4 inline-flex h-10 px-6 rounded-none bg-white text-[#3a0c15] text-sm font-bold items-center gap-2" style="border-radius:0"><?php echo register_cta_label(); ?> →</a></div>
     </div>
   </div>
 </div>

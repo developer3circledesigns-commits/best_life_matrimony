@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/db.php';
 $pageTitle = 'Profile Matches — BestLife Matrimony';
 $pageDescription = 'Explore compatible profiles curated just for you on BestLife Matrimony.';
 $pageHeadExtra = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">' . "\n"
@@ -7,15 +7,40 @@ $pageHeadExtra = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boot
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 
-$religions   = ['Hindu' => '5,240', 'Muslim' => '3,180', 'Christian' => '2,940', 'Sikh' => '620', 'Jain' => '410'];
-$tongues     = ['Tamil' => '2,400', 'Hindi' => '4,800', 'Telugu' => '2,100', 'Malayalam' => '1,400'];
-$locations   = ['Chennai' => '1,240', 'Bangalore' => '980', 'Coimbatore' => '740', 'Mumbai' => '620'];
-$education   = ['Engineering' => '320', 'Medicine' => '280', 'Business' => '210', 'Arts' => '190', "Master's" => '150'];
-$professions = ['Software Engineer' => '410', 'Doctor' => '350', 'Entrepreneur' => '280', 'Teacher' => '240', 'Finance' => '200'];
-$marital     = ['Never Married' => '870', 'Divorced' => '190', 'Widowed' => '80', 'Awaiting Divorce' => '45'];
+function getFilterCounts(string $column): array {
+  try {
+    $db = getDB();
+    $stmt = $db->query("SELECT `$column`, COUNT(*) AS cnt FROM users WHERE `$column` IS NOT NULL AND `$column` != '' GROUP BY `$column` ORDER BY cnt DESC");
+    $result = [];
+    while ($row = $stmt->fetch()) {
+      $result[$row[$column]] = number_format($row['cnt']);
+    }
+    return $result;
+  } catch (Exception $e) {
+    return [];
+  }
+}
+
+$religions   = getFilterCounts('religion');
+$castes      = getFilterCounts('caste');
+$tongues     = getFilterCounts('mother_tongue');
+$locations   = getFilterCounts('city');
+$education   = getFilterCounts('highest_education');
+$professions = getFilterCounts('occupation');
+$marital     = getFilterCounts('marital_status');
+
+$totalProfiles = 0;
+try {
+  $db = getDB();
+  $totalProfiles = (int) $db->query("SELECT COUNT(*) FROM users WHERE `is_admin` IS NULL OR `is_admin` = 0")->fetchColumn();
+} catch (Exception $e) {}
 
 function render_filter_group(string $title, array $options, string $group): void {
   echo '<h3 class="m-heading">' . htmlspecialchars($title) . '</h3>';
+  if (empty($options)) {
+    echo '<p style="font-size:0.8rem;color:#999;margin:0;">No data yet</p>';
+    return;
+  }
   foreach ($options as $label => $count) {
     echo '<label class="m-option">'
       . '<span><input type="checkbox" class="filter-checkbox" data-group="' . htmlspecialchars($group) . '" value="' . htmlspecialchars($label) . '"> ' . htmlspecialchars($label) . '</span>'
@@ -25,12 +50,19 @@ function render_filter_group(string $title, array $options, string $group): void
 }
 ?>
 
-<main class="matches-page">
+<?php
+$currentUserApproved = 0;
+if (!empty($_SESSION['user_id'])) {
+  $cu = current_user();
+  $currentUserApproved = ($cu && ((int)($cu['is_approved'] ?? 0) === 1 || (int)($cu['is_admin'] ?? 0) === 1)) ? 1 : 0;
+}
+?>
+<main class="matches-page" data-user-id="<?php echo intval($_SESSION['user_id'] ?? 0); ?>" data-approved="<?php echo $currentUserApproved; ?>">
   <div class="m-container">
     <div class="m-header">
       <h1 class="m-title">Profile Matches</h1>
-      <p class="m-subtitle" id="resultCount"><strong>24</strong> profiles found</p>
-      <span id="sidebarCount" hidden>24</span>
+      <p class="m-subtitle" id="resultCount"><strong><?php echo $totalProfiles; ?></strong> profiles found</p>
+      <span id="sidebarCount" hidden><?php echo $totalProfiles; ?></span>
     </div>
 
     <div class="m-toolbar">
@@ -61,22 +93,30 @@ function render_filter_group(string $title, array $options, string $group): void
         <label class="m-option"><span><input type="radio" name="m-gender" value="women"> Women</span></label>
         <label class="m-option"><span><input type="radio" name="m-gender" value="men"> Men</span></label>
 
-        <h3 class="m-heading">Age <span class="js-age-display">21 – 42 years</span></h3>
+        <h3 class="m-heading">Age <span class="js-age-display">18 – 70 years</span></h3>
         <div class="m-range js-age-wrap">
           <div class="m-track"></div><div class="m-fill"></div>
-          <input type="range" class="js-age-min" min="18" max="70" value="21">
-          <input type="range" class="js-age-max" min="18" max="70" value="42">
+          <input type="range" class="js-age-min" min="18" max="70" value="18">
+          <input type="range" class="js-age-max" min="18" max="70" value="70">
         </div>
 
-        <h3 class="m-heading">Height <span class="js-height-display">4'10" — 6'2"</span></h3>
+        <h3 class="m-heading">Height <span class="js-height-display">4'6" — 6'4"</span></h3>
         <div class="m-range js-height-wrap">
           <div class="m-track"></div><div class="m-fill"></div>
-          <input type="range" class="js-h-min" min="56" max="76" value="58">
-          <input type="range" class="js-h-max" min="56" max="76" value="74">
+          <input type="range" class="js-h-min" min="54" max="76" value="54">
+          <input type="range" class="js-h-max" min="54" max="76" value="76">
+        </div>
+
+        <h3 class="m-heading">Annual Salary <span class="js-salary-display">₹1 – 50 LPA</span></h3>
+        <div class="m-range js-salary-wrap">
+          <div class="m-track"></div><div class="m-fill"></div>
+          <input type="range" class="js-salary-min" min="1" max="50" value="1">
+          <input type="range" class="js-salary-max" min="1" max="50" value="50">
         </div>
 
         <?php
         render_filter_group('Religion', $religions, 'religions');
+        render_filter_group('Caste', $castes, 'castes');
         render_filter_group('Mother Tongue', $tongues, 'tongues');
         render_filter_group('Location', $locations, 'locations');
         render_filter_group('Education', $education, 'education');
@@ -110,22 +150,30 @@ function render_filter_group(string $title, array $options, string $group): void
       <label class="m-option"><span><input type="radio" name="m-gender" value="women"> Women</span></label>
       <label class="m-option"><span><input type="radio" name="m-gender" value="men"> Men</span></label>
 
-      <h3 class="m-heading">Age <span class="js-age-display">21 – 42 years</span></h3>
+      <h3 class="m-heading">Age <span class="js-age-display">18 – 70 years</span></h3>
       <div class="m-range js-age-wrap">
         <div class="m-track"></div><div class="m-fill"></div>
-        <input type="range" class="js-age-min" min="18" max="70" value="21">
-        <input type="range" class="js-age-max" min="18" max="70" value="42">
+        <input type="range" class="js-age-min" min="18" max="70" value="18">
+        <input type="range" class="js-age-max" min="18" max="70" value="70">
       </div>
 
-      <h3 class="m-heading">Height <span class="js-height-display">4'10" — 6'2"</span></h3>
+      <h3 class="m-heading">Height <span class="js-height-display">4'6" — 6'4"</span></h3>
       <div class="m-range js-height-wrap">
         <div class="m-track"></div><div class="m-fill"></div>
-        <input type="range" class="js-h-min" min="56" max="76" value="58">
-        <input type="range" class="js-h-max" min="56" max="76" value="74">
+        <input type="range" class="js-h-min" min="54" max="76" value="54">
+        <input type="range" class="js-h-max" min="54" max="76" value="76">
+      </div>
+
+      <h3 class="m-heading">Annual Salary <span class="js-salary-display">₹1 – 50 LPA</span></h3>
+      <div class="m-range js-salary-wrap">
+        <div class="m-track"></div><div class="m-fill"></div>
+        <input type="range" class="js-salary-min" min="1" max="50" value="1">
+        <input type="range" class="js-salary-max" min="1" max="50" value="50">
       </div>
 
       <?php
       render_filter_group('Religion', $religions, 'religions');
+      render_filter_group('Caste', $castes, 'castes');
       render_filter_group('Mother Tongue', $tongues, 'tongues');
       render_filter_group('Location', $locations, 'locations');
       render_filter_group('Education', $education, 'education');

@@ -7,4 +7,49 @@ services:
     volumes:
       # live reload for dev (comment out for prod)
       - .:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_NAME: bestlife_matrimony
+      DB_USER: bestlife
+      DB_PASS: bestlife_pass
     restart: unless-stopped
+
+  dev:
+    build: .
+    container_name: bestlife-matrimony-dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./public:/app/public:rw
+      - ./src:/app/src:rw
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.0
+    container_name: bestlife-matrimony-db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: bestlife_matrimony
+      MYSQL_USER: bestlife
+      MYSQL_PASSWORD: bestlife_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - bestlife-db-data:/var/lib/mysql
+      - ./db/setup.sql:/docker-entrypoint-initdb.d/setup.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpass"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  bestlife-db-data:

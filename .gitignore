@@ -1,0 +1,31 @@
+# Environment variables
+.env
+
+# User uploaded media
+assets/images/uploads/*
+!assets/images/uploads/.gitkeep
+
+# Logs
+logs/
+*.log
+
+# Composer vendor directory (if used in future)
+vendor/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs and editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

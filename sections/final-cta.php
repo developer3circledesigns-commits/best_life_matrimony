@@ -8,7 +8,7 @@
     <p class="mt-4 text-sm sm:text-base leading-7 text-white/70 max-w-2xl mx-auto">Create your BestLife Matrimony profile and take the first step towards a meaningful relationship.</p>
 
     <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-      <a href="./register.php" class="inline-flex h-12 px-8 rounded-none bg-white text-[#3a0c15] font-bold text-sm items-center gap-2 hover:bg-[#fff6e8] transition will-change-transform" style="will-change:transform; border-radius:0">Register Now →</a>
+      <a href="<?php echo register_cta_href(); ?>" class="inline-flex h-12 px-8 rounded-none bg-white text-[#3a0c15] font-bold text-sm items-center gap-2 hover:bg-[#fff6e8] transition will-change-transform" style="will-change:transform; border-radius:0"><?php echo register_cta_label('My Profile', 'Register Now'); ?> →</a>
       <a href="./matches.php" class="inline-flex h-12 px-8 rounded-none bg-transparent border border-white/30 text-white font-bold text-sm items-center gap-2 hover:bg-white/10 hover:border-white/50 transition will-change-transform" style="will-change:transform; border-radius:0">Browse Matches →</a>
     </div>
 
