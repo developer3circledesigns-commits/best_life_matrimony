@@ -54,7 +54,7 @@ function getDB(array $cfg = null): PDO {
     `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET={$cfg['charset']} COLLATE={$cfg['charset']}_unicode_ci");
-  if (!defined('SCHEMA_VERSION')) define('SCHEMA_VERSION', 'v7');
+  if (!defined('SCHEMA_VERSION')) define('SCHEMA_VERSION', 'v8');
   $storedVer = $pdo->query('SELECT schema_version FROM schema_meta WHERE id = 1')->fetchColumn();
   $schemaNeedsMigrate = ($storedVer === false) || ($storedVer !== SCHEMA_VERSION);
 
@@ -396,6 +396,25 @@ function getDB(array $cfg = null): PDO {
     ) ENGINE=InnoDB DEFAULT CHARSET={$cfg['charset']} COLLATE={$cfg['charset']}_unicode_ci");
   } catch (Exception $e) { /* ignore */ }
 
+  // Auto-create rate_limits table (DB-backed rate limiting)
+  try {
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `rate_limits` (
+      `k` VARCHAR(64) NOT NULL,
+      `count` INT UNSIGNED NOT NULL DEFAULT 0,
+      `first` DATETIME NOT NULL,
+      PRIMARY KEY (`k`),
+      KEY `idx_rl_first` (`first`)
+    ) ENGINE=InnoDB DEFAULT CHARSET={$cfg['charset']} COLLATE={$cfg['charset']}_unicode_ci");
+  } catch (Exception $e) { /* ignore */ }
+
+  // Add rejected_reason column for approval flow
+  try {
+    $col = $pdo->query("SHOW COLUMNS FROM `users` LIKE 'rejected_reason'")->fetch();
+    if (!$col) {
+      $pdo->exec("ALTER TABLE `users` ADD COLUMN `rejected_reason` VARCHAR(255) DEFAULT NULL AFTER `is_approved`");
+    }
+  } catch (Exception $e) { /* ignore */ }
+
   // Record that this schema version has been applied (F5 versioning)
     $pdo->prepare('INSERT INTO schema_meta (id, schema_version) VALUES (1, ?) ON DUPLICATE KEY UPDATE schema_version = VALUES(schema_version)')
        ->execute([SCHEMA_VERSION]);
@@ -527,6 +546,70 @@ function is_approved(): bool {
   if ((int) ($u['id_verified'] ?? 0) === 1) return true;
   return false;
 }
+function is_verified(): bool {
+  $u = current_user(); if (!$u) return false;
+  return (int)($u['email_verified']??0)===1 || (int)($u['phone_verified']??0)===1 || (int)($u['id_verified']??0)===1;
+}
+function is_approved_strict(): bool {
+  $u = current_user(); return $u && (int)($u['is_approved']??0)===1;
+}
+function can_interact(): bool {
+  $u = current_user(); if (!$u) return false;
+  if ((int)($u['is_admin']??0)===1) return false; // admins never as matrimony actor
+  if ((int)($u['is_suspended']??0)===1) return false;
+  $require = getenv('APP_REQUIRE_ADMIN_APPROVAL');
+  if ($require === false || $require === '') $require = $_ENV['APP_REQUIRE_ADMIN_APPROVAL'] ?? $_SERVER['APP_REQUIRE_ADMIN_APPROVAL'] ?? 'false';
+  $require = strtolower(trim((string)$require));
+  if ($require === 'true' || $require === '1') return is_approved_strict();
+  return is_approved(); // relaxed: verified counts (current)
+}
+function profile_complete_percent(array $u): int {
+  $need = ['full_name','date_of_birth','gender','height','religion','city','highest_education','occupation','profile_photo'];
+  $filled = 0; foreach($need as $k) if(!empty($u[$k])) $filled++;
+  return (int)round($filled/count($need)*100);
+}
+// DB-backed rate limiting (IP + key) — robust vs session clear
+function rate_limit_check_db(string $k, int $max, int $window): bool {
+  try {
+    $db = getDB();
+    $key = $k . ':' . ($_SERVER['REMOTE_ADDR'] ?? 'cli');
+    $now = date('Y-m-d H:i:s');
+    $row = $db->prepare('SELECT count, first FROM rate_limits WHERE k=?');
+    $row->execute([$key]);
+    $r = $row->fetch();
+    if (!$r) return true;
+    $first = strtotime($r['first']);
+    if (time() - $first > $window) return true;
+    return (int)$r['count'] < $max;
+  } catch (Throwable $e) { return true; }
+}
+function rate_limit_increment_db(string $k, int $window = 300): void {
+  try {
+    $db = getDB();
+    $key = $k . ':' . ($_SERVER['REMOTE_ADDR'] ?? 'cli');
+    $now = date('Y-m-d H:i:s');
+    $row = $db->prepare('SELECT count, first FROM rate_limits WHERE k=?');
+    $row->execute([$key]);
+    $r = $row->fetch();
+    if (!$r) {
+      $db->prepare('INSERT INTO rate_limits (k,count,first) VALUES (?,?,?)')->execute([$key,1,$now]);
+    } else {
+      $first = strtotime($r['first']);
+      if (time() - $first > $window) {
+        $db->prepare('UPDATE rate_limits SET count=1, first=? WHERE k=?')->execute([$now,$key]);
+      } else {
+        $db->prepare('UPDATE rate_limits SET count=count+1 WHERE k=?')->execute([$key]);
+      }
+    }
+  } catch (Throwable $e) {}
+}
+function rate_limit_reset_db(string $k): void {
+  try {
+    $db = getDB();
+    $key = $k . ':' . ($_SERVER['REMOTE_ADDR'] ?? 'cli');
+    $db->prepare('DELETE FROM rate_limits WHERE k=?')->execute([$key]);
+  } catch (Throwable $e) {}
+}
 
 // Guard: redirect unapproved users to the contact page so they can request approval.
 // Call before any output on pages that require approval (profile_view, messages).
@@ -535,9 +618,9 @@ function require_approved(): void {
     header('Location: ./login.php');
     exit;
   }
-  // Admins are always approved implicitly
   if (is_admin()) return;
-  if (!is_approved()) {
+  if (!can_interact()) {
+    // Preserve original is_approved check for backwards compat, but use can_interact
     header('Location: ./contact.php?reason=approval');
     exit;
   }

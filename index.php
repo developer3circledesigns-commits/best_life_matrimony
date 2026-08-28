@@ -47,9 +47,35 @@ if (is_logged_in()):
          . "Request: Please assist me with my profile/matches. Thank you!";
   $waUrl = 'https://wa.me/917200005622?text=' . rawurlencode($waRaw);
 ?>
-<a href="<?php echo htmlspecialchars($waUrl); ?>" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Chat on WhatsApp with 7200005622 (<?php echo htmlspecialchars($waName); ?>)">
+<a href="<?php echo htmlspecialchars($waUrl); ?>" target="_blank" rel="noopener noreferrer" class="whatsapp-float" id="waFloatBtn" aria-label="Chat on WhatsApp with 7200005622 (<?php echo htmlspecialchars($waName); ?>)">
   <svg viewBox="0 0 24 24" width="28" height="28" fill="white" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.03 2C6.55 2 2.07 6.48 2.07 11.96c0 1.75.46 3.45 1.32 4.96L2 22l5.23-1.37a9.96 9.96 0 0 0 4.8 1.22h.01c5.48 0 9.96-4.48 9.96-9.96 0-2.66-1.04-5.16-2.95-7.04Zm-7.02 15.2h-.01a8.18 8.18 0 0 1-4.17-1.14l-.3-.18-3.1.81.83-3.02-.2-.31A8.15 8.15 0 0 1 3.84 11.96c0-4.5 3.65-8.15 8.15-8.15 2.18 0 4.23.85 5.77 2.39a8.11 8.11 0 0 1 2.38 5.77c0 4.5-3.66 8.15-8.15 8.15Zm6.92-5.9c-.38-.19-2.24-1.11-2.59-1.23-.35-.13-.6-.19-.85.19-.25.38-.98 1.23-1.2 1.48-.22.25-.45.28-.83.09-.38-.19-1.6-.59-3.04-1.88-1.12-1-1.88-2.23-2.1-2.61-.22-.38-.02-.58.16-.77.17-.17.38-.44.56-.66.19-.22.25-.38.38-.63.13-.25.06-.47-.03-.66-.09-.19-.85-2.05-1.17-2.81-.31-.74-.62-.64-.85-.65l-.73-.01c-.25 0-.66.09-1 .47-.35.38-1.33 1.3-1.33 3.17s1.36 3.68 1.55 3.93c.19.25 2.68 4.1 6.69 5.75.93.4 1.66.64 2.23.82.94.3 1.79.26 2.47.16.75-.11 2.24-.92 2.56-1.81.32-.89.32-1.65.22-1.81-.09-.16-.34-.25-.72-.44Z"/></svg>
 </a>
+<div id="waConsentBox" style="position:fixed;right:84px;bottom:28px;max-width:220px;background:#fff;border:1px solid #e8dcc8;border-radius:8px;padding:8px 10px;box-shadow:0 4px 12px rgba(0,0,0,.12);z-index:9998;display:flex;align-items:center;gap:6px;font-size:11px;color:#3a0c15;line-height:1.4;">
+  <input type="checkbox" id="waConsent" style="accent-color:#25D366;flex-shrink:0;">
+  <label for="waConsent" style="cursor:pointer;">I agree to share my details via WhatsApp</label>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('waFloatBtn');
+  var cb=document.getElementById('waConsent');
+  var box=document.getElementById('waConsentBox');
+  if(!btn||!cb) return;
+  try{ if(localStorage.getItem('waConsent')==='1'){ cb.checked=true; box.style.display='none'; } }catch(e){}
+  cb.addEventListener('change', function(){
+    try{ localStorage.setItem('waConsent', cb.checked?'1':'0'); }catch(e){}
+    if(cb.checked) box.style.display='none';
+  });
+  btn.addEventListener('click', function(e){
+    if(!cb.checked){
+      e.preventDefault();
+      box.style.display='flex';
+      box.style.borderColor='#b91c1c';
+      setTimeout(function(){ box.style.borderColor='#e8dcc8'; },1500);
+      alert('Please check "I agree to share my details via WhatsApp" to continue.');
+    }
+  });
+})();
+</script>
 <?php endif; ?>
 <style>
 .whatsapp-float{position:fixed;right:20px;bottom:20px;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.18),0 2px 6px rgba(0,0,0,.12);z-index:9999;transition:transform .2s,box-shadow .2s;text-decoration:none}

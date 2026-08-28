@@ -51,7 +51,20 @@ $siteConfig = [
     // B: separate admin login surface — restrict by source IP (e.g. ['127.0.0.1','203.0.113.5/24']);
     // empty array = allow all networks (suitable for local dev)
     'admin_ip_allowlist' => [],
+    // Enforce heterosexual looking_for vs gender check (profile.php). false = allow any combination (inclusive)
+    'enforce_heterosexual' => false,
+    // Require admin approval even if verified (strict mode). Env APP_REQUIRE_ADMIN_APPROVAL=true enables strict
+    'require_admin_approval' => false,
   ];
+// Override from env if set
+$envRequire = getenv('APP_REQUIRE_ADMIN_APPROVAL');
+if ($envRequire !== false && $envRequire !== '') {
+  $siteConfig['require_admin_approval'] = in_array(strtolower(trim($envRequire)), ['1','true','yes'], true);
+}
+$envHetero = getenv('ENFORCE_HETEROSEXUAL');
+if ($envHetero !== false && $envHetero !== '') {
+  $siteConfig['enforce_heterosexual'] = in_array(strtolower(trim($envHetero)), ['1','true','yes'], true);
+}
 
 // ── Security Helpers ──────────────────────────────
 
@@ -74,16 +87,19 @@ function csrf_verify() {
   return hash_equals(csrf_token(), $token);
 }
 
-// Rate limiter: check attempts (stored in session)
+// Rate limiter: check attempts — DB-backed (IP) with session fallback
 // $key: identifier, $max: max attempts, $window: seconds
 function rate_limit_check(string $key, int $max = 5, int $window = 300): bool {
+  if (function_exists('rate_limit_check_db')) {
+    try { if (!rate_limit_check_db($key, $max, $window)) return false; } catch (Throwable $e) {}
+  }
+  // Session fallback (also keeps BC)
   $now = time();
   $rateKey = 'rate_' . $key;
   if (!isset($_SESSION[$rateKey])) {
     $_SESSION[$rateKey] = ['count' => 0, 'first' => $now];
   }
   $rl = &$_SESSION[$rateKey];
-  // Reset window if expired
   if (($now - $rl['first']) > $window) {
     $rl = ['count' => 0, 'first' => $now];
   }
@@ -91,7 +107,10 @@ function rate_limit_check(string $key, int $max = 5, int $window = 300): bool {
 }
 
 // Rate limiter: increment on failure
-function rate_limit_increment(string $key): void {
+function rate_limit_increment(string $key, int $window = 300): void {
+  if (function_exists('rate_limit_increment_db')) {
+    try { rate_limit_increment_db($key, $window); } catch (Throwable $e) {}
+  }
   $rateKey = 'rate_' . $key;
   if (!isset($_SESSION[$rateKey])) {
     $_SESSION[$rateKey] = ['count' => 0, 'first' => time()];
@@ -101,6 +120,9 @@ function rate_limit_increment(string $key): void {
 
 // Rate limiter: reset on success
 function rate_limit_reset(string $key): void {
+  if (function_exists('rate_limit_reset_db')) {
+    try { rate_limit_reset_db($key); } catch (Throwable $e) {}
+  }
   unset($_SESSION['rate_' . $key]);
 }
 

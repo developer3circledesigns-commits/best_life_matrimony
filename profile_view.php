@@ -1,5 +1,12 @@
 <?php
 require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/auth.php';
+require_login();
+if (is_admin()) {
+  // Admins view via admin panel, not public profile view
+  header('Location: ./admin/index.php');
+  exit;
+}
 
 $profileId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $currentUserId = $_SESSION['user_id'] ?? null;
@@ -9,8 +16,8 @@ if (!$profileId) {
   exit;
 }
 
-// Unapproved users can view their own profile but not others
-if ($currentUserId && (int)$currentUserId !== $profileId && !is_admin() && !is_approved()) {
+// Unapproved/unverified users can view their own profile but not others (uses can_interact)
+if ($currentUserId && (int)$currentUserId !== $profileId && !is_admin() && !can_interact()) {
   header('Location: ./contact.php?reason=approval');
   exit;
 }

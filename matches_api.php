@@ -1,6 +1,13 @@
 <?php
 header('Content-Type: application/json');
 require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/auth.php';
+require_login();
+if (is_admin()) {
+  http_response_code(403);
+  echo json_encode(['error' => 'Admin users cannot access matches']);
+  exit;
+}
 
 try {
   $db = getDB();

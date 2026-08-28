@@ -65,17 +65,35 @@ try {
 
     case 'approve_user':
       if ($id <= 0) throw new Exception('Missing user');
-      $db->prepare('UPDATE users SET is_approved = 1 WHERE id = ?')->execute([$id]);
+      // Profile completion gate (60%)
+      $stmt = $db->prepare('SELECT * FROM users WHERE id = ?'); $stmt->execute([$id]);
+      $targetUser = $stmt->fetch();
+      if (!$targetUser) throw new Exception('User not found');
+      if (profile_complete_percent($targetUser) < 60) throw new Exception('Profile incomplete (<60%), cannot approve. Ask user to complete profile.');
+      $db->prepare('UPDATE users SET is_approved = 1, rejected_reason = NULL WHERE id = ?')->execute([$id]);
       log_activity($adminId, 'admin_approve_user', 'user', $id, 'Approved user account');
       notification_add($id, 'admin', 'Your account has been approved by the admin. You can now access profiles and send messages!');
+      // Email notification
+      try {
+        $email = $targetUser['email'] ?? '';
+        if ($email) send_email($email, 'Profile Approved — BestLife Matrimony', '<p>Hi '.htmlspecialchars($targetUser['full_name']).',</p><p>Your profile has been approved! You can now browse matches and send messages.</p><p><a href="'.site_url('matches.php').'">Browse Matches</a></p>');
+      } catch (Throwable $e) {}
       echo json_encode(['ok' => true, 'message' => 'User account approved']);
       exit;
 
     case 'reject_user':
       if ($id <= 0) throw new Exception('Missing user');
-      $db->prepare('UPDATE users SET is_approved = 0 WHERE id = ?')->execute([$id]);
-      log_activity($adminId, 'admin_reject_user', 'user', $id, 'Rejected user account approval');
-      notification_add($id, 'admin', 'Your account approval request was rejected. Please contact support.');
+      $reason = trim($input['reason'] ?? $input['rejected_reason'] ?? '');
+      if ($reason === '') $reason = 'Please complete your profile and contact support.';
+      if (strlen($reason) > 255) $reason = substr($reason, 0, 255);
+      $db->prepare('UPDATE users SET is_approved = 0, rejected_reason = ? WHERE id = ?')->execute([$reason, $id]);
+      log_activity($adminId, 'admin_reject_user', 'user', $id, 'Rejected: '.$reason);
+      notification_add($id, 'admin', 'Your account approval was rejected: '.$reason);
+      try {
+        $stmt = $db->prepare('SELECT email, full_name FROM users WHERE id = ?'); $stmt->execute([$id]);
+        $u = $stmt->fetch();
+        if ($u && !empty($u['email'])) send_email($u['email'], 'Profile Update — BestLife Matrimony', '<p>Hi '.htmlspecialchars($u['full_name']).',</p><p>Your profile approval was not approved.</p><p><strong>Reason:</strong> '.htmlspecialchars($reason).'</p><p>Please update your profile and <a href="'.site_url('contact.php').'">contact support</a> to request again.</p>');
+      } catch (Throwable $e) {}
       echo json_encode(['ok' => true, 'message' => 'User account rejected']);
       exit;
 

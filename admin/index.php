@@ -14,7 +14,7 @@ $kpiPendingV = (int) $db->query("SELECT COUNT(*) FROM verification_requests WHER
 $kpiPendingM = (int) $db->query("SELECT COUNT(*) FROM media_moderation WHERE status = 'pending'")->fetchColumn();
 $kpiTodayReg = (int) $db->query('SELECT COUNT(*) FROM users WHERE DATE(created_at) = CURDATE()')->fetchColumn();
 $kpiInts    = (int) $db->query("SELECT COUNT(*) FROM interests WHERE status = 'accepted'")->fetchColumn();
-$kpiPendingApprovals = (int) $db->query('SELECT COUNT(*) FROM users WHERE is_approved = 0 AND is_admin = 0')->fetchColumn();
+$kpiPendingApprovals = (int) $db->query('SELECT COUNT(*) FROM users WHERE is_approved = 0 AND email_verified = 0 AND phone_verified = 0 AND id_verified = 0 AND is_admin = 0')->fetchColumn();
 
 // Users list query - searchable by ID, name, email, phone, and display ID (BLM-YYYY-XXXXX)
 $sql = 'SELECT id, full_name, email, phone, looking_for, is_admin, is_suspended, email_verified, is_approved, created_at FROM users';

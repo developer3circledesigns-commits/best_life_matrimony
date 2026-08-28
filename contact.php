@@ -19,6 +19,26 @@ if ($isApprovalRequest && !empty($_SESSION['user_id'])) {
   }
 }
 
+// Handle re-request approval (clears rejected_reason)
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['request_approval']) && !empty($_SESSION['user_id'])) {
+  if (!csrf_verify()) {
+    $contactErrors['auth'] = 'Invalid request.';
+  } elseif (!rate_limit_check('contact', 5, 300)) {
+    $contactErrors['auth'] = 'Too many requests. Please wait.';
+  } else {
+    try {
+      $db = getDB();
+      $uid = (int)$_SESSION['user_id'];
+      $db->prepare('UPDATE users SET rejected_reason = NULL WHERE id = ?')->execute([$uid]);
+      log_activity($uid, 'approval_request', 'user', $uid, 'Requested approval again via contact');
+      $contactSuccess = true;
+      $contactErrors = [];
+    } catch (Throwable $e) {
+      $contactErrors['auth'] = 'Could not submit request. Please try again.';
+    }
+  }
+}
+
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
   if (!csrf_verify()) {
     $contactErrors['auth'] = 'Invalid request. Please try again.';
@@ -83,6 +103,23 @@ require_once __DIR__ . '/includes/navbar.php';
             <li>✅ You <strong>can</strong> edit and complete your profile</li>
             <li>🔒 Profile viewing and messaging require admin approval</li>
           </ul>
+          <?php if (!empty($_SESSION['user_id']) && ($rr = (current_user()['rejected_reason'] ?? null))): ?>
+            <div class="mt-4 rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+              <strong>Rejected:</strong> <?php echo htmlspecialchars($rr); ?><br>
+              Please fix your profile and request again below.
+            </div>
+            <form method="post" class="mt-3">
+              <?php csrf_field(); ?>
+              <input type="hidden" name="request_approval" value="1">
+              <button type="submit" class="inline-flex h-9 items-center justify-center rounded-full bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-6 text-sm font-bold text-[#3a0c15]">Request Approval Again</button>
+            </form>
+          <?php elseif (!empty($_SESSION['user_id'])): ?>
+            <form method="post" class="mt-3">
+              <?php csrf_field(); ?>
+              <input type="hidden" name="request_approval" value="1">
+              <button type="submit" class="inline-flex h-9 items-center justify-center rounded-full bg-white border border-[#e3c877] px-6 text-sm font-bold text-[#6b4f00]">Request Approval</button>
+            </form>
+          <?php endif; ?>
         </div>
       </div>
     </div>

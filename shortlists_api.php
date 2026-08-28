@@ -12,10 +12,10 @@ if (is_admin()) {
   exit;
 }
 
-// Unapproved users cannot manage shortlists
-if (!is_approved()) {
+// Unapproved/unverified users cannot manage shortlists
+if (!can_interact()) {
   http_response_code(403);
-  echo json_encode(['error' => 'Your profile is pending admin approval. Please contact admin to get approved.']);
+  echo json_encode(['error' => 'Your profile needs verification or admin approval. Please verify email/phone or contact admin.']);
   exit;
 }
 

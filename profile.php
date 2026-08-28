@@ -79,11 +79,11 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
       $params[] = ($val === '' || !is_numeric($val)) ? null : intval($val);
     }
 
-    // Cross-validate looking_for vs gender (Bride=Female partner so seeker should be Male/Groom, Groom=Male partner so seeker should be Female/Bride)
+    // Cross-validate looking_for vs gender (configurable via enforce_heterosexual)
     $formLookingFor = $_POST['looking_for'] ?? $user['looking_for'] ?? '';
     $formGender = $_POST['gender'] ?? $user['gender'] ?? '';
-    // Only validate when both are set and gender is binary; 'Other' is allowed to seek either
-    if ($formLookingFor !== '' && $formGender !== '' && $formGender !== 'Other') {
+    $enforceHetero = !empty($GLOBALS['siteConfig']['enforce_heterosexual']);
+    if ($enforceHetero && $formLookingFor !== '' && $formGender !== '' && $formGender !== 'Other') {
       if (($formLookingFor === 'Bride' && $formGender === 'Female') ||
           ($formLookingFor === 'Groom' && $formGender === 'Male')) {
         $errors['looking_for'] = 'Your selection doesn\'t match — looking for a Bride implies you\'re a Groom (Male) and looking for a Groom implies you\'re a Bride (Female).';
@@ -122,7 +122,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
     if (!empty($_FILES['profile_photo_file']['tmp_name']) || (!empty($_FILES['profile_photo_file']['error']) && $_FILES['profile_photo_file']['error'] !== UPLOAD_ERR_NO_FILE)) {
       $err = $_FILES['profile_photo_file']['error'] ?? UPLOAD_ERR_NO_FILE;
       if ($err !== UPLOAD_ERR_OK) {
-        if ($err === UPLOAD_ERR_INI_SIZE || $err === UPLOAD_ERR_FORM_SIZE) $profilePhotoError = 'Profile photo too large (max 5MB).';
+        if ($err === UPLOAD_ERR_INI_SIZE || $err === UPLOAD_ERR_FORM_SIZE) $profilePhotoError = 'Profile photo too large — server allows ' . ini_get('upload_max_filesize') . ', limit is 5MB.';
         elseif ($err !== UPLOAD_ERR_NO_FILE) $profilePhotoError = 'Profile photo upload failed (error ' . $err . ').';
       } else {
         $tmpPath = $_FILES['profile_photo_file']['tmp_name'];

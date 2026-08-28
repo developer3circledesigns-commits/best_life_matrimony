@@ -55,6 +55,11 @@
       if (note !== null) payload.note = note;
     }
 
+    if (action === 'reject_user') {
+      var reason = window.prompt('Reason for rejection (shown to user)?', 'Please complete your profile and contact support.');
+      if (reason === null) return;
+      payload.reason = reason;
+    }
     if ((action === 'approve_verification' || action === 'reject_verification') && !window.confirm('Confirm this decision?')) return;
 
     doAction(action, payload, function () {
