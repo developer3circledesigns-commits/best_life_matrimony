@@ -299,17 +299,24 @@ function asset($path) {
   return '/assets/' . ltrim($path, '/');
 }
 
-// Helper: normalize a stored photo path to a root-relative URL
+// Helper: normalize stored photo to URL — supports DB-stored data URIs and legacy file paths
 function photo_url($path) {
   if (!$path) return '';
-  $p = ltrim($path, './');
+  $p = trim((string)$path);
+  // DB-only storage: data URI (e.g. data:image/jpeg;base64,....) — return as-is for <img src>
+  if (strpos($p, 'data:image/') === 0) return $p;
+  if (strpos($p, 'data:') === 0) return $p;
+  $p = ltrim($p, './');
   return '/' . ltrim($p, '/');
 }
 
-// Helper: normalize stored photo path for filesystem operations
+// Helper: normalize stored photo path for filesystem operations (legacy file-path cleanup only)
+// For DB data URIs this returns '' so no filesystem operation occurs.
 function photo_fs_path($path, $baseDir) {
   if (!$path) return '';
-  $p = ltrim($path, './');
+  $p = trim((string)$path);
+  if (strpos($p, 'data:') === 0) return '';
+  $p = ltrim($p, './');
   $safe = $baseDir . '/' . ltrim($p, '/');
   $safe = str_replace('\\', '/', $safe);
   $safe = preg_replace('#/+#', '/', $safe);

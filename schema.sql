@@ -80,12 +80,12 @@ CREATE TABLE `users` (
   `pref_education` VARCHAR(255) DEFAULT NULL,
   `pref_location` VARCHAR(255) DEFAULT NULL,
   `pref_other` TEXT DEFAULT NULL,
-  `profile_photo` VARCHAR(255) DEFAULT NULL,
-  `gallery_photo_1` VARCHAR(255) DEFAULT NULL,
-  `gallery_photo_2` VARCHAR(255) DEFAULT NULL,
-  `gallery_photo_3` VARCHAR(255) DEFAULT NULL,
-  `gallery_photo_4` VARCHAR(255) DEFAULT NULL,
-  `gallery_photo_5` VARCHAR(255) DEFAULT NULL,
+  `profile_photo` MEDIUMTEXT DEFAULT NULL,
+  `gallery_photo_1` MEDIUMTEXT DEFAULT NULL,
+  `gallery_photo_2` MEDIUMTEXT DEFAULT NULL,
+  `gallery_photo_3` MEDIUMTEXT DEFAULT NULL,
+  `gallery_photo_4` MEDIUMTEXT DEFAULT NULL,
+  `gallery_photo_5` MEDIUMTEXT DEFAULT NULL,
   `email_verified` TINYINT(1) NOT NULL DEFAULT 0,
   `phone_verified` TINYINT(1) NOT NULL DEFAULT 0,
   `id_verified` TINYINT(1) NOT NULL DEFAULT 0,
@@ -108,7 +108,7 @@ CREATE TABLE `schema_meta` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Seed schema_meta version
-INSERT INTO `schema_meta` (`id`, `schema_version`) VALUES (1, 'v7') ON DUPLICATE KEY UPDATE `schema_version` = 'v7';
+INSERT INTO `schema_meta` (`id`, `schema_version`) VALUES (1, 'v9') ON DUPLICATE KEY UPDATE `schema_version` = 'v9';
 
 -- Create favourites table
 CREATE TABLE `favourites` (

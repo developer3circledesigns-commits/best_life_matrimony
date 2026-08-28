@@ -54,7 +54,7 @@ function getDB(array $cfg = null): PDO {
     `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET={$cfg['charset']} COLLATE={$cfg['charset']}_unicode_ci");
-  if (!defined('SCHEMA_VERSION')) define('SCHEMA_VERSION', 'v8');
+  if (!defined('SCHEMA_VERSION')) define('SCHEMA_VERSION', 'v9'); // v9: DB-only image storage (MEDIUMTEXT)
   $storedVer = $pdo->query('SELECT schema_version FROM schema_meta WHERE id = 1')->fetchColumn();
   $schemaNeedsMigrate = ($storedVer === false) || ($storedVer !== SCHEMA_VERSION);
 
@@ -135,6 +135,24 @@ function getDB(array $cfg = null): PDO {
     }
   }
   } catch (Exception $e) { /* migration columns may already exist */ }
+
+  // v9: Convert image columns to MEDIUMTEXT for DB-only base64 storage (was VARCHAR 255)
+  try {
+    $imgCols = ['profile_photo','gallery_photo_1','gallery_photo_2','gallery_photo_3','gallery_photo_4','gallery_photo_5'];
+    foreach ($imgCols as $imgCol) {
+      $colInfo = $pdo->query("SHOW FULL COLUMNS FROM `users` LIKE '$imgCol'")->fetch();
+      if ($colInfo) {
+        $type = strtolower($colInfo['Type'] ?? '');
+        // If still varchar or char limited, expand to MEDIUMTEXT to hold data URIs (~5MB base64)
+        if (strpos($type, 'varchar') !== false || strpos($type, 'char') !== false) {
+          $pdo->exec("ALTER TABLE `users` MODIFY COLUMN `$imgCol` MEDIUMTEXT DEFAULT NULL");
+        }
+      } else {
+        // Column missing for some reason — add as MEDIUMTEXT
+        $pdo->exec("ALTER TABLE `users` ADD COLUMN `$imgCol` MEDIUMTEXT DEFAULT NULL AFTER `looking_for`");
+      }
+    }
+  } catch (Exception $e) { /* ignore image col migration */ }
 
   // Auto-create favourites table
   try {

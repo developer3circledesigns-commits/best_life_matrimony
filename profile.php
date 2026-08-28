@@ -104,21 +104,12 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
       }
     }
 
-    /* Handle Profile Photo Deletion / Replacement — CRUD fixes */
-    $uploadDir = __DIR__ . '/assets/images/uploads/';
-    if (!is_dir($uploadDir)) {
-      @mkdir($uploadDir, 0755, true);
-    }
-    // Ensure upload dir is writable (Docker www-data vs host)
-    if (is_dir($uploadDir) && !is_writable($uploadDir)) {
-      @chmod($uploadDir, 0775);
-    }
-
+    /* Handle Profile Photo — DB-only storage (no folder, base64 data URI in MEDIUMTEXT) */
     // Track whether profile photo was successfully uploaded (to avoid duplicate SET)
     $profilePhotoUploaded = false;
     $profilePhotoError = null;
 
-    // Profile Photo File Upload (Create/Update) — takes precedence over delete
+    // Profile Photo File Upload (Create/Update) — takes precedence over delete — stores as data URI in DB
     if (!empty($_FILES['profile_photo_file']['tmp_name']) || (!empty($_FILES['profile_photo_file']['error']) && $_FILES['profile_photo_file']['error'] !== UPLOAD_ERR_NO_FILE)) {
       $err = $_FILES['profile_photo_file']['error'] ?? UPLOAD_ERR_NO_FILE;
       if ($err !== UPLOAD_ERR_OK) {
@@ -133,6 +124,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
           $profilePhotoError = 'Profile photo must be JPG, PNG or WebP.';
         } elseif ($fileSize > 5 * 1024 * 1024) {
           $profilePhotoError = 'Profile photo too large (max 5MB).';
+        } elseif (!is_uploaded_file($tmpPath)) {
+          $profilePhotoError = 'Invalid upload.';
         } else {
           $finfo = finfo_open(FILEINFO_MIME_TYPE);
           $mime = finfo_file($finfo, $tmpPath);
@@ -140,18 +133,22 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
           if (!in_array($mime, ['image/jpeg', 'image/png', 'image/webp'])) {
             $profilePhotoError = 'Invalid image file (must be JPEG/PNG/WebP).';
           } else {
-            $filename = 'profile_' . $userId . '_' . time() . '_' . mt_rand(100, 999) . '.' . $ext;
-            if (move_uploaded_file($tmpPath, $uploadDir . $filename)) {
-              if (!empty($user['profile_photo'])) {
+            $raw = @file_get_contents($tmpPath);
+            if ($raw === false || $raw === '') {
+              $profilePhotoError = 'Could not read uploaded file.';
+            } else {
+              // Legacy cleanup: if old photo was a file path, try to delete the file (one-time)
+              if (!empty($user['profile_photo']) && strpos($user['profile_photo'], 'data:') !== 0) {
                 $oldFile = photo_fs_path($user['profile_photo'], __DIR__);
                 if ($oldFile && file_exists($oldFile) && is_file($oldFile)) @unlink($oldFile);
               }
+              $b64 = base64_encode($raw);
+              $dataUri = 'data:' . $mime . ';base64,' . $b64;
               $setClauses[] = "`profile_photo` = ?";
-              $params[] = 'assets/images/uploads/' . $filename;
-              log_media_for_moderation($userId, 'profile_photo', $filename, $mime, $fileSize);
+              $params[] = $dataUri;
+              // Log for moderation — file_name is synthetic for DB storage
+              log_media_for_moderation($userId, 'profile_photo', 'db:' . $userId . '_' . time() . '.' . $ext, $mime, $fileSize);
               $profilePhotoUploaded = true;
-            } else {
-              $profilePhotoError = 'Could not save profile photo. Check folder permissions.';
             }
           }
         }
@@ -159,9 +156,10 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
       if ($profilePhotoError) $errors['profile_photo'] = $profilePhotoError;
     }
 
-    // Explicit Delete Profile Photo (only if no new upload succeeded)
+    // Explicit Delete Profile Photo (only if no new upload succeeded) — DB-only, no folder operation
     if (!$profilePhotoUploaded && !empty($_POST['delete_profile_photo']) && $_POST['delete_profile_photo'] === '1') {
-      if (!empty($user['profile_photo'])) {
+      // Legacy cleanup: delete old file if it was a path
+      if (!empty($user['profile_photo']) && strpos($user['profile_photo'], 'data:') !== 0) {
         $oldFile = photo_fs_path($user['profile_photo'], __DIR__);
         if ($oldFile && file_exists($oldFile) && is_file($oldFile)) @unlink($oldFile);
       }
