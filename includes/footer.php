@@ -62,7 +62,7 @@
             <li class="flex items-start gap-2"><svg class="h-4 w-4 text-[#8a4a2f] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><a href="https://www.google.com/maps?q=13.054376,80.1927475&z=17&hl=en" target="_blank" rel="noopener noreferrer" class="hover:text-[#8a4a2f] hover:underline">No:2(24/1) kaliamman koil Street,<br>virugambakkam main road, <span class="whitespace-nowrap">chennai-600092.</span><br>Land mark Sundar C mahall</a></li>
           </ul>
           <!-- Footer Map -->
-          <div class="mt-4 overflow-hidden rounded-xl border border-[#3a0c15]/10">
+          <div class="mt-4 overflow-hidden rounded-none border border-[#3a0c15]/10" style="border-radius:0">
             <iframe src="https://www.google.com/maps?q=13.054376,80.1927475&z=17&hl=en&output=embed" width="100%" height="180" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="BestLife Matrimony Location"></iframe>
             <a href="https://www.google.com/maps?q=13.054376,80.1927475&z=17&hl=en" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-1.5 bg-[#3a0c15] py-2 text-xs font-semibold text-white hover:bg-[#5a1a25] transition-colors"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> View on Google Maps</a>
           </div>
