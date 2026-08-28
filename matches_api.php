@@ -15,8 +15,13 @@ try {
   $where = ['1=1'];
   $params = [];
 
-  // Never surface admin accounts in public match results
+  // Never surface admin accounts or self in public match results
   $where[] = '(`is_admin` IS NULL OR `is_admin` = 0)';
+  $selfId = (int)($_SESSION['user_id'] ?? 0);
+  if ($selfId > 0) {
+    $where[] = '`id` != ?';
+    $params[] = $selfId;
+  }
 
   if (!empty($_GET['gender']) && in_array($_GET['gender'], ['Male', 'Female'])) {
     $where[] = '`gender` = ?';

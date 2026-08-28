@@ -61,10 +61,10 @@
 .m-fav-btn { position: absolute; top: 6px; right: 6px; width: 32px; height: 32px; border: none; border-radius: 50%; background: rgba(255,255,255,.85); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2; transition: background .2s, transform .15s; color: #999; font-size: 15px; }
 .m-fav-btn:hover { background: #fff; transform: scale(1.1); color: #e74c3c; }
 .m-fav-btn.fav-active { color: #e74c3c; background: #fff; }
-.m-card-body { padding: 10px; display: flex; flex-direction: column; flex: 1; }
-.m-card-title { font-size: 14px; font-weight: 700; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.m-card-sub { font-size: 12px; color: #666; margin: 2px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.m-card-meta { font-size: 12px; color: #777; margin: 4px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.m-card-body { padding: 10px; display: flex; flex-direction: column; flex: 1; text-align: center; align-items: center; }
+.m-card-title { font-size: 14px; font-weight: 700; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; width: 100%; }
+.m-card-sub { font-size: 12px; color: #666; margin: 2px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; width: 100%; }
+.m-card-meta { font-size: 12px; color: #777; margin: 4px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; width: 100%; }
 .m-card-actions { display: flex; gap: 6px; margin-top: auto; padding-top: 10px; }
 .m-card-actions button { flex: 1; height: 32px; font-size: 12px; border-radius: 0; }
 

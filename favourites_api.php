@@ -12,7 +12,7 @@ if (is_admin()) {
   exit;
 }
 
-$userId = $_SESSION['user_id'];
+$userId = (int)($_SESSION['user_id'] ?? 0);
 
 $method = $_SERVER['REQUEST_METHOD'];
 
