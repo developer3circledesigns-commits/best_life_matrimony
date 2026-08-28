@@ -8,14 +8,17 @@ $contactName = $contactEmail = $contactPhone = $contactMessage = '';
 $sentViaMail = false;
 $isApprovalRequest = ($_GET['reason'] ?? '') === 'approval';
 
-// Pre-fill form for logged-in users requesting approval
+// Pre-fill form for logged-in users requesting approval — display full BLM ID
 if ($isApprovalRequest && !empty($_SESSION['user_id'])) {
   $cu = current_user();
   if ($cu) {
     $contactName = $cu['full_name'] ?? '';
     $contactEmail = $cu['email'] ?? '';
     $contactPhone = $cu['phone'] ?? '';
-    $contactMessage = "Hello,\n\nI have registered on BestLife Matrimony and completed my profile. I would like to request approval so I can view profiles and connect with matches.\n\nMy user ID is: " . ($_SESSION['user_id'] ?? '') . "\nName: " . ($cu['full_name'] ?? '') . "\n\nPlease review and approve my profile.\n\nThank you.";
+    $rawId = (string)($cu['id'] ?? $_SESSION['user_id'] ?? '');
+    $yr = !empty($cu['created_at']) ? date('Y', strtotime($cu['created_at'])) : date('Y');
+    $blmId = $rawId !== '' ? 'BLM-' . $yr . '-' . str_pad($rawId, 5, '0', STR_PAD_LEFT) . ' (ID: ' . $rawId . ')' : 'N/A';
+    $contactMessage = "Hello,\n\nI have registered on BestLife Matrimony and completed my profile. I would like to request approval so I can view profiles and connect with matches.\n\nMy user ID is: " . $blmId . "\nName: " . ($cu['full_name'] ?? '') . "\n\nPlease review and approve my profile.\n\nThank you.";
   }
 }
 
