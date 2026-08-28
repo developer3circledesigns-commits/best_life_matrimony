@@ -132,7 +132,7 @@
       +'<h3 class="m-card-title">'+esc(p.name)+(age ? ', '+age : '')+'</h3>'
       +'<p class="m-card-sub">'+(h ? esc(h)+' · ' : '')+esc(p.city)+(p.tongue ? ' · '+esc(p.tongue) : '')+'</p>'
       +'<p class="m-card-meta">'+(p.profession ? esc(p.profession)+' · ' : '')+(p.education ? esc(p.education)+' · ' : '')+esc(p.religion)+'</p>'
-      +'<div class="m-card-actions"><button type="button" class="m-btn m-btn-primary" style="flex:1">'+(currentUserId && !isApproved ? 'Contact Admin' : 'Connect')+'</button></div>'
+      +'<div class="m-card-actions"><button type="button" class="m-btn m-btn-primary" style="flex:1">'+(currentUserId && !isApproved ? 'Request Approval' : 'Connect')+'</button></div>'
       +'</div></article>';
   }
   var grid, chipsWrap, countEl, sidebarCountEl, emptyState;
