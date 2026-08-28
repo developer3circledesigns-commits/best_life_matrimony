@@ -16,12 +16,16 @@ $kpiTodayReg = (int) $db->query('SELECT COUNT(*) FROM users WHERE DATE(created_a
 $kpiInts    = (int) $db->query("SELECT COUNT(*) FROM interests WHERE status = 'accepted'")->fetchColumn();
 $kpiPendingApprovals = (int) $db->query('SELECT COUNT(*) FROM users WHERE is_approved = 0 AND is_admin = 0')->fetchColumn();
 
-// Users list query
+// Users list query - searchable by ID, name, email, phone, and display ID (BLM-YYYY-XXXXX)
 $sql = 'SELECT id, full_name, email, phone, looking_for, is_admin, is_suspended, email_verified, is_approved, created_at FROM users';
 $params = [];
 if ($search !== '') {
-  $sql .= ' WHERE full_name LIKE ? OR email LIKE ?';
-  $params = ['%' . $search . '%', '%' . $search . '%'];
+  // Allow search by numeric ID, display ID, name, email, phone
+  // Strip BLM- prefix if present (e.g. BLM-2026-00005 -> 5)
+  $searchId = preg_replace('/^BLM-\d+-0*/i', '', $search);
+  $searchId = ctype_digit($searchId) ? (int)$searchId : -1;
+  $sql .= ' WHERE full_name LIKE ? OR email LIKE ? OR phone LIKE ? OR CAST(id AS CHAR) LIKE ? OR id = ?';
+  $params = ['%' . $search . '%', '%' . $search . '%', '%' . $search . '%', '%' . $search . '%', $searchId];
 }
 $sql .= ' ORDER BY id DESC LIMIT 200';
 $us = $db->prepare($sql);
@@ -48,7 +52,7 @@ $users = $us->fetchAll();
     <h2 class="adm-h2" style="margin:0;">Manage Users</h2>
     <form method="get" action="./index.php" style="display:flex;gap:.5rem;">
       <input type="hidden" name="view" value="users">
-      <input type="text" name="q" value="<?php echo htmlspecialchars($search); ?>" placeholder="Search name or email" class="adm-input" style="width:260px;">
+      <input type="text" name="q" value="<?php echo htmlspecialchars($search); ?>" placeholder="Search ID, name, email or phone (e.g. 5 or BLM-2026-00005)" class="adm-input" style="width:320px;">
       <button type="submit" class="btn btn-accent">Search</button>
     </form>
   </div>
@@ -60,12 +64,13 @@ $users = $us->fetchAll();
     <table class="adm-table">
       <thead>
         <tr>
-          <th>User</th><th>Email / Phone</th><th>Looking For</th><th>Flags</th><th>Joined</th><th class="adm-th-right">Actions</th>
+          <th>ID</th><th>User</th><th>Email / Phone</th><th>Looking For</th><th>Flags</th><th>Joined</th><th class="adm-th-right">Actions</th>
         </tr>
       </thead>
       <tbody>
         <?php foreach ($users as $u): ?>
         <tr>
+          <td class="adm-nowrap"><strong>#<?php echo (int)$u['id']; ?></strong><br><span class="adm-cell-sub">BLM-<?php echo date('Y', strtotime($u['created_at'])); ?>-<?php echo str_pad((string)$u['id'], 5, '0', STR_PAD_LEFT); ?></span></td>
           <td class="adm-name">
             <span class="adm-user-avatar"><?php echo strtoupper(mb_substr($u['full_name'], 0, 1)); ?></span>
             <?php echo htmlspecialchars($u['full_name']); ?>
@@ -93,11 +98,7 @@ $users = $us->fetchAll();
             <?php else: ?>
               <button type="button" data-act="suspend" data-id="<?php echo (int)$u['id']; ?>" class="btn btn-danger btn-sm">Suspend</button>
             <?php endif; ?>
-            <?php if ($u['is_admin']): ?>
-              <button type="button" data-act="revoke_admin" data-id="<?php echo (int)$u['id']; ?>" class="btn btn-outline btn-sm">Revoke Admin</button>
-            <?php else: ?>
-              <button type="button" data-act="make_admin" data-id="<?php echo (int)$u['id']; ?>" class="btn btn-accent btn-sm">Make Admin</button>
-            <?php endif; ?>
+
           </td>
         </tr>
         <?php endforeach; ?>

@@ -79,12 +79,15 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
       $params[] = ($val === '' || !is_numeric($val)) ? null : intval($val);
     }
 
-    // Cross-validate looking_for vs gender
+    // Cross-validate looking_for vs gender (Bride=Female partner so seeker should be Male/Groom, Groom=Male partner so seeker should be Female/Bride)
     $formLookingFor = $_POST['looking_for'] ?? $user['looking_for'] ?? '';
     $formGender = $_POST['gender'] ?? $user['gender'] ?? '';
-    if (($formLookingFor === 'Bride' && $formGender === 'Male') ||
-        ($formLookingFor === 'Groom' && $formGender === 'Female')) {
-      $errors['looking_for'] = 'Your selection doesn\'t match — looking for a Bride implies you\'re a Groom and vice versa.';
+    // Only validate when both are set and gender is binary; 'Other' is allowed to seek either
+    if ($formLookingFor !== '' && $formGender !== '' && $formGender !== 'Other') {
+      if (($formLookingFor === 'Bride' && $formGender === 'Female') ||
+          ($formLookingFor === 'Groom' && $formGender === 'Male')) {
+        $errors['looking_for'] = 'Your selection doesn\'t match — looking for a Bride implies you\'re a Groom (Male) and looking for a Groom implies you\'re a Bride (Female).';
+      }
     }
 
     // Guard against duplicate email if email were ever submitted (future-proofing)
@@ -101,95 +104,68 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
       }
     }
 
-    /* Handle Profile Photo Deletion / Replacement */
+    /* Handle Profile Photo Deletion / Replacement — CRUD fixes */
     $uploadDir = __DIR__ . '/assets/images/uploads/';
     if (!is_dir($uploadDir)) {
       @mkdir($uploadDir, 0755, true);
     }
-
-    // Explicit Delete Profile Photo
-    if (!empty($_POST['delete_profile_photo']) && $_POST['delete_profile_photo'] === '1') {
-      if (!empty($user['profile_photo'])) {
-        $oldFile = photo_fs_path($user['profile_photo'], __DIR__);
-        if ($oldFile && file_exists($oldFile) && is_file($oldFile)) {
-          @unlink($oldFile);
-        }
-      }
-      $setClauses[] = "`profile_photo` = NULL";
+    // Ensure upload dir is writable (Docker www-data vs host)
+    if (is_dir($uploadDir) && !is_writable($uploadDir)) {
+      @chmod($uploadDir, 0775);
     }
 
-    // Profile Photo File Upload
-    if (!empty($_FILES['profile_photo_file']['tmp_name']) && $_FILES['profile_photo_file']['error'] === UPLOAD_ERR_OK) {
-      $tmpPath = $_FILES['profile_photo_file']['tmp_name'];
-      $fileSize = $_FILES['profile_photo_file']['size'];
-      $ext = strtolower(pathinfo($_FILES['profile_photo_file']['name'], PATHINFO_EXTENSION));
-      $allowed = ['jpg', 'jpeg', 'png', 'webp'];
+    // Track whether profile photo was successfully uploaded (to avoid duplicate SET)
+    $profilePhotoUploaded = false;
+    $profilePhotoError = null;
 
-      if (in_array($ext, $allowed) && $fileSize <= 5 * 1024 * 1024) {
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mime = finfo_file($finfo, $tmpPath);
-        finfo_close($finfo);
-        if (in_array($mime, ['image/jpeg', 'image/png', 'image/webp'])) {
-          $filename = 'profile_' . $userId . '_' . time() . '_' . mt_rand(100, 999) . '.' . $ext;
-          if (move_uploaded_file($tmpPath, $uploadDir . $filename)) {
-            // Remove previous custom photo if exists
-            if (!empty($user['profile_photo'])) {
-              $oldFile = photo_fs_path($user['profile_photo'], __DIR__);
-              if ($oldFile && file_exists($oldFile) && is_file($oldFile)) {
-                @unlink($oldFile);
-              }
-            }
-            $setClauses[] = "`profile_photo` = ?";
-            $params[] = 'assets/images/uploads/' . $filename;
-            log_media_for_moderation($userId, 'profile_photo', $filename, $mime, $fileSize);
-          }
-        }
-      }
-    }
-
-    /* Handle Gallery Photos (1 to 5) Deletion & Upload */
-    for ($g = 1; $g <= 5; $g++) {
-      $delKey = "delete_gallery_photo_$g";
-      $gKey = "gallery_photo_$g";
-
-      // Explicit Delete
-      if (!empty($_POST[$delKey]) && $_POST[$delKey] === '1') {
-        if (!empty($user[$gKey])) {
-          $oldFile = photo_fs_path($user[$gKey], __DIR__);
-          if ($oldFile && file_exists($oldFile) && is_file($oldFile)) {
-            @unlink($oldFile);
-          }
-        }
-        $setClauses[] = "`$gKey` = NULL";
-      }
-
-      // Upload
-      if (!empty($_FILES[$gKey]['tmp_name']) && $_FILES[$gKey]['error'] === UPLOAD_ERR_OK) {
-        $tmpPath = $_FILES[$gKey]['tmp_name'];
-        $fileSize = $_FILES[$gKey]['size'];
-        $ext = strtolower(pathinfo($_FILES[$gKey]['name'], PATHINFO_EXTENSION));
+    // Profile Photo File Upload (Create/Update) — takes precedence over delete
+    if (!empty($_FILES['profile_photo_file']['tmp_name']) || (!empty($_FILES['profile_photo_file']['error']) && $_FILES['profile_photo_file']['error'] !== UPLOAD_ERR_NO_FILE)) {
+      $err = $_FILES['profile_photo_file']['error'] ?? UPLOAD_ERR_NO_FILE;
+      if ($err !== UPLOAD_ERR_OK) {
+        if ($err === UPLOAD_ERR_INI_SIZE || $err === UPLOAD_ERR_FORM_SIZE) $profilePhotoError = 'Profile photo too large (max 5MB).';
+        elseif ($err !== UPLOAD_ERR_NO_FILE) $profilePhotoError = 'Profile photo upload failed (error ' . $err . ').';
+      } else {
+        $tmpPath = $_FILES['profile_photo_file']['tmp_name'];
+        $fileSize = $_FILES['profile_photo_file']['size'];
+        $ext = strtolower(pathinfo($_FILES['profile_photo_file']['name'], PATHINFO_EXTENSION));
         $allowed = ['jpg', 'jpeg', 'png', 'webp'];
-
-        if (in_array($ext, $allowed) && $fileSize <= 5 * 1024 * 1024) {
+        if (!in_array($ext, $allowed)) {
+          $profilePhotoError = 'Profile photo must be JPG, PNG or WebP.';
+        } elseif ($fileSize > 5 * 1024 * 1024) {
+          $profilePhotoError = 'Profile photo too large (max 5MB).';
+        } else {
           $finfo = finfo_open(FILEINFO_MIME_TYPE);
           $mime = finfo_file($finfo, $tmpPath);
           finfo_close($finfo);
-          if (in_array($mime, ['image/jpeg', 'image/png', 'image/webp'])) {
-            $filename = 'gallery_' . $userId . '_' . $g . '_' . time() . '_' . mt_rand(100, 999) . '.' . $ext;
+          if (!in_array($mime, ['image/jpeg', 'image/png', 'image/webp'])) {
+            $profilePhotoError = 'Invalid image file (must be JPEG/PNG/WebP).';
+          } else {
+            $filename = 'profile_' . $userId . '_' . time() . '_' . mt_rand(100, 999) . '.' . $ext;
             if (move_uploaded_file($tmpPath, $uploadDir . $filename)) {
-              if (!empty($user[$gKey])) {
-                $oldFile = photo_fs_path($user[$gKey], __DIR__);
-                if ($oldFile && file_exists($oldFile) && is_file($oldFile)) {
-                  @unlink($oldFile);
-                }
+              if (!empty($user['profile_photo'])) {
+                $oldFile = photo_fs_path($user['profile_photo'], __DIR__);
+                if ($oldFile && file_exists($oldFile) && is_file($oldFile)) @unlink($oldFile);
               }
-              $setClauses[] = "`$gKey` = ?";
+              $setClauses[] = "`profile_photo` = ?";
               $params[] = 'assets/images/uploads/' . $filename;
-              log_media_for_moderation($userId, $gKey, $filename, $mime, $fileSize);
+              log_media_for_moderation($userId, 'profile_photo', $filename, $mime, $fileSize);
+              $profilePhotoUploaded = true;
+            } else {
+              $profilePhotoError = 'Could not save profile photo. Check folder permissions.';
             }
           }
         }
       }
+      if ($profilePhotoError) $errors['profile_photo'] = $profilePhotoError;
+    }
+
+    // Explicit Delete Profile Photo (only if no new upload succeeded)
+    if (!$profilePhotoUploaded && !empty($_POST['delete_profile_photo']) && $_POST['delete_profile_photo'] === '1') {
+      if (!empty($user['profile_photo'])) {
+        $oldFile = photo_fs_path($user['profile_photo'], __DIR__);
+        if ($oldFile && file_exists($oldFile) && is_file($oldFile)) @unlink($oldFile);
+      }
+      $setClauses[] = "`profile_photo` = NULL";
     }
 
     if (empty($errors)) {
@@ -379,7 +355,7 @@ require_once __DIR__ . '/includes/navbar.php';
       <li class="nav-tab" data-tab="preferences"><i class="bi bi-sliders tab-icon"></i><span class="tab-label">Preferences</span></li>
       <li class="nav-tab" data-tab="photos"><i class="bi bi-camera tab-icon"></i><span class="tab-label">Photos</span></li>
       <li class="nav-tab" data-tab="favourites"><i class="bi bi-heart tab-icon"></i><span class="tab-label">Favourites</span></li>
-      <li class="nav-tab"><a href="./who_viewed_me.php" style="display:flex;align-items:center;gap:6px;color:inherit;text-decoration:none;"><i class="bi bi-eye tab-icon"></i><span class="tab-label">Who Viewed Me</span></a></li>
+      <li class="nav-tab"><a href="./who_viewed_me.php" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:6px;color:inherit;text-decoration:none;"><i class="bi bi-eye tab-icon"></i><span class="tab-label">Who Viewed Me</span></a></li>
     </ul>
   </div>
 </div>
@@ -400,6 +376,10 @@ require_once __DIR__ . '/includes/navbar.php';
     <?php if (!empty($errors['looking_for'])): ?>
       <div class="profile-alert error"><i class="bi bi-exclamation-circle-fill"></i> <?php echo $errors['looking_for']; ?></div>
     <?php endif; ?>
+    <?php if (!empty($errors['profile_photo'])): ?>
+      <div class="profile-alert error"><i class="bi bi-exclamation-circle-fill"></i> <?php echo htmlspecialchars($errors['profile_photo']); ?></div>
+    <?php endif; ?>
+
     <?php if ($user && ((int)($user['email_verified'] ?? 0) !== 1)): ?>
       <div class="profile-alert" style="background:#fff7e0;border-color:#e3c877;color:#6b4f00;"><i class="bi bi-envelope-exclamation-fill"></i> Your email is not verified yet. <a href="./verify_email.php" style="font-weight:700;text-decoration:underline;">Verify your email</a> to activate all features.</div>
     <?php elseif ($user && ((int)($user['phone_verified'] ?? 0) !== 1)): ?>
@@ -410,11 +390,6 @@ require_once __DIR__ . '/includes/navbar.php';
       <input type="hidden" name="save_profile" value="1">
       <?php csrf_field(); ?>
       <input type="hidden" name="delete_profile_photo" id="delete_profile_photo" value="0">
-      <input type="hidden" name="delete_gallery_photo_1" id="delete_gallery_photo_1" value="0">
-      <input type="hidden" name="delete_gallery_photo_2" id="delete_gallery_photo_2" value="0">
-      <input type="hidden" name="delete_gallery_photo_3" id="delete_gallery_photo_3" value="0">
-      <input type="hidden" name="delete_gallery_photo_4" id="delete_gallery_photo_4" value="0">
-      <input type="hidden" name="delete_gallery_photo_5" id="delete_gallery_photo_5" value="0">
 
       <!-- 1. PERSONAL -->
       <div class="tab-panel active" id="panel-personal">
@@ -904,33 +879,6 @@ require_once __DIR__ . '/includes/navbar.php';
                 <button type="button" class="btn btn-sm btn-outline-danger" data-remove-main><i class="bi bi-trash"></i> Delete Current Photo</button>
               <?php endif; ?>
             </div>
-          </div>
-        </div>
-
-        <div class="section-card">
-          <h5><i class="bi bi-images"></i> Additional Gallery Photos (up to 5)</h5>
-          <p style="font-size:0.8rem;color:#666;margin-bottom:1rem;">Add photos of family, travel, or casual moments to showcase your personality.</p>
-          <div class="gallery-grid">
-            <?php for ($g = 1; $g <= 5; $g++): ?>
-              <?php
-                $gKey = "gallery_photo_$g";
-                $hasGalleryPhoto = !empty($user[$gKey]);
-                $gPhotoUrl = $hasGalleryPhoto ? htmlspecialchars($user[$gKey]) : '';
-              ?>
-              <div class="gallery-item" id="galleryBox<?php echo $g; ?>" data-index="<?php echo $g; ?>">
-                <?php if ($hasGalleryPhoto): ?>
-                  <img src="<?php echo $gPhotoUrl; ?>" alt="Gallery Photo <?php echo $g; ?>" class="gallery-preview" id="galleryPreview<?php echo $g; ?>">
-                <?php else: ?>
-                  <img src="" alt="" style="display:none;" class="gallery-preview" id="galleryPreview<?php echo $g; ?>">
-                <?php endif; ?>
-                <div class="upload-placeholder" id="galleryPlaceholder<?php echo $g; ?>"<?php if ($hasGalleryPhoto) echo ' style="display:none;"'; ?>>
-                  <i class="bi bi-plus-lg"></i>
-                  <span>Photo <?php echo $g; ?></span>
-                </div>
-                <input type="file" name="gallery_photo_<?php echo $g; ?>" id="gallery_file_<?php echo $g; ?>" accept="image/jpeg,image/png,image/webp" onchange="previewGalleryPhoto(this, <?php echo $g; ?>)">
-                <button class="remove-photo" id="galleryRemoveBtn<?php echo $g; ?>" data-remove-gallery="<?php echo $g; ?>" type="button" title="Remove photo"<?php if (!$hasGalleryPhoto) echo ' style="display:none;"'; ?>><i class="bi bi-x"></i></button>
-              </div>
-            <?php endfor; ?>
           </div>
         </div>
 

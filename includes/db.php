@@ -515,10 +515,17 @@ function log_activity(?int $userId, string $action, ?string $entityType = null, 
   } catch (Exception $e) { /* ignore */ }
 }
 
-// Whether the current user's profile has been approved by an admin.
+// Whether the current user's profile has been approved by an admin OR is verified.
+// Verified users (email/phone/ID) are treated as approved for viewing profiles & messaging.
 function is_approved(): bool {
   $u = current_user();
-  return ($u && (int) ($u['is_approved'] ?? 0) === 1) ? true : false;
+  if (!$u) return false;
+  if ((int) ($u['is_approved'] ?? 0) === 1) return true;
+  if ((int) ($u['is_admin'] ?? 0) === 1) return true;
+  if ((int) ($u['email_verified'] ?? 0) === 1) return true;
+  if ((int) ($u['phone_verified'] ?? 0) === 1) return true;
+  if ((int) ($u['id_verified'] ?? 0) === 1) return true;
+  return false;
 }
 
 // Guard: redirect unapproved users to the contact page so they can request approval.

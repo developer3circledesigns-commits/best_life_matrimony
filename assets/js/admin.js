@@ -49,10 +49,9 @@
     if (action === 'delete_campaign') {
       if (!window.confirm('Delete this campaign history entry?')) return;
     }
-    if (action === 'make_admin' || action === 'suspend' || action === 'activate' || action === 'dismiss_report' || action === 'approve_media' || action === 'reject_media') {
+    if (action === 'suspend' || action === 'activate' || action === 'dismiss_report' || action === 'approve_media' || action === 'reject_media') {
       var note = '';
       if (action === 'suspend') note = window.prompt('Reason for suspension (shown to user)?', '') || 'Admin action';
-      if (action === 'make_admin' && !window.confirm('Grant admin privileges to this user?')) return;
       if (note !== null) payload.note = note;
     }
 

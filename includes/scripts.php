@@ -21,12 +21,12 @@
   })();
 </script>
 <style>
-  /* Back-to-top button (UX #6) — shared across pages */
+  /* Back-to-top button (UX #6) — shared across pages — stacked above WhatsApp */
   #backToTop {
     position: fixed;
     right: 20px;
-    bottom: 24px;
-    z-index: 210;
+    bottom: 88px; /* 20 + 56 (WA) + 12 gap = 88 — stacked one above other */
+    z-index: 9998;
     width: 44px;
     height: 44px;
     border: none;
@@ -43,6 +43,7 @@
     transform: translateY(12px);
     transition: opacity .25s, transform .25s, visibility .25s;
   }
+  @media(max-width:480px){ #backToTop{ right:16px; bottom:80px; } }
   #backToTop.show { opacity: 1; visibility: visible; transform: translateY(0); }
   #backToTop:hover { filter: brightness(1.06); }
 </style>

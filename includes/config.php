@@ -2,6 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) session_start();
 
 // Load environment variables from .env file if it exists
+// Container env (docker-compose) takes precedence — only set from .env if not already set
 if (file_exists(__DIR__ . '/../.env')) {
   $lines = file(__DIR__ . '/../.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
   foreach ($lines as $line) {
@@ -15,9 +16,11 @@ if (file_exists(__DIR__ . '/../.env')) {
       if (preg_match('/^([\'"])(.*)\1$/', $value, $matches)) {
         $value = $matches[2];
       }
-      putenv("$name=$value");
-      $_ENV[$name] = $value;
-      $_SERVER[$name] = $value;
+      if (getenv($name) === false || getenv($name) === '') {
+        putenv("$name=$value");
+        $_ENV[$name] = $value;
+        $_SERVER[$name] = $value;
+      }
     }
   }
 }
@@ -107,11 +110,15 @@ function remember_me_set(int $userId): void {
   $hashedToken = hash('sha256', $token);
   $expiry = date('Y-m-d H:i:s', time() + (30 * 24 * 60 * 60));
   try {
+    if (!function_exists('getDB')) {
+      if (file_exists(__DIR__ . '/db.php')) @require_once __DIR__ . '/db.php';
+      if (!function_exists('getDB')) throw new Exception('DB unavailable');
+    }
     $db = getDB();
     $db->prepare('DELETE FROM remember_tokens WHERE user_id = ?')->execute([$userId]);
     $db->prepare('INSERT INTO remember_tokens (user_id, token_hash, expires_at) VALUES (?, ?, ?)')
        ->execute([$userId, $hashedToken, $expiry]);
-  } catch (Exception $e) { /* ignore */ }
+  } catch (Throwable $e) { /* ignore — still set cookie */ }
   setcookie('remember_token', $token, time() + (30 * 24 * 60 * 60), '/', '', false, true);
 }
 
@@ -122,6 +129,10 @@ function remember_me_validate(): ?int {
   if (!$token) return null;
   $hashedToken = hash('sha256', $token);
   try {
+    if (!function_exists('getDB')) {
+      if (file_exists(__DIR__ . '/db.php')) @require_once __DIR__ . '/db.php';
+      if (!function_exists('getDB')) return null;
+    }
     $db = getDB();
     $stmt = $db->prepare('SELECT user_id FROM remember_tokens WHERE token_hash = ? AND expires_at > NOW()');
     $stmt->execute([$hashedToken]);
@@ -135,7 +146,7 @@ function remember_me_validate(): ?int {
        ->execute([$newHash, $newExpiry, $row['user_id']]);
     setcookie('remember_token', $newToken, time() + (30 * 24 * 60 * 60), '/', '', false, true);
     return (int) $row['user_id'];
-  } catch (Exception $e) {
+  } catch (Throwable $e) {
     return null;
   }
 }
@@ -145,11 +156,22 @@ function remember_me_clear(): void {
   $token = $_COOKIE['remember_token'] ?? '';
   if ($token) {
     try {
-      $db = getDB();
-      $db->prepare('DELETE FROM remember_tokens WHERE token_hash = ?')->execute([hash('sha256', $token)]);
-    } catch (Exception $e) { /* ignore */ }
+      if (!function_exists('getDB')) {
+        if (file_exists(__DIR__ . '/db.php')) @require_once __DIR__ . '/db.php';
+      }
+      if (function_exists('getDB')) {
+        $db = getDB();
+        $db->prepare('DELETE FROM remember_tokens WHERE token_hash = ?')->execute([hash('sha256', $token)]);
+      }
+    } catch (Throwable $e) { /* ignore — still clear cookie */ }
   }
-  setcookie('remember_token', '', time() - 3600, '/', '', false, true);
+  // Expire cookie even if DB is unavailable
+  if (!headers_sent()) {
+    setcookie('remember_token', '', time() - 3600, '/', '', false, true);
+  } else {
+    @setcookie('remember_token', '', time() - 3600, '/', '', false, true);
+  }
+  $_COOKIE['remember_token'] = '';
 }
 
 // ── Admin login surface helpers (separate /admin/login.php) ──

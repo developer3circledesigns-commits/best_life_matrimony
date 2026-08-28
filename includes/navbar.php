@@ -56,7 +56,7 @@ $navUserId = $_SESSION['user_id'] ?? null;
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               My Network
             </a>
-            <a href="./who_viewed_me.php" class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#3a0c15] hover:bg-black/5">
+            <a href="./who_viewed_me.php" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#3a0c15] hover:bg-black/5">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
               Who Viewed Me
             </a>
@@ -107,7 +107,7 @@ $navUserId = $_SESSION['user_id'] ?? null;
         <div class="pt-4 mt-2 border-t border-black/5 flex items-center gap-4">
           <?php if (is_admin()): ?><a href="./admin/index.php" class="text-sm font-semibold text-[#8a4a2f]">Admin Panel</a><?php endif; ?>
           <a href="./network.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">My Network</a>
-          <a href="./who_viewed_me.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Who Viewed Me</a>
+          <a href="./who_viewed_me.php" target="_blank" rel="noopener noreferrer" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Who Viewed Me</a>
           <a href="./messages.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Messages</a>
           <a href="./verify.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Verify Account</a>
           <a href="./change_password.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Change Password</a>

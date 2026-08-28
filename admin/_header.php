@@ -6,15 +6,15 @@ $admPage = basename($_SERVER['PHP_SELF']) === 'index.php' && ($_GET['view'] ?? '
 $admTabs = [
   'dashboard' => 'Dashboard',
   'users'     => 'Users',
+  'admins'    => 'Admins',
   'reports'   => 'Reports',
   'verification' => 'Verification',
   'moderation'   => 'Media Moderation',
-  'analytics'    => 'Analytics',
   'logs'         => 'Activity Logs',
   'campaign'     => 'Email Campaigns',
 ];
 $pageTitle = 'Admin — BestLife Matrimony';
-$pageDescription = 'BestLife Matrimony admin & analytics dashboard.';
+$pageDescription = 'BestLife Matrimony admin dashboard.';
 $pageHeadExtra = '<link rel="stylesheet" href="' . asset('css/admin.css') . '">';
 require_once __DIR__ . '/../includes/header.php';
 ?>
@@ -22,8 +22,8 @@ require_once __DIR__ . '/../includes/header.php';
   <div class="adm-wrap">
     <div class="adm-head">
       <div>
-        <h1>Admin &amp; Analytics</h1>
-        <p>Manage users, moderation queues, campaigns and platform analytics.</p>
+        <h1>Admin</h1>
+        <p>Manage users, moderation queues and campaigns.</p>
       </div>
       <a href="./../index.php" class="btn btn-outline">&larr; Back to site</a>
     </div>

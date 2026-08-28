@@ -48,6 +48,7 @@
       .then(function(data){ (data.favourites||[]).forEach(function(id){ favSet[id]=1; }); })
       .catch(function(){});
   }
+  function csrf(){ var m=document.querySelector('meta[name="csrf-token"]'); return m?m.content:''; }
   function toggleFavourite(e, profileId, btn){
     e.stopPropagation();
     e.preventDefault();
@@ -57,19 +58,20 @@
       return;
     }
     var icon = $('i', btn);
+    var headers = {'Content-Type':'application/json','X-CSRF-Token':csrf()};
     if(favSet[profileId]){
-      fetch('./favourites_api.php',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({profile_id:profileId})})
-        .then(function(r){ return r.json(); })
-        .then(function(){ delete favSet[profileId]; btn.classList.remove('fav-active'); icon.className='bi bi-heart'; })
-        .catch(function(){});
+      fetch('./favourites_api.php',{method:'DELETE',headers:headers,body:JSON.stringify({profile_id:profileId})})
+        .then(function(r){ return r.json().then(function(d){ if(!r.ok) throw d; return d; }); })
+        .then(function(){ delete favSet[profileId]; btn.classList.remove('fav-active'); icon.className='bi bi-heart'; showToast('Removed from favourites'); })
+        .catch(function(err){ showToast(err && err.error ? err.error : 'Could not remove favourite'); });
     } else {
-      fetch('./favourites_api.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({profile_id:profileId})})
-        .then(function(r){ return r.json(); })
+      fetch('./favourites_api.php',{method:'POST',headers:headers,body:JSON.stringify({profile_id:profileId})})
+        .then(function(r){ return r.json().then(function(d){ if(!r.ok) throw d; return d; }); })
         .then(function(data){
-          if(data.error){ alert(data.error); return; }
-          favSet[profileId]=1; btn.classList.add('fav-active'); icon.className='bi bi-heart-fill';
+          if(data.error){ showToast(data.error); return; }
+          favSet[profileId]=1; btn.classList.add('fav-active'); icon.className='bi bi-heart-fill'; showToast('Added to favourites');
         })
-        .catch(function(){});
+        .catch(function(err){ showToast(err && err.error ? err.error : 'Could not add favourite'); });
     }
   }
   function fetchProfiles(){

@@ -20,6 +20,9 @@ COPY . /var/www/html/
 RUN sed -i 's|RewriteBase /BestLife_Matrimony/|RewriteBase /|g' /var/www/html/.htaccess && \
     sed -i 's|ErrorDocument 404 /BestLife_Matrimony/404.php|ErrorDocument 404 /404.php|g' /var/www/html/.htaccess
 
+# PHP upload limits — fix 2MB vs 5MB miscalculation (was default 2M, code allows 5M)
+RUN echo "upload_max_filesize = 10M\npost_max_size = 12M\nmemory_limit = 256M\nmax_file_uploads = 20\n" > /usr/local/etc/php/conf.d/uploads.ini
+
 # Permissions
 RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
 

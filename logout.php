@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/includes/config.php';
-remember_me_clear();
+require_once __DIR__ . '/includes/db.php';
+if (function_exists('remember_me_clear')) remember_me_clear();
 $_SESSION = [];
 session_destroy();
 header('Location: ./index.php');

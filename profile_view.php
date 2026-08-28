@@ -205,7 +205,7 @@ function renderSection($title, $rows) {
               echo htmlspecialchars(implode(' · ', $chips));
             ?>
           </p>
-          <p class="pv-tagline"><i class="bi bi-eye"></i> <?php echo $viewCount; ?> people viewed this profile<?php if ($isOwner): ?> · <a href="./who_viewed_me.php" style="color:#6b1020;font-weight:600;">Who viewed me</a><?php endif; ?></p>
+          <p class="pv-tagline"><i class="bi bi-eye"></i> <?php echo $viewCount; ?> people viewed this profile<?php if ($isOwner): ?> · <a href="./who_viewed_me.php" target="_blank" rel="noopener noreferrer" style="color:#6b1020;font-weight:600;">Who viewed me</a><?php endif; ?></p>
         </div>
       </div>
 

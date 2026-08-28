@@ -42,26 +42,25 @@ try {
       echo json_encode(['ok' => true, 'message' => 'User reinstated']);
       exit;
 
-    case 'make_admin':
-      if ($id <= 0) throw new Exception('Missing user');
-      $db->prepare('UPDATE users SET is_admin = 1, is_approved = 1 WHERE id = ?')->execute([$id]);
-      log_activity($adminId, 'admin_grant', 'user', $id, 'Granted admin privileges');
-      echo json_encode(['ok' => true, 'message' => 'Admin privileges granted']);
-      exit;
-
-    case 'revoke_admin':
-      if ($id <= 0) throw new Exception('Missing user');
-      if ($id === $adminId) throw new Exception('You cannot revoke your own admin access');
-      $stmt = $db->prepare('SELECT is_admin FROM users WHERE id = ?'); $stmt->execute([$id]);
-      $target = $stmt->fetch();
-      if (!$target) throw new Exception('User not found');
-      if ((int) $target['is_admin'] === 1) {
-        $adminCount = (int) $db->query('SELECT COUNT(*) FROM users WHERE is_admin = 1')->fetchColumn();
-        if ($adminCount <= 1) throw new Exception('Cannot revoke the last admin account');
-      }
-      $db->prepare('UPDATE users SET is_admin = 0 WHERE id = ?')->execute([$id]);
-      log_activity($adminId, 'admin_revoke', 'user', $id, 'Revoked admin privileges');
-      echo json_encode(['ok' => true, 'message' => 'Admin privileges revoked']);
+    case 'create_admin':
+      $full_name = trim($input['full_name'] ?? '');
+      $email = trim($input['email'] ?? '');
+      $phone = trim($input['phone'] ?? '');
+      $password = $input['password'] ?? '';
+      if ($full_name === '' || strlen($full_name) > 150) throw new Exception('Full name is required (max 150).');
+      if (!filter_var($email, FILTER_VALIDATE_EMAIL)) throw new Exception('Valid email required.');
+      if (strlen($email) > 191) throw new Exception('Email must be 191 chars or fewer.');
+      if (strlen($phone) < 8 || strlen($phone) > 30) throw new Exception('Valid phone required (8-30 chars).');
+      if (strlen($password) < 8 || strlen($password) > 255) throw new Exception('Password must be 8-255 characters.');
+      $stmt = $db->prepare('SELECT id FROM users WHERE email = ?');
+      $stmt->execute([$email]);
+      if ($stmt->fetch()) throw new Exception('An account with this email already exists.');
+      $hash = password_hash($password, PASSWORD_DEFAULT);
+      $stmt = $db->prepare('INSERT INTO users (full_name, email, phone, password, is_admin, is_approved, email_verified, is_suspended) VALUES (?, ?, ?, ?, 1, 1, 1, 0)');
+      $stmt->execute([$full_name, $email, $phone, $hash]);
+      $newId = (int) $db->lastInsertId();
+      log_activity($adminId, 'admin_create', 'user', $newId, 'Created admin account: ' . $email);
+      echo json_encode(['ok' => true, 'message' => 'Admin account created', 'id' => $newId]);
       exit;
 
     case 'approve_user':

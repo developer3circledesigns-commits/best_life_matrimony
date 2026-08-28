@@ -1,5 +1,12 @@
 <?php
 require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/auth.php';
+require_login();
+// Admin users have no matrimony profile/matches — send to admin dashboard
+if (is_admin()) {
+  header('Location: ./admin/index.php');
+  exit;
+}
 $pageTitle = 'Profile Matches — BestLife Matrimony';
 $pageDescription = 'Explore compatible profiles curated just for you on BestLife Matrimony.';
 $pageHeadExtra = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">' . "\n"
@@ -53,8 +60,7 @@ function render_filter_group(string $title, array $options, string $group): void
 <?php
 $currentUserApproved = 0;
 if (!empty($_SESSION['user_id'])) {
-  $cu = current_user();
-  $currentUserApproved = ($cu && ((int)($cu['is_approved'] ?? 0) === 1 || (int)($cu['is_admin'] ?? 0) === 1)) ? 1 : 0;
+  $currentUserApproved = is_approved() ? 1 : 0;
 }
 ?>
 <main class="matches-page" data-user-id="<?php echo intval($_SESSION['user_id'] ?? 0); ?>" data-approved="<?php echo $currentUserApproved; ?>">
