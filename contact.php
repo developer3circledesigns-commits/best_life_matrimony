@@ -131,9 +131,9 @@ require_once __DIR__ . '/includes/navbar.php';
         <h1 class="font-serif text-4xl font-bold tracking-tight text-[#fff6e8] sm:text-5xl">Contact us</h1>
         <p class="mt-6 text-lg text-[#f3e6d8]/90">Get in touch with the BestLife Matrimony team. We usually respond within 24 hours.</p>
         <ul class="mt-6 space-y-3 text-sm text-[#fff6e8]/80">
-          <li class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-[#e3c877]"></span> +91 98765 43210</li>
+          <li class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-[#e3c877]"></span> <a href="tel:+917338877275" class="hover:text-[#e3c877] hover:underline">+91 7338877275</a> &nbsp;/&nbsp; <a href="tel:+917200005622" class="hover:text-[#e3c877] hover:underline">+91 7200005622</a></li>
           <li class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-[#e3c877]"></span> info@bestlifematrimony.com</li>
-          <li class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-[#e3c877]"></span> Chennai, Tamil Nadu, India</li>
+          <li class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-[#e3c877]"></span> <a href="https://www.google.com/maps?q=13.054376,80.1927475&z=17&hl=en" target="_blank" rel="noopener noreferrer" class="hover:text-[#e3c877] hover:underline">No:2(24/1) kaliamman koil Street, virugambakkam main road, chennai-600092.</a></li>
         </ul>
         <a href="./index.php" class="mt-8 inline-flex h-11 items-center justify-center rounded-full border border-[#f6e6b4]/50 bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-8 font-semibold text-[#3a0c15] shadow-lg hover:scale-105 transition-transform">Back to Home</a>
       </div>
@@ -166,6 +166,20 @@ require_once __DIR__ . '/includes/navbar.php';
           <button type="submit" class="inline-flex h-11 items-center justify-center rounded-full bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-8 text-sm font-bold text-[#3a0c15] hover:brightness-110 transition-all">Send Message</button>
         </div>
       </form>
+    </div>
+  </section>
+  <!-- Google Map Embed -->
+  <section class="mx-auto w-full max-w-6xl px-4 pb-16 sm:px-6 sm:pb-24">
+    <div class="overflow-hidden rounded-none border border-[#f6e6b4]/20 bg-white shadow-xl">
+      <div class="flex items-center justify-between bg-[#6b1020] px-6 py-4">
+        <h3 class="font-serif text-lg font-bold text-[#fff6e8]">Find us on Map</h3>
+        <a href="https://www.google.com/maps?q=13.054376,80.1927475&z=17&hl=en" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#e3c877] hover:text-white transition-colors"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v4"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg> Open in Google Maps</a>
+      </div>
+      <iframe src="https://www.google.com/maps?q=13.054376,80.1927475&z=17&hl=en&output=embed" width="100%" height="420" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="BestLife Matrimony Location - No:2(24/1) kaliamman koil Street, Virugambakkam, Chennai"></iframe>
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 bg-[#fdf9f1] px-6 py-3 text-xs text-[#6b4f00]">
+        <span class="flex items-center gap-1.5"><svg class="h-3.5 w-3.5 text-[#8a4a2f]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> No:2(24/1) kaliamman koil Street, virugambakkam main road, chennai-600092. Land mark Sundar C mahall</span>
+        <a href="https://www.google.com/maps?q=13.054376,80.1927475&z=17&hl=en" target="_blank" rel="noopener noreferrer" class="font-semibold text-[#8a4a2f] hover:underline">Get Directions →</a>
+      </div>
     </div>
   </section>
 </main>

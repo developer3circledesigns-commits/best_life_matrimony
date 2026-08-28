@@ -40,6 +40,7 @@
         <div class="w-1/2 h-full relative bg-white overflow-hidden" style="perspective:2000px; border-radius:0 2px 2px 0">
           <!-- Base page 06 bottom -->
           <div class="absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-white">
+            <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-16 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
             <p class="font-serif italic text-2xl leading-relaxed text-[#3a0c15]">Search Together. Choose Together. Begin Together.</p>
             <p class="mt-4 text-sm leading-7 text-[#3a0c15]/70">Your family's love, your choice — together from the first page to forever. BestLife Matrimony is here to make every step clearer, kinder and closer to the right match.</p>
             <p class="mt-3 text-sm leading-7 text-[#3a0c15]/60">Because when families and individuals walk together, the right beginning feels natural.</p>
@@ -47,6 +48,7 @@
           <!-- Flip 5 — page 05 -->
           <div id="flip-fam-5" class="page absolute inset-0 will-change-transform" style="will-change:transform; transform-origin:left center; transform-style:preserve-3d">
             <div class="absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
+              <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-16 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
               <p class="text-sm leading-7 text-[#3a0c15]/70">BestLife Matrimony makes it easier for families to explore suitable profiles while keeping the individual's preferences and expectations at the heart — where respect meets choice.</p>
               <p class="mt-4 text-sm leading-7 text-[#3a0c15]/70">Search by age, education, location and values — together, yet always prioritising the individual's voice. Your family can guide, while your heart decides.</p>
             </div>
@@ -55,6 +57,7 @@
           <!-- Flip 4 — page 04 -->
           <div id="flip-fam-4" class="page absolute inset-0 will-change-transform" style="will-change:transform; transform-origin:left center; transform-style:preserve-3d">
             <div class="absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
+              <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-16 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
               <p class="text-sm leading-7 text-[#3a0c15]/70">Parents, siblings and family members often play an important role in finding the right life partner — with love, wisdom and care.</p>
               <p class="mt-4 text-sm leading-7 text-[#3a0c15]/70">We help families discover compatible matches with privacy, verification and genuine intent — so every introduction feels trusted and every conversation starts with confidence.</p>
             </div>
@@ -63,6 +66,7 @@
           <!-- Flip 3 — page 03 -->
           <div id="flip-fam-3" class="page absolute inset-0 will-change-transform" style="will-change:transform; transform-origin:left center; transform-style:preserve-3d">
             <div class="absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
+              <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-16 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
               <p class="text-sm leading-7 text-[#3a0c15]/70">Sometimes, the search isn't just yours. It begins with care, continues with conversation, and grows with trust.</p>
               <p class="mt-4 text-sm leading-7 text-[#3a0c15]/70">The involvement of loved ones brings strength — a second pair of eyes, a lifetime of experience.</p>
               <p class="mt-3 text-sm leading-7 text-[#3a0c15]/60">We make that shared journey simple, respectful and joyful.</p>
@@ -72,6 +76,7 @@
           <!-- Flip 2 — page 02 -->
           <div id="flip-fam-2" class="page absolute inset-0 will-change-transform" style="will-change:transform; transform-origin:left center; transform-style:preserve-3d">
             <div class="absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
+              <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-16 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
               <p class="font-serif italic text-xl leading-relaxed text-[#3a0c15]">For every family, a story. For every individual, a dream.</p>
               <p class="mt-4 text-sm leading-7 text-[#3a0c15]/70">Every home holds traditions, values and hopes for the future. We listen to both — the family's wisdom and the individual's heart.</p>
               <p class="mt-3 text-sm leading-7 text-[#3a0c15]/60">Together, we find someone who respects your roots and shares your tomorrow.</p>
@@ -81,6 +86,7 @@
           <!-- Flip 1 — page 01 top -->
           <div id="flip-fam-1" class="page absolute inset-0 will-change-transform" style="will-change:transform; transform-origin:left center; transform-style:preserve-3d; z-index:7">
             <div class="absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
+              <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-16 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
               <span class="inline-flex w-fit border border-[#3a0c15]/10 bg-white px-3 py-1 text-[11px] tracking-[0.16em] uppercase text-[#3a0c15] font-bold" style="border-radius:0">For Families</span>
               <h2 class="mt-4 font-serif text-[32px] font-bold leading-[0.9] text-[#3a0c15]">Looking for a Life Partner<br><span class="italic text-[#8a4a2f]">for Someone You Love?</span></h2>
               <p class="mt-4 text-sm leading-7 text-[#3a0c15]/70">When a family searches together, every step is filled with care, hope and shared dreams. BestLife Matrimony honours that bond.</p>
@@ -144,22 +150,53 @@
     if(!window.matchMedia('(min-width:1024px)').matches) return;
     var leftImgs = document.querySelectorAll(".left-img-fam");
     gsap.set(leftImgs,{autoAlpha:0});
-    gsap.set("#flip-fam-2",{rotateY:-180, autoAlpha:0});
-    gsap.set("#flip-fam-3",{rotateY:-180, autoAlpha:0});
-    gsap.set("#flip-fam-4",{rotateY:-180, autoAlpha:0});
-    gsap.set("#flip-fam-5",{rotateY:-180, autoAlpha:0});
-    // cover starts closed
-    gsap.set("#flip-cover",{rotateY:0, autoAlpha:1});
+    // Explicit zIndex + backface handling — prevents previous page ghosting on right side
+    gsap.set("#flip-cover",{rotateY:0, autoAlpha:1, zIndex:20});
+    gsap.set("#flip-fam-1",{rotateY:0, autoAlpha:1, zIndex:12});
+    gsap.set("#flip-fam-2",{rotateY:-180, autoAlpha:0, zIndex:11});
+    gsap.set("#flip-fam-3",{rotateY:-180, autoAlpha:0, zIndex:10});
+    gsap.set("#flip-fam-4",{rotateY:-180, autoAlpha:0, zIndex:9});
+    gsap.set("#flip-fam-5",{rotateY:-180, autoAlpha:0, zIndex:8});
+    gsap.set("#progress-fam",{width:"0%"});
     var tl = gsap.timeline({scrollTrigger:{trigger:"#for-families", pin:"#pin-fam", pinSpacing:true, anticipatePin:1, start:"top top", end:"+=900%", scrub:1.8, invalidateOnRefresh:true}});
     gsap.to("#book-fam",{rotateY:0.8, rotateX:0.3, ease:"none", scrollTrigger:{trigger:"#for-families", start:"top top", end:"+=900%", scrub:1.8}});
-    // 0 — cover opens (book closed → open) + left image 1 appears
-    tl.to("#flip-cover",{rotateY:-180, duration:1.0, ease:"sine.inOut"},0).to(leftImgs[0],{autoAlpha:1, duration:0.6, ease:"sine.inOut"},0.4)
-    // 1 — page 1 turn
-      .to("#flip-fam-1",{rotateY:-180, duration:1.0, ease:"sine.inOut"},1.4).to(leftImgs[0],{autoAlpha:0, duration:0.6, ease:"sine.inOut"},1.4).to(leftImgs[1],{autoAlpha:1, duration:0.6, ease:"sine.inOut"},1.7).to("#flip-fam-2",{autoAlpha:1, duration:0.01},2.35).to("#flip-fam-2",{rotateY:0, duration:0.9, ease:"sine.inOut"},2.4)
-      .to("#flip-fam-2",{rotateY:-180, duration:1.0, ease:"sine.inOut"},3.6).to(leftImgs[1],{autoAlpha:0, duration:0.6, ease:"sine.inOut"},3.6).to(leftImgs[2],{autoAlpha:1, duration:0.6, ease:"sine.inOut"},3.9).to("#flip-fam-3",{autoAlpha:1, duration:0.01},4.55).to("#flip-fam-3",{rotateY:0, duration:0.9, ease:"sine.inOut"},4.6)
-      .to("#flip-fam-3",{rotateY:-180, duration:1.0, ease:"sine.inOut"},5.8).to(leftImgs[2],{autoAlpha:0, duration:0.6, ease:"sine.inOut"},5.8).to(leftImgs[3],{autoAlpha:1, duration:0.6, ease:"sine.inOut"},6.1).to("#flip-fam-4",{autoAlpha:1, duration:0.01},6.75).to("#flip-fam-4",{rotateY:0, duration:0.9, ease:"sine.inOut"},6.8)
-      .to("#flip-fam-4",{rotateY:-180, duration:1.0, ease:"sine.inOut"},8.0).to(leftImgs[3],{autoAlpha:0, duration:0.6, ease:"sine.inOut"},8.0).to(leftImgs[4],{autoAlpha:1, duration:0.6, ease:"sine.inOut"},8.3).to("#flip-fam-5",{autoAlpha:1, duration:0.01},8.95).to("#flip-fam-5",{rotateY:0, duration:0.9, ease:"sine.inOut"},9.0)
-      .to("#flip-fam-5",{rotateY:-180, duration:1.0, ease:"sine.inOut"},10.2).to(leftImgs[4],{autoAlpha:0, duration:0.6, ease:"sine.inOut"},10.2).to(leftImgs[5],{autoAlpha:1, duration:0.6, ease:"sine.inOut"},10.5);
+    // 0 — cover opens (book closed → open) + left image 1 appears — hide cover after it lands on left so it never reappears on right
+    tl.to("#flip-cover",{rotateY:-180, duration:1.0, ease:"sine.inOut"},0)
+      .set("#flip-cover",{autoAlpha:0, zIndex:1},1.0)
+      .to(leftImgs[0],{autoAlpha:1, duration:0.6, ease:"sine.inOut"},0.4)
+    // 1 — page 1 turn → hide page1 after it lands left (prevents ghost on right), reveal page2
+      .to("#flip-fam-1",{rotateY:-180, duration:1.0, ease:"sine.inOut"},1.4)
+      .set("#flip-fam-1",{autoAlpha:0},2.4)
+      .to(leftImgs[0],{autoAlpha:0, duration:0.6, ease:"sine.inOut"},1.4)
+      .to(leftImgs[1],{autoAlpha:1, duration:0.6, ease:"sine.inOut"},1.7)
+      .set("#flip-fam-2",{autoAlpha:1},2.35)
+      .to("#flip-fam-2",{rotateY:0, duration:0.9, ease:"sine.inOut"},2.4)
+    // 2 — page 2 turn → hide after landing
+      .to("#flip-fam-2",{rotateY:-180, duration:1.0, ease:"sine.inOut"},3.6)
+      .set("#flip-fam-2",{autoAlpha:0},4.6)
+      .to(leftImgs[1],{autoAlpha:0, duration:0.6, ease:"sine.inOut"},3.6)
+      .to(leftImgs[2],{autoAlpha:1, duration:0.6, ease:"sine.inOut"},3.9)
+      .set("#flip-fam-3",{autoAlpha:1},4.55)
+      .to("#flip-fam-3",{rotateY:0, duration:0.9, ease:"sine.inOut"},4.6)
+    // 3 — page 3 turn
+      .to("#flip-fam-3",{rotateY:-180, duration:1.0, ease:"sine.inOut"},5.8)
+      .set("#flip-fam-3",{autoAlpha:0},6.8)
+      .to(leftImgs[2],{autoAlpha:0, duration:0.6, ease:"sine.inOut"},5.8)
+      .to(leftImgs[3],{autoAlpha:1, duration:0.6, ease:"sine.inOut"},6.1)
+      .set("#flip-fam-4",{autoAlpha:1},6.75)
+      .to("#flip-fam-4",{rotateY:0, duration:0.9, ease:"sine.inOut"},6.8)
+    // 4 — page 4 turn
+      .to("#flip-fam-4",{rotateY:-180, duration:1.0, ease:"sine.inOut"},8.0)
+      .set("#flip-fam-4",{autoAlpha:0},9.0)
+      .to(leftImgs[3],{autoAlpha:0, duration:0.6, ease:"sine.inOut"},8.0)
+      .to(leftImgs[4],{autoAlpha:1, duration:0.6, ease:"sine.inOut"},8.3)
+      .set("#flip-fam-5",{autoAlpha:1},8.95)
+      .to("#flip-fam-5",{rotateY:0, duration:0.9, ease:"sine.inOut"},9.0)
+    // 5 — page 5 turn → reveal base page 06 (no hide needed for base)
+      .to("#flip-fam-5",{rotateY:-180, duration:1.0, ease:"sine.inOut"},10.2)
+      .set("#flip-fam-5",{autoAlpha:0},11.2)
+      .to(leftImgs[4],{autoAlpha:0, duration:0.6, ease:"sine.inOut"},10.2)
+      .to(leftImgs[5],{autoAlpha:1, duration:0.6, ease:"sine.inOut"},10.5);
     gsap.to("#progress-fam",{width:"100%", ease:"none", scrollTrigger:{trigger:"#for-families", start:"top top", end:"+=900%", scrub:1.2}});
     window.addEventListener('load', function(){ ScrollTrigger.refresh(); });
   }
