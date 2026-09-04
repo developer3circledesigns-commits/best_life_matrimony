@@ -80,6 +80,10 @@ CREATE TABLE `users` (
   `pref_education` VARCHAR(255) DEFAULT NULL,
   `pref_location` VARCHAR(255) DEFAULT NULL,
   `pref_other` TEXT DEFAULT NULL,
+  `time_of_birth` VARCHAR(8) DEFAULT NULL,
+  `place_of_birth` VARCHAR(150) DEFAULT NULL,
+  `rashi` VARCHAR(50) DEFAULT NULL,
+  `kattam_image` MEDIUMTEXT DEFAULT NULL,
   `profile_photo` MEDIUMTEXT DEFAULT NULL,
   `gallery_photo_1` MEDIUMTEXT DEFAULT NULL,
   `gallery_photo_2` MEDIUMTEXT DEFAULT NULL,
@@ -108,7 +112,7 @@ CREATE TABLE `schema_meta` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Seed schema_meta version
-INSERT INTO `schema_meta` (`id`, `schema_version`) VALUES (1, 'v10') ON DUPLICATE KEY UPDATE `schema_version` = 'v10';
+INSERT INTO `schema_meta` (`id`, `schema_version`) VALUES (1, 'v11') ON DUPLICATE KEY UPDATE `schema_version` = 'v11';
 
 -- Create favourites table
 CREATE TABLE `favourites` (

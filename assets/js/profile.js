@@ -94,13 +94,15 @@
      Replaces inline onclick attributes with data-* attributes so
      behaviour stays in JS instead of being scattered through markup. */
   document.addEventListener('click', function (e) {
-    var t = e.target.closest('[data-tab-target], [data-remove-main], [data-remove-gallery], [data-cancel-form], [data-toggle-open]');
+    var t = e.target.closest('[data-tab-target], [data-remove-main], [data-remove-kattam], [data-remove-gallery], [data-cancel-form], [data-toggle-open]');
     if (!t) return;
     if (t.hasAttribute('data-tab-target')) {
       e.preventDefault();
       nextTab(t.getAttribute('data-tab-target'));
     } else if (t.hasAttribute('data-remove-main')) {
       removeMainPhoto(e);
+    } else if (t.hasAttribute('data-remove-kattam')) {
+      removeKattam(e);
     } else if (t.hasAttribute('data-remove-gallery')) {
       removeGalleryPhoto(e, parseInt(t.getAttribute('data-remove-gallery'), 10) || 0);
     } else if (t.hasAttribute('data-cancel-form')) {
@@ -168,6 +170,48 @@
     if (deleteField) deleteField.value = '1';
     // Reset header avatar to initial
     resetHeaderAvatar();
+  };
+
+  /* ── Kattam Preview ────────────────────────────── */
+  window.previewKattam = function (input) {
+    if (input.files && input.files[0]) {
+      var file = input.files[0];
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Kattam image is too large. Maximum size is 5MB.');
+        input.value = '';
+        return;
+      }
+      if (ALLOWED_TYPES.indexOf(file.type) === -1) {
+        alert('Only JPG, PNG or WebP images are allowed for Kattam.');
+        input.value = '';
+        return;
+      }
+      var reader = new FileReader();
+      var preview = document.getElementById('kattamPreview');
+      var placeholder = document.getElementById('kattamPlaceholder');
+      var removeBtn = document.getElementById('kattamRemoveBtn');
+      var deleteField = document.getElementById('delete_kattam_image');
+      reader.onload = function (e) {
+        if (preview) { preview.src = e.target.result; preview.style.display = 'block'; }
+        if (placeholder) placeholder.style.display = 'none';
+        if (removeBtn) removeBtn.style.display = 'flex';
+        if (deleteField) deleteField.value = '0';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  };
+  window.removeKattam = function (e) {
+    e.stopPropagation(); e.preventDefault();
+    var preview = document.getElementById('kattamPreview');
+    var placeholder = document.getElementById('kattamPlaceholder');
+    var removeBtn = document.getElementById('kattamRemoveBtn');
+    var input = document.getElementById('kattam_image_file');
+    var deleteField = document.getElementById('delete_kattam_image');
+    if (preview) { preview.src = ''; preview.style.display = 'none'; }
+    if (placeholder) placeholder.style.display = '';
+    if (removeBtn) removeBtn.style.display = 'none';
+    if (input) input.value = '';
+    if (deleteField) deleteField.value = '1';
   };
 
   /* ── Photo Preview - Gallery ───────────────────── */
@@ -356,6 +400,34 @@
     return true;
   }
 
+  /* ── Time of Birth (IST 12hr AM/PM) ─── */
+  var tobHourEl = document.getElementById('tob_hour');
+  var tobMinEl = document.getElementById('tob_minute');
+  var tobPeriodEl = document.getElementById('tob_period');
+  var tobHidden = document.getElementById('time_of_birth_hidden');
+  function syncTOB() {
+    if (!tobHourEl || !tobMinEl || !tobPeriodEl || !tobHidden) return;
+    var h = tobHourEl.value, m = tobMinEl.value, p = tobPeriodEl.value;
+    if (!h && !m && !p) tobHidden.value = '';
+    else tobHidden.value = (h || '00') + ':' + (m || '00') + ' ' + p;
+  }
+  if (tobHourEl && tobMinEl && tobPeriodEl) {
+    [tobHourEl, tobMinEl, tobPeriodEl].forEach(function(el){ el.addEventListener('change', syncTOB); });
+    syncTOB();
+  }
+  function validateTOB() {
+    if (!tobHourEl || !tobMinEl || !tobPeriodEl) return true;
+    var h = tobHourEl.value, m = tobMinEl.value, p = tobPeriodEl.value;
+    if (!h && !m && !p) { clearInvalid(tobHourEl); clearInvalid(tobMinEl); clearInvalid(tobPeriodEl); return true; }
+    if (!h || !m || !p) {
+      setInvalid(tobPeriodEl, 'Please select hour, minute and AM/PM.');
+      return false;
+    }
+    clearInvalid(tobHourEl); clearInvalid(tobMinEl); clearInvalid(tobPeriodEl);
+    syncTOB();
+    return true;
+  }
+
   var formEl = document.getElementById('profileForm');
   if (formEl) {
     // Required text fields: phone + full_name (email is disabled/readonly)
@@ -367,8 +439,16 @@
       });
     });
 
-    /* ── Save loading feedback (UX #1) + age validation ─────────── */
+    /* ── Save loading feedback (UX #1) + age/TOB validation ─────────── */
     formEl.addEventListener('submit', function (e) {
+      syncTOB();
+      if (!validateTOB()) {
+        e.preventDefault();
+        switchToTab('religious');
+        var invalid = document.querySelector('.is-invalid');
+        if (invalid) invalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
       if (!validateAgeRange()) {
         e.preventDefault();
         switchToTab('preferences');

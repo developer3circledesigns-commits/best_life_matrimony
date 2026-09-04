@@ -34,7 +34,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
     $textFields = [
       'full_name', 'phone', 'looking_for', 'date_of_birth', 'gender', 'height', 'body_type', 'complexion',
       'blood_group', 'marital_status', 'about_self', 'religion', 'caste', 'sub_caste', 'gothram',
-      'star_sign', 'zodiac', 'dosham', 'mother_tongue', 'country', 'state', 'city', 'citizenship',
+      'star_sign', 'zodiac', 'dosham', 'mother_tongue', 'time_of_birth', 'place_of_birth', 'rashi',
+      'country', 'state', 'city', 'citizenship',
       'residential_status', 'highest_education', 'education_detail', 'occupation',
       'occupation_type', 'annual_income', 'family_type', 'family_status', 'family_values',
       'father_name', 'father_occupation', 'mother_name', 'mother_occupation',
@@ -53,7 +54,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
       'full_name' => 150, 'phone' => 30, 'date_of_birth' => 10, 'height' => 20,
       'about_self' => 5000, 'religion' => 50, 'caste' => 100, 'sub_caste' => 100,
       'gothram' => 100, 'star_sign' => 50, 'zodiac' => 20, 'dosham' => 20,
-      'mother_tongue' => 50, 'country' => 60, 'state' => 100, 'city' => 100,
+      'mother_tongue' => 50, 'time_of_birth' => 8, 'place_of_birth' => 150, 'rashi' => 50,
+      'country' => 60, 'state' => 100, 'city' => 100,
       'citizenship' => 60, 'residential_status' => 20, 'highest_education' => 50,
       'education_detail' => 255, 'occupation' => 150, 'occupation_type' => 50,
       'annual_income' => 50, 'family_type' => 20, 'family_status' => 30,
@@ -63,6 +65,18 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
       'pref_education' => 255, 'pref_location' => 255, 'pref_other' => 5000,
       'pref_height_min' => 20, 'pref_height_max' => 20,
     ];
+
+    // Synthesize time_of_birth (IST 12hr AM/PM) from dropdowns tob_hour/minute/period
+    if (isset($_POST['tob_hour']) || isset($_POST['tob_minute']) || isset($_POST['tob_period'])) {
+      $th = trim($_POST['tob_hour'] ?? '');
+      $tm = trim($_POST['tob_minute'] ?? '');
+      $tp = strtoupper(trim($_POST['tob_period'] ?? ''));
+      if ($th === '' && $tm === '' && $tp === '') {
+        $_POST['time_of_birth'] = '';
+      } else {
+        $_POST['time_of_birth'] = ($th !== '' ? str_pad($th, 2, '0', STR_PAD_LEFT) : '00') . ':' . ($tm !== '' ? str_pad($tm, 2, '0', STR_PAD_LEFT) : '00') . ' ' . $tp;
+      }
+    }
 
     foreach ($textFields as $f) {
       $val = isset($_POST[$f]) ? trim($_POST[$f]) : '';
@@ -96,6 +110,16 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
     // Auto-correct out-of-range values in params so DB never stores invalid ages (when no error, clamp is not needed — values already valid)
     if (isset($errors['pref_age_min']) || isset($errors['pref_age_max']) || isset($errors['pref_age_range'])) {
       // keep errors — will block save below
+    }
+
+    // Validate Time of Birth — 12hr IST with AM/PM (e.g. 02:30 PM)
+    if (isset($_POST['time_of_birth']) && trim($_POST['time_of_birth']) !== '' && !preg_match('/^(0[1-9]|1[0-2]):[0-5][0-9]\s(AM|PM)$/i', trim($_POST['time_of_birth']))) {
+      $errors['time_of_birth'] = 'Time of Birth must be 12hr IST format (e.g. 02:30 PM).';
+    }
+    // Validate Rashi (must be in allowed Tamil list)
+    $rashiAllowed = ['Mesha (மேஷம்)','Rishabha (ரிஷபம்)','Mithuna (மிதுனம்)','Karka (கடகம்)','Simha (சிம்மம்)','Kanya (கன்னி)','Tula (துலாம்)','Vrischika (விருச்சிகம்)','Dhanu (தனுசு)','Makara (மகரம்)','Kumbha (கும்பம்)','Meena (மீனம்)'];
+    if (isset($_POST['rashi']) && trim($_POST['rashi']) !== '' && !in_array(trim($_POST['rashi']), $rashiAllowed, true)) {
+      $errors['rashi'] = 'Invalid Rashi selection.';
     }
 
     // Cross-validate looking_for vs gender (configurable via enforce_heterosexual)
@@ -196,6 +220,60 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
       $setClauses[] = "`profile_photo` = NULL";
     }
 
+    /* Handle Kattam Image — DB-only storage (no folder, base64 data URI in MEDIUMTEXT, max 5MB) */
+    $kattamUploaded = false;
+    $kattamError = null;
+    if (!empty($_FILES['kattam_image_file']['tmp_name']) || (!empty($_FILES['kattam_image_file']['error']) && $_FILES['kattam_image_file']['error'] !== UPLOAD_ERR_NO_FILE)) {
+      $err = $_FILES['kattam_image_file']['error'] ?? UPLOAD_ERR_NO_FILE;
+      if ($err !== UPLOAD_ERR_OK) {
+        if ($err === UPLOAD_ERR_INI_SIZE || $err === UPLOAD_ERR_FORM_SIZE) $kattamError = 'Kattam image too large — server allows ' . ini_get('upload_max_filesize') . ', limit is 5MB.';
+        elseif ($err !== UPLOAD_ERR_NO_FILE) $kattamError = 'Kattam upload failed (error ' . $err . ').';
+      } else {
+        $tmpPath = $_FILES['kattam_image_file']['tmp_name'];
+        $fileSize = $_FILES['kattam_image_file']['size'];
+        $ext = strtolower(pathinfo($_FILES['kattam_image_file']['name'], PATHINFO_EXTENSION));
+        $allowed = ['jpg', 'jpeg', 'png', 'webp'];
+        if (!in_array($ext, $allowed)) {
+          $kattamError = 'Kattam image must be JPG, PNG or WebP.';
+        } elseif ($fileSize > 5 * 1024 * 1024) {
+          $kattamError = 'Kattam image too large (max 5MB).';
+        } elseif (!is_uploaded_file($tmpPath)) {
+          $kattamError = 'Invalid upload.';
+        } else {
+          $finfo = finfo_open(FILEINFO_MIME_TYPE);
+          $mime = finfo_file($finfo, $tmpPath);
+          finfo_close($finfo);
+          if (!in_array($mime, ['image/jpeg', 'image/png', 'image/webp'])) {
+            $kattamError = 'Invalid Kattam file (must be JPEG/PNG/WebP).';
+          } else {
+            $raw = @file_get_contents($tmpPath);
+            if ($raw === false || $raw === '') {
+              $kattamError = 'Could not read uploaded Kattam file.';
+            } else {
+              if (!empty($user['kattam_image']) && strpos($user['kattam_image'], 'data:') !== 0) {
+                $oldFile = photo_fs_path($user['kattam_image'], __DIR__);
+                if ($oldFile && file_exists($oldFile) && is_file($oldFile)) @unlink($oldFile);
+              }
+              $b64 = base64_encode($raw);
+              $dataUri = 'data:' . $mime . ';base64,' . $b64;
+              $setClauses[] = "`kattam_image` = ?";
+              $params[] = $dataUri;
+              log_media_for_moderation($userId, 'kattam_image', 'db:kattam_' . $userId . '_' . time() . '.' . $ext, $mime, $fileSize);
+              $kattamUploaded = true;
+            }
+          }
+        }
+      }
+      if ($kattamError) $errors['kattam_image'] = $kattamError;
+    }
+    if (!$kattamUploaded && !empty($_POST['delete_kattam_image']) && $_POST['delete_kattam_image'] === '1') {
+      if (!empty($user['kattam_image']) && strpos($user['kattam_image'], 'data:') !== 0) {
+        $oldFile = photo_fs_path($user['kattam_image'], __DIR__);
+        if ($oldFile && file_exists($oldFile) && is_file($oldFile)) @unlink($oldFile);
+      }
+      $setClauses[] = "`kattam_image` = NULL";
+    }
+
     if (empty($errors)) {
       $params[] = $userId;
       try {
@@ -255,6 +333,10 @@ $fieldLabels = [
   'zodiac' => 'Rasi / Zodiac',
   'dosham' => 'Dosham',
   'mother_tongue' => 'Mother Tongue',
+  'time_of_birth' => 'Time of Birth',
+  'place_of_birth' => 'Place of Birth',
+  'rashi' => 'Rashi',
+  'kattam_image' => 'Kattam',
   'country' => 'Country',
   'state' => 'State',
   'city' => 'City',
@@ -296,7 +378,7 @@ if ($user) {
   $sections = [
     'Basic & Contact' => ['full_name', 'date_of_birth', 'gender', 'marital_status'],
     'Physical' => ['height', 'weight', 'body_type', 'complexion', 'blood_group'],
-    'Religious & Cultural' => ['religion', 'caste', 'sub_caste', 'gothram', 'star_sign', 'zodiac', 'dosham', 'mother_tongue'],
+    'Religious & Cultural' => ['religion', 'caste', 'sub_caste', 'gothram', 'star_sign', 'zodiac', 'dosham', 'mother_tongue', 'time_of_birth', 'place_of_birth', 'rashi', 'kattam_image'],
     'Location' => ['country', 'state', 'city', 'citizenship'],
     'Education & Career' => ['highest_education', 'education_detail', 'occupation', 'occupation_type', 'annual_income'],
     'Family' => ['family_type', 'family_status', 'family_values', 'father_name', 'mother_name'],
@@ -322,6 +404,24 @@ $profilePhoto = '';
 if ($user && !empty($user['profile_photo'])) {
   $profilePhoto = htmlspecialchars(photo_url($user['profile_photo']));
 }
+$kattamPhoto = '';
+if ($user && !empty($user['kattam_image'])) {
+  $kattamPhoto = htmlspecialchars(photo_url($user['kattam_image']));
+}
+$rashiOptions = [
+  'Mesha (மேஷம்)',
+  'Rishabha (ரிஷபம்)',
+  'Mithuna (மிதுனம்)',
+  'Karka (கடகம்)',
+  'Simha (சிம்மம்)',
+  'Kanya (கன்னி)',
+  'Tula (துலாம்)',
+  'Vrischika (விருச்சிகம்)',
+  'Dhanu (தனுசு)',
+  'Makara (மகரம்)',
+  'Kumbha (கும்பம்)',
+  'Meena (மீனம்)'
+];
 
 $nakshatras = ['Ashwini','Bharani','Krittika','Rohini','Mrigashira','Ardra','Punarvasu','Pushya','Ashlesha','Magha','Purva Phalguni','Uttara Phalguni','Hasta','Chitra','Swati','Vishakha','Anuradha','Jyeshtha','Mula','Purva Ashadha','Uttara Ashadha','Shravana','Dhanishta','Shatabhisha','Purva Bhadrapada','Uttara Bhadrapada','Revati'];
 $incomes = ['Below 2 Lakhs','2 - 4 Lakhs','4 - 6 Lakhs','6 - 8 Lakhs','8 - 10 Lakhs','10 - 15 Lakhs','15 - 20 Lakhs','20 - 30 Lakhs','30 - 50 Lakhs','50 Lakhs+'];
@@ -442,6 +542,15 @@ require_once __DIR__ . '/includes/navbar.php';
     <?php if (!empty($errors['profile_photo'])): ?>
       <div class="profile-alert error"><i class="bi bi-exclamation-circle-fill"></i> <?php echo htmlspecialchars($errors['profile_photo']); ?></div>
     <?php endif; ?>
+    <?php if (!empty($errors['kattam_image'])): ?>
+      <div class="profile-alert error"><i class="bi bi-exclamation-circle-fill"></i> <?php echo htmlspecialchars($errors['kattam_image']); ?></div>
+    <?php endif; ?>
+    <?php if (!empty($errors['time_of_birth'])): ?>
+      <div class="profile-alert error"><i class="bi bi-exclamation-circle-fill"></i> <?php echo htmlspecialchars($errors['time_of_birth']); ?></div>
+    <?php endif; ?>
+    <?php if (!empty($errors['rashi'])): ?>
+      <div class="profile-alert error"><i class="bi bi-exclamation-circle-fill"></i> <?php echo htmlspecialchars($errors['rashi']); ?></div>
+    <?php endif; ?>
 
     <?php if ($user && ((int)($user['email_verified'] ?? 0) !== 1)): ?>
       <div class="profile-alert" style="background:#fff7e0;border-color:#e3c877;color:#6b4f00;"><i class="bi bi-envelope-exclamation-fill"></i> Your email is not verified yet. <a href="./verify_email.php" style="font-weight:700;text-decoration:underline;">Verify your email</a> to activate all features.</div>
@@ -453,6 +562,7 @@ require_once __DIR__ . '/includes/navbar.php';
       <input type="hidden" name="save_profile" value="1">
       <?php csrf_field(); ?>
       <input type="hidden" name="delete_profile_photo" id="delete_profile_photo" value="0">
+      <input type="hidden" name="delete_kattam_image" id="delete_kattam_image" value="0">
 
       <!-- 1. PERSONAL -->
       <div class="tab-panel active" id="panel-personal">
@@ -626,6 +736,84 @@ require_once __DIR__ . '/includes/navbar.php';
                   <option value="<?php echo $mt; ?>"<?php echo sv($user, 'mother_tongue', $mt); ?>><?php echo $mt; ?></option>
                 <?php endforeach; ?>
               </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Time of Birth <span class="text-muted" style="font-weight:400;font-size:0.7rem;">(IST 12hr)</span></label>
+              <?php
+                $tobH = $tobM = $tobP = '';
+                if (!empty($user['time_of_birth'])) {
+                  $t = trim((string)$user['time_of_birth']);
+                  if (preg_match('/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i', $t, $mm)) {
+                    $tobH = str_pad($mm[1], 2, '0', STR_PAD_LEFT);
+                    $tobM = $mm[2];
+                    $tobP = strtoupper($mm[3]);
+                  } elseif (preg_match('/^(\d{1,2}):(\d{2})(?::\d{2})?$/', $t, $mm)) {
+                    $h24 = (int)$mm[1]; $mn = $mm[2];
+                    $tobP = $h24 >= 12 ? 'PM' : 'AM';
+                    $h12 = $h24 % 12; if ($h12 == 0) $h12 = 12;
+                    $tobH = str_pad((string)$h12, 2, '0', STR_PAD_LEFT);
+                    $tobM = $mn;
+                  }
+                }
+              ?>
+              <div class="d-flex gap-1">
+                <select name="tob_hour" id="tob_hour" class="form-select">
+                  <option value="">HH</option>
+                  <?php for ($h=1; $h<=12; $h++): $hh=str_pad((string)$h,2,'0',STR_PAD_LEFT); ?>
+                    <option value="<?php echo $hh; ?>"<?php if ($tobH === $hh) echo ' selected'; ?>><?php echo $hh; ?></option>
+                  <?php endfor; ?>
+                </select>
+                <select name="tob_minute" id="tob_minute" class="form-select">
+                  <option value="">MM</option>
+                  <?php for ($mmv=0; $mmv<60; $mmv++): $mm=str_pad((string)$mmv,2,'0',STR_PAD_LEFT); ?>
+                    <option value="<?php echo $mm; ?>"<?php if ($tobM === $mm) echo ' selected'; ?>><?php echo $mm; ?></option>
+                  <?php endfor; ?>
+                </select>
+                <select name="tob_period" id="tob_period" class="form-select">
+                  <option value="">AM/PM</option>
+                  <option value="AM"<?php if ($tobP === 'AM') echo ' selected'; ?>>AM</option>
+                  <option value="PM"<?php if ($tobP === 'PM') echo ' selected'; ?>>PM</option>
+                </select>
+              </div>
+              <input type="hidden" name="time_of_birth" id="time_of_birth_hidden" value="<?php pv($user, 'time_of_birth'); ?>">
+              <small class="text-muted" style="font-size:0.68rem;">12-hour IST format</small>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Place of Birth</label>
+              <input type="text" name="place_of_birth" class="form-control" value="<?php pv($user, 'place_of_birth'); ?>" placeholder="e.g. Chennai, Tamil Nadu">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Rashi</label>
+              <select name="rashi" class="form-select">
+                <option value="">Select Rashi</option>
+                <?php foreach ($rashiOptions as $r): ?>
+                  <option value="<?php echo htmlspecialchars($r); ?>"<?php echo sv($user, 'rashi', $r); ?>><?php echo htmlspecialchars($r); ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Kattam (Birth Chart) — Image (max 5MB)</label>
+              <div class="d-flex align-items-start gap-3 flex-wrap">
+                <div class="photo-upload-box" id="kattamBox" style="width:120px;height:120px;">
+                  <?php if ($kattamPhoto): ?>
+                    <img src="<?php echo $kattamPhoto; ?>" alt="Kattam" id="kattamPreview" style="display:block;">
+                  <?php else: ?>
+                    <img src="" alt="" style="display:none;" id="kattamPreview">
+                  <?php endif; ?>
+                  <div class="upload-placeholder" id="kattamPlaceholder"<?php if ($kattamPhoto) echo ' style="display:none;"'; ?>>
+                    <i class="bi bi-image"></i>
+                    <span>Upload Kattam</span>
+                  </div>
+                  <input type="file" name="kattam_image_file" id="kattam_image_file" accept="image/jpeg,image/png,image/webp" onchange="previewKattam(this)">
+                  <button class="remove-photo" id="kattamRemoveBtn" data-remove-kattam type="button" title="Remove"<?php if (!$kattamPhoto) echo ' style="display:none;"'; ?>><i class="bi bi-x"></i></button>
+                </div>
+                <div>
+                  <p class="mb-1" style="font-size:0.8rem;color:#666;">Upload your Jathagam Kattam chart (photo of chart). JPG/PNG/WEBP, max 5MB.</p>
+                  <?php if ($kattamPhoto): ?>
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-remove-kattam><i class="bi bi-trash"></i> Delete Kattam</button>
+                  <?php endif; ?>
+                </div>
+              </div>
             </div>
           </div>
         </div>

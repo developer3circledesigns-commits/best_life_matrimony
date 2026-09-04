@@ -101,6 +101,9 @@ $religiousRows = [
   'Zodiac' => v($profile, 'zodiac'),
   'Dosham' => v($profile, 'dosham'),
   'Mother Tongue' => v($profile, 'mother_tongue'),
+  'Time of Birth' => v($profile, 'time_of_birth'),
+  'Place of Birth' => v($profile, 'place_of_birth'),
+  'Rashi' => v($profile, 'rashi'),
 ];
 $locationRows = [
   'Country' => v($profile, 'country'),
@@ -249,6 +252,15 @@ function renderSection($title, $rows) {
         </div>
       <?php else: ?>
         <div class="pv-empty">This member hasn't added their profile details yet.</div>
+      <?php endif; ?>
+
+      <?php if (!empty($profile['kattam_image'])): ?>
+        <div class="pv-about">
+          <h3>Kattam (Birth Chart)</h3>
+          <div style="margin-top:8px; max-width:420px;">
+            <img src="<?php echo htmlspecialchars(photo_url($profile['kattam_image'])); ?>" alt="Kattam" style="width:100%;height:auto;border:1px solid #eee;border-radius:8px;cursor:zoom-in;user-select:none;-webkit-user-drag:none;" draggable="false" oncontextmenu="return false" ondragstart="return false" onclick="window.open(this.src,'_blank')">
+          </div>
+        </div>
       <?php endif; ?>
     </div>
 

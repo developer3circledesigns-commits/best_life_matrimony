@@ -54,7 +54,7 @@ function getDB(array $cfg = null): PDO {
     `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET={$cfg['charset']} COLLATE={$cfg['charset']}_unicode_ci");
-  if (!defined('SCHEMA_VERSION')) define('SCHEMA_VERSION', 'v10'); // v10: brothers_married/sisters_married optional (DEFAULT NULL)
+  if (!defined('SCHEMA_VERSION')) define('SCHEMA_VERSION', 'v11'); // v11: birth time/place, rashi (Tamil), kattam image
   $storedVer = $pdo->query('SELECT schema_version FROM schema_meta WHERE id = 1')->fetchColumn();
   $schemaNeedsMigrate = ($storedVer === false) || ($storedVer !== SCHEMA_VERSION);
 
@@ -124,6 +124,10 @@ function getDB(array $cfg = null): PDO {
     "`is_suspended` TINYINT(1) NOT NULL DEFAULT 0",
     "`twofa_secret` VARCHAR(64) DEFAULT NULL",
     "`is_approved` TINYINT(1) NOT NULL DEFAULT 0",
+    "`time_of_birth` VARCHAR(8) DEFAULT NULL",
+    "`place_of_birth` VARCHAR(150) DEFAULT NULL",
+    "`rashi` VARCHAR(50) DEFAULT NULL",
+    "`kattam_image` MEDIUMTEXT DEFAULT NULL",
   ];
   foreach ($profileCols as $colDef) {
     $colName = trim($colDef, '` ');
@@ -154,7 +158,7 @@ function getDB(array $cfg = null): PDO {
 
   // v9: Convert image columns to MEDIUMTEXT for DB-only base64 storage (was VARCHAR 255)
   try {
-    $imgCols = ['profile_photo','gallery_photo_1','gallery_photo_2','gallery_photo_3','gallery_photo_4','gallery_photo_5'];
+    $imgCols = ['profile_photo','gallery_photo_1','gallery_photo_2','gallery_photo_3','gallery_photo_4','gallery_photo_5','kattam_image'];
     foreach ($imgCols as $imgCol) {
       $colInfo = $pdo->query("SHOW FULL COLUMNS FROM `users` LIKE '$imgCol'")->fetch();
       if ($colInfo) {
