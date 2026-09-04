@@ -731,10 +731,11 @@ require_once __DIR__ . '/includes/navbar.php';
               </select>
             </div>
             <div class="col-6 col-md-3">
-              <label class="form-label">Brothers Married</label>
+              <label class="form-label">Brothers Married <span class="text-muted" style="font-weight:400;font-size:0.75rem;">(Optional)</span></label>
               <select name="brothers_married" class="form-select">
+                <option value=""<?php if (!isset($user['brothers_married']) || $user['brothers_married'] === null || $user['brothers_married'] === '') echo ' selected'; ?>>Select</option>
                 <?php for ($i = 0; $i <= 10; $i++): ?>
-                  <option value="<?php echo $i; ?>"<?php if (intval($user['brothers_married'] ?? 0) === $i) echo ' selected'; ?>><?php echo $i; ?></option>
+                  <option value="<?php echo $i; ?>"<?php if (isset($user['brothers_married']) && $user['brothers_married'] !== null && $user['brothers_married'] !== '' && intval($user['brothers_married']) === $i) echo ' selected'; ?>><?php echo $i; ?></option>
                 <?php endfor; ?>
               </select>
             </div>
@@ -747,10 +748,11 @@ require_once __DIR__ . '/includes/navbar.php';
               </select>
             </div>
             <div class="col-6 col-md-3">
-              <label class="form-label">Sisters Married</label>
+              <label class="form-label">Sisters Married <span class="text-muted" style="font-weight:400;font-size:0.75rem;">(Optional)</span></label>
               <select name="sisters_married" class="form-select">
+                <option value=""<?php if (!isset($user['sisters_married']) || $user['sisters_married'] === null || $user['sisters_married'] === '') echo ' selected'; ?>>Select</option>
                 <?php for ($i = 0; $i <= 10; $i++): ?>
-                  <option value="<?php echo $i; ?>"<?php if (intval($user['sisters_married'] ?? 0) === $i) echo ' selected'; ?>><?php echo $i; ?></option>
+                  <option value="<?php echo $i; ?>"<?php if (isset($user['sisters_married']) && $user['sisters_married'] !== null && $user['sisters_married'] !== '' && intval($user['sisters_married']) === $i) echo ' selected'; ?>><?php echo $i; ?></option>
                 <?php endfor; ?>
               </select>
             </div>

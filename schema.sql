@@ -66,9 +66,9 @@ CREATE TABLE `users` (
   `mother_name` VARCHAR(150) DEFAULT NULL,
   `mother_occupation` VARCHAR(150) DEFAULT NULL,
   `brothers` TINYINT UNSIGNED DEFAULT 0,
-  `brothers_married` TINYINT UNSIGNED DEFAULT 0,
+  `brothers_married` TINYINT UNSIGNED DEFAULT NULL,
   `sisters` TINYINT UNSIGNED DEFAULT 0,
-  `sisters_married` TINYINT UNSIGNED DEFAULT 0,
+  `sisters_married` TINYINT UNSIGNED DEFAULT NULL,
   `family_location` VARCHAR(150) DEFAULT NULL,
   `diet` ENUM('Vegetarian','Non-Vegetarian','Eggetarian','Vegan','Jain') DEFAULT NULL,
   `smoking` ENUM('No','Sometimes','Often') DEFAULT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE `schema_meta` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Seed schema_meta version
-INSERT INTO `schema_meta` (`id`, `schema_version`) VALUES (1, 'v9') ON DUPLICATE KEY UPDATE `schema_version` = 'v9';
+INSERT INTO `schema_meta` (`id`, `schema_version`) VALUES (1, 'v10') ON DUPLICATE KEY UPDATE `schema_version` = 'v10';
 
 -- Create favourites table
 CREATE TABLE `favourites` (

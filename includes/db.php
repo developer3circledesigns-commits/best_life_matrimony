@@ -54,7 +54,7 @@ function getDB(array $cfg = null): PDO {
     `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET={$cfg['charset']} COLLATE={$cfg['charset']}_unicode_ci");
-  if (!defined('SCHEMA_VERSION')) define('SCHEMA_VERSION', 'v9'); // v9: DB-only image storage (MEDIUMTEXT)
+  if (!defined('SCHEMA_VERSION')) define('SCHEMA_VERSION', 'v10'); // v10: brothers_married/sisters_married optional (DEFAULT NULL)
   $storedVer = $pdo->query('SELECT schema_version FROM schema_meta WHERE id = 1')->fetchColumn();
   $schemaNeedsMigrate = ($storedVer === false) || ($storedVer !== SCHEMA_VERSION);
 
@@ -97,9 +97,9 @@ function getDB(array $cfg = null): PDO {
     "`mother_name` VARCHAR(150) DEFAULT NULL",
     "`mother_occupation` VARCHAR(150) DEFAULT NULL",
     "`brothers` TINYINT UNSIGNED DEFAULT 0",
-    "`brothers_married` TINYINT UNSIGNED DEFAULT 0",
+    "`brothers_married` TINYINT UNSIGNED DEFAULT NULL",
     "`sisters` TINYINT UNSIGNED DEFAULT 0",
-    "`sisters_married` TINYINT UNSIGNED DEFAULT 0",
+    "`sisters_married` TINYINT UNSIGNED DEFAULT NULL",
     "`family_location` VARCHAR(150) DEFAULT NULL",
     "`diet` ENUM('Vegetarian','Non-Vegetarian','Eggetarian','Vegan','Jain') DEFAULT NULL",
     "`smoking` ENUM('No','Sometimes','Often') DEFAULT NULL",
@@ -135,6 +135,22 @@ function getDB(array $cfg = null): PDO {
     }
   }
   } catch (Exception $e) { /* migration columns may already exist */ }
+
+  // v10: Make brothers_married / sisters_married optional (NULL allowed, DEFAULT NULL)
+  try {
+    foreach (['brothers_married', 'sisters_married'] as $optCol) {
+      $colInfo = $pdo->query("SHOW FULL COLUMNS FROM `users` LIKE '$optCol'")->fetch();
+      if ($colInfo) {
+        $type = strtolower($colInfo['Type'] ?? '');
+        $isNullable = strtoupper($colInfo['Null'] ?? 'YES') === 'YES';
+        $default = $colInfo['Default'] ?? null;
+        // If column is NOT NULL or has DEFAULT 0, migrate to DEFAULT NULL
+        if (!$isNullable || $default === '0' || $default === 0) {
+          $pdo->exec("ALTER TABLE `users` MODIFY COLUMN `$optCol` TINYINT UNSIGNED DEFAULT NULL");
+        }
+      }
+    }
+  } catch (Exception $e) { /* ignore optional cols migration */ }
 
   // v9: Convert image columns to MEDIUMTEXT for DB-only base64 storage (was VARCHAR 255)
   try {
