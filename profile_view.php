@@ -189,6 +189,9 @@ function renderSection($title, $rows) {
   .pv-lightbox-close { position: absolute; top: -12px; right: -12px; width: 36px; height: 36px; border: none; border-radius: 50%; background: #1a1a1a; color: #fff; font-size: 22px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 4; }
   .pv-lightbox-close:hover { background: #000; }
   .pv-lightbox-caption { margin-top: 8px; font-size: 13px; font-weight: 600; color: #333; text-align: center; }
+  .kattam-wrap { position: relative; display: block; border: 1px solid #eee; border-radius: 8px; overflow: hidden; background: #fff; }
+  .kattam-wrap img { display: block; width: 100%; height: auto; }
+  .kattam-wrap::after { content: ""; position: absolute; right: 6px; bottom: 6px; width: min(32%, 110px); height: 14px; background-image: url('/assets/images/logo.png'); background-size: contain; background-repeat: no-repeat; background-position: right bottom; opacity: 0.55; pointer-events: none; z-index: 2; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4)); }
 </style>
 <main class="bg-[#f4f2ee]" style="min-height:100vh;">
   <div class="pv-wrap">
@@ -258,7 +261,10 @@ function renderSection($title, $rows) {
         <div class="pv-about">
           <h3>Kattam (Birth Chart)</h3>
           <div style="margin-top:8px; max-width:420px;">
-            <img src="<?php echo htmlspecialchars(photo_url($profile['kattam_image'])); ?>" alt="Kattam" style="width:100%;height:auto;border:1px solid #eee;border-radius:8px;cursor:zoom-in;user-select:none;-webkit-user-drag:none;" draggable="false" oncontextmenu="return false" ondragstart="return false" onclick="window.open(this.src,'_blank')">
+            <div class="kattam-wrap">
+              <img id="kattamThumb" class="js-kattam" src="<?php echo htmlspecialchars(photo_url($profile['kattam_image'])); ?>" alt="Kattam (Birth Chart)" style="cursor:zoom-in;user-select:none;-webkit-user-drag:none;" draggable="false" oncontextmenu="return false" ondragstart="return false">
+            </div>
+            <div style="margin-top:6px;font-size:12px;color:#6b1020;"><i class="bi bi-zoom-in"></i> Click to view full Kattam</div>
           </div>
         </div>
       <?php endif; ?>
@@ -304,14 +310,14 @@ function renderSection($title, $rows) {
   var lb = document.getElementById('pvLightbox');
   var lbImg = document.getElementById('pvLightboxImg');
   var lbCap = document.getElementById('pvLightboxCaption');
-  if (!photoEl || !box || !lb || !lbImg) return;
+  var kattamEl = document.getElementById('kattamThumb');
+  if (!lb || !lbImg) return;
   var nameEl = document.querySelector('.pv-name');
   var nameText = nameEl ? nameEl.textContent.trim().split('\n')[0].trim() : '';
-  function openLb() {
-    var src = photoEl.getAttribute('src');
+  function openLightbox(src, caption) {
     if (!src) return;
     lbImg.src = src;
-    if (lbCap) lbCap.textContent = nameText || 'Profile photo';
+    if (lbCap) lbCap.textContent = caption || 'Profile photo';
     lb.hidden = false;
     lb.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -320,10 +326,22 @@ function renderSection($title, $rows) {
     lb.hidden = true;
     lb.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
-    // keep src to avoid flicker, or clear: lbImg.removeAttribute('src');
   }
-  box.addEventListener('click', openLb);
-  photoEl.addEventListener('click', function (e) { e.stopPropagation(); openLb(); });
+  function openProfileLb() {
+    if (!photoEl) return;
+    var src = photoEl.getAttribute('src');
+    openLightbox(src, nameText || 'Profile photo');
+  }
+  if (box && photoEl) {
+    box.addEventListener('click', openProfileLb);
+    photoEl.addEventListener('click', function (e) { e.stopPropagation(); openProfileLb(); });
+  }
+  if (kattamEl) {
+    kattamEl.addEventListener('click', function (e) {
+      e.stopPropagation();
+      openLightbox(kattamEl.getAttribute('src'), 'Kattam (Birth Chart)' + (nameText ? ' — ' + nameText : ''));
+    });
+  }
   lb.addEventListener('click', function (e) {
     if (e.target.hasAttribute('data-close-lightbox') || e.target.closest('[data-close-lightbox]')) closeLb();
   });
