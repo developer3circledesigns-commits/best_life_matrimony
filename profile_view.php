@@ -357,10 +357,10 @@ function renderSection($title, $rows) {
   var profileId = <?php echo $profileId; ?>;
   var csrf = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
 
-  // Match score
+  // Match score — meaningful heading (matrimony context)
   var scoreWrap = document.createElement('div');
   scoreWrap.style.cssText = 'max-width:860px;margin:14px auto 0;padding:0 16px;';
-  scoreWrap.innerHTML = '<div style="background:#fff;border:1px solid #eee;padding:18px 20px;"><strong style="font-size:14px;">Compatibility with you</strong><div id="matchScoreBox" style="margin-top:10px;color:#666;font-size:13px;">Computing match score…</div></div>';
+  scoreWrap.innerHTML = '<div style="background:#fff;border:1px solid #eee;padding:18px 20px;"><div style="display:flex;align-items:center;gap:6px;"><i class="bi bi-hearts" style="color:#6b1020;"></i><strong style="font-size:14px;">Soulmate Compatibility Score</strong></div><div style="font-size:11px;color:#8a6a4f;margin-top:2px;letter-spacing:.02em;">Thirumana Porutham &bull; Jodi Match &bull; Made for Each Other</div><div id="matchScoreBox" style="margin-top:10px;color:#666;font-size:13px;">Computing match score…</div></div>';
   var wrap = document.querySelector('.pv-wrap');
   if (wrap) wrap.appendChild(scoreWrap);
 
