@@ -302,6 +302,60 @@
     phoneEl.addEventListener('input', function () { if (phoneEl.value.trim()) clearInvalid(phoneEl); });
   }
 
+  /* ── Partner Age Range dropdowns (Preferences) ─── */
+  var ageMinEl = document.getElementById('pref_age_min');
+  var ageMaxEl = document.getElementById('pref_age_max');
+  function syncAgeDropdowns() {
+    if (!ageMinEl || !ageMaxEl) return;
+    var minVal = ageMinEl.value ? parseInt(ageMinEl.value, 10) : null;
+    var maxVal = ageMaxEl.value ? parseInt(ageMaxEl.value, 10) : null;
+    // Disable invalid options in Max based on Min
+    Array.prototype.forEach.call(ageMaxEl.options, function (opt) {
+      if (!opt.value) return; // skip placeholder
+      var v = parseInt(opt.value, 10);
+      opt.disabled = (minVal !== null && v < minVal);
+    });
+    // Disable invalid options in Min based on Max
+    Array.prototype.forEach.call(ageMinEl.options, function (opt) {
+      if (!opt.value) return;
+      var v = parseInt(opt.value, 10);
+      opt.disabled = (maxVal !== null && v > maxVal);
+    });
+    // Inline validation: min > max
+    if (minVal !== null && maxVal !== null && minVal > maxVal) {
+      setInvalid(ageMaxEl, 'Max age cannot be less than min age.');
+    } else {
+      clearInvalid(ageMinEl);
+      clearInvalid(ageMaxEl);
+    }
+  }
+  if (ageMinEl && ageMaxEl) {
+    syncAgeDropdowns();
+    ageMinEl.addEventListener('change', syncAgeDropdowns);
+    ageMaxEl.addEventListener('change', syncAgeDropdowns);
+  }
+
+  function validateAgeRange() {
+    if (!ageMinEl || !ageMaxEl) return true;
+    var minVal = ageMinEl.value ? parseInt(ageMinEl.value, 10) : null;
+    var maxVal = ageMaxEl.value ? parseInt(ageMaxEl.value, 10) : null;
+    if (minVal !== null && (minVal < 18 || minVal > 50)) {
+      setInvalid(ageMinEl, 'Min age must be between 18 and 50.');
+      return false;
+    }
+    if (maxVal !== null && (maxVal < 18 || maxVal > 50)) {
+      setInvalid(ageMaxEl, 'Max age must be between 18 and 50.');
+      return false;
+    }
+    if (minVal !== null && maxVal !== null && minVal > maxVal) {
+      setInvalid(ageMaxEl, 'Max age cannot be less than min age.');
+      return false;
+    }
+    clearInvalid(ageMinEl);
+    clearInvalid(ageMaxEl);
+    return true;
+  }
+
   var formEl = document.getElementById('profileForm');
   if (formEl) {
     // Required text fields: phone + full_name (email is disabled/readonly)
@@ -313,8 +367,18 @@
       });
     });
 
-    /* ── Save loading feedback (UX #1) ─────────── */
-    formEl.addEventListener('submit', function () {
+    /* ── Save loading feedback (UX #1) + age validation ─────────── */
+    formEl.addEventListener('submit', function (e) {
+      if (!validateAgeRange()) {
+        e.preventDefault();
+        switchToTab('preferences');
+        // ensure visible
+        if (ageMinEl && ageMaxEl) {
+          var invalid = document.querySelector('.is-invalid');
+          if (invalid) invalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+      }
       var btn = formEl.querySelector('button[type="submit"]:not(:disabled)');
       if (btn) {
         var label = btn.querySelector('i, span');

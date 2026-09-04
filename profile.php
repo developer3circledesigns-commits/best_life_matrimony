@@ -79,6 +79,25 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
       $params[] = ($val === '' || !is_numeric($val)) ? null : intval($val);
     }
 
+    // Validate Partner Age Range dropdowns — both must be within 18-50 and min <= max
+    $prefAgeMinRaw = isset($_POST['pref_age_min']) ? trim($_POST['pref_age_min']) : '';
+    $prefAgeMaxRaw = isset($_POST['pref_age_max']) ? trim($_POST['pref_age_max']) : '';
+    $prefAgeMinVal = ($prefAgeMinRaw === '' || !is_numeric($prefAgeMinRaw)) ? null : intval($prefAgeMinRaw);
+    $prefAgeMaxVal = ($prefAgeMaxRaw === '' || !is_numeric($prefAgeMaxRaw)) ? null : intval($prefAgeMaxRaw);
+    if ($prefAgeMinVal !== null && ($prefAgeMinVal < 18 || $prefAgeMinVal > 50)) {
+      $errors['pref_age_min'] = 'Partner min age must be between 18 and 50.';
+    }
+    if ($prefAgeMaxVal !== null && ($prefAgeMaxVal < 18 || $prefAgeMaxVal > 50)) {
+      $errors['pref_age_max'] = 'Partner max age must be between 18 and 50.';
+    }
+    if ($prefAgeMinVal !== null && $prefAgeMaxVal !== null && $prefAgeMinVal > $prefAgeMaxVal) {
+      $errors['pref_age_range'] = 'Partner min age cannot be greater than max age.';
+    }
+    // Auto-correct out-of-range values in params so DB never stores invalid ages (when no error, clamp is not needed — values already valid)
+    if (isset($errors['pref_age_min']) || isset($errors['pref_age_max']) || isset($errors['pref_age_range'])) {
+      // keep errors — will block save below
+    }
+
     // Cross-validate looking_for vs gender (configurable via enforce_heterosexual)
     $formLookingFor = $_POST['looking_for'] ?? $user['looking_for'] ?? '';
     $formGender = $_POST['gender'] ?? $user['gender'] ?? '';
@@ -373,6 +392,15 @@ require_once __DIR__ . '/includes/navbar.php';
     <?php endif; ?>
     <?php if (!empty($errors['looking_for'])): ?>
       <div class="profile-alert error"><i class="bi bi-exclamation-circle-fill"></i> <?php echo $errors['looking_for']; ?></div>
+    <?php endif; ?>
+    <?php if (!empty($errors['pref_age_range'])): ?>
+      <div class="profile-alert error"><i class="bi bi-exclamation-circle-fill"></i> <?php echo htmlspecialchars($errors['pref_age_range']); ?></div>
+    <?php endif; ?>
+    <?php if (!empty($errors['pref_age_min'])): ?>
+      <div class="profile-alert error"><i class="bi bi-exclamation-circle-fill"></i> <?php echo htmlspecialchars($errors['pref_age_min']); ?></div>
+    <?php endif; ?>
+    <?php if (!empty($errors['pref_age_max'])): ?>
+      <div class="profile-alert error"><i class="bi bi-exclamation-circle-fill"></i> <?php echo htmlspecialchars($errors['pref_age_max']); ?></div>
     <?php endif; ?>
     <?php if (!empty($errors['profile_photo'])): ?>
       <div class="profile-alert error"><i class="bi bi-exclamation-circle-fill"></i> <?php echo htmlspecialchars($errors['profile_photo']); ?></div>
@@ -818,9 +846,19 @@ require_once __DIR__ . '/includes/navbar.php';
             <div class="col-12 col-md-6">
               <label class="form-label">Partner Age Range (Years)</label>
               <div class="d-flex align-items-center gap-2">
-                <input type="number" name="pref_age_min" class="form-control" style="max-width:120px;" value="<?php pv($user, 'pref_age_min'); ?>" min="18" max="70" placeholder="Min (18)">
+                <select name="pref_age_min" id="pref_age_min" class="form-select" style="max-width:130px;">
+                  <option value="">Min Age</option>
+                  <?php for ($a = 18; $a <= 50; $a++): ?>
+                    <option value="<?php echo $a; ?>"<?php echo sv($user, 'pref_age_min', $a); ?>><?php echo $a; ?> yrs</option>
+                  <?php endfor; ?>
+                </select>
                 <span style="color:#888;">to</span>
-                <input type="number" name="pref_age_max" class="form-control" style="max-width:120px;" value="<?php pv($user, 'pref_age_max'); ?>" min="18" max="70" placeholder="Max (70)">
+                <select name="pref_age_max" id="pref_age_max" class="form-select" style="max-width:130px;">
+                  <option value="">Max Age</option>
+                  <?php for ($a = 18; $a <= 50; $a++): ?>
+                    <option value="<?php echo $a; ?>"<?php echo sv($user, 'pref_age_max', $a); ?>><?php echo $a; ?> yrs</option>
+                  <?php endfor; ?>
+                </select>
               </div>
             </div>
             <div class="col-12 col-md-6">
