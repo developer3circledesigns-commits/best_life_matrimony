@@ -122,7 +122,7 @@
   function cardHTML(p){
     var age = p.age != null ? p.age : '';
     var h = p.height || '';
-    var photo = p.photo ? '<img src="'+esc(p.photo)+'" alt="'+esc(p.name)+'" class="m-card-img" loading="lazy">' : '<i class="bi bi-person-circle"></i>';
+    var photo = p.photo ? '<img src="'+esc(p.photo)+'" alt="'+esc(p.name)+'" class="m-card-img" loading="lazy" draggable="false" oncontextmenu="return false" ondragstart="return false" style="pointer-events:auto;">' : '<i class="bi bi-person-circle"></i>';
     var isFav = favSet[p.id];
     var favClass = isFav ? ' fav-active' : '';
     var favIcon = isFav ? 'bi-heart-fill' : 'bi-heart';

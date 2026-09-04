@@ -91,6 +91,40 @@
 .skeleton-row{ height: 10px; margin-bottom: 8px; }
 .skeleton-row.w60{width:60%} .skeleton-row.w80{width:80%} .skeleton-row.w40{width:40%}
 
+/* ── Real watermark (logo) — all profile images ── */
+.m-card-head,
+.m-card-head img,
+.pv-photo,
+.fav-card-photo,
+.photo-upload-box,
+.gallery-item { position: relative; }
+.m-card-head img,
+.pv-photo img,
+.fav-card-photo img,
+.photo-upload-box img,
+.gallery-item img { user-select: none; -webkit-user-drag: none; }
+.m-card-head::after,
+.pv-photo::after,
+.fav-card-photo::after,
+.photo-upload-box:has(img)::after,
+.gallery-item:has(img)::after {
+  content: "";
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  width: min(42%, 110px);
+  height: 18px;
+  background-image: url('/assets/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  opacity: 0.62;
+  pointer-events: none;
+  z-index: 3;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.45));
+}
+.pv-photo::after { width: min(44%, 130px); height: 20px; opacity: 0.70; }
+
 /* Toast feedback (UX #4) */
 .m-toast {
   position: fixed;

@@ -610,6 +610,35 @@ body:has(.profile-page) > div {
   font-size: 0.8rem;
 }
 
+/* ── Real watermark (logo) — all profile images ── */
+.profile-header .profile-photo,
+.photo-upload-box,
+.gallery-item,
+.fav-card-photo { position: relative; }
+.profile-header .profile-photo img,
+.photo-upload-box img,
+.gallery-item img,
+.fav-card-photo img { user-select: none; -webkit-user-drag: none; }
+.profile-header .profile-photo:has(img)::after,
+.photo-upload-box:has(img)::after,
+.gallery-item:has(img)::after,
+.fav-card-photo::after {
+  content: "";
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  width: min(42%, 84px);
+  height: 14px;
+  background-image: url('/assets/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  opacity: 0.58;
+  pointer-events: none;
+  z-index: 4;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
+}
+
 /* ── Responsive ──────────────────────────────────── */
 @media (max-width: 768px) {
   .tabs-nav .nav-tab {

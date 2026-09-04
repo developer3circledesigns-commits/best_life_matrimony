@@ -156,6 +156,17 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
             if ($raw === false || $raw === '') {
               $profilePhotoError = 'Could not read uploaded file.';
             } else {
+              // Real watermark: bake project logo into the image so every stored photo carries it
+              if (file_exists(__DIR__ . '/includes/watermark.php')) {
+                require_once __DIR__ . '/includes/watermark.php';
+                if (function_exists('watermark_apply_to_raw')) {
+                  [$wmRaw, $wmMime] = watermark_apply_to_raw($raw, $mime);
+                  if ($wmRaw !== '' && $wmRaw !== $raw) {
+                    $raw = $wmRaw;
+                    $mime = $wmMime;
+                  }
+                }
+              }
               // Legacy cleanup: if old photo was a file path, try to delete the file (one-time)
               if (!empty($user['profile_photo']) && strpos($user['profile_photo'], 'data:') !== 0) {
                 $oldFile = photo_fs_path($user['profile_photo'], __DIR__);

@@ -50,7 +50,7 @@ $navUserId = $_SESSION['user_id'] ?? null;
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </a>
         <div class="relative">
-          <button type="button" id="acctMenuBtn" class="hidden sm:inline-flex text-sm font-medium text-[#3a0c15]/70 hover:text-[#8a4a2f] transition-colors">Account <svg class="inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
+          <button type="button" id="acctMenuBtn" class="hidden sm:inline-flex text-sm font-medium text-[#3a0c15]/70 hover:text-[#8a4a2f] transition-colors">My Account <svg class="inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
           <div id="acctMenu" class="hidden absolute right-0 mt-2 w-56 rounded-xl border border-black/5 bg-white p-2 shadow-xl z-50" style="z-index: 10000;">
             <a href="./network.php" class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#3a0c15] hover:bg-black/5">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>

@@ -155,8 +155,9 @@ function renderSection($title, $rows) {
   .pv-wrap { max-width: 860px; margin: 0 auto; padding: 24px 16px 48px; font-family: Inter, system-ui, sans-serif; color: #1a1a1a; }
   .pv-card { background: #fff; border: 1px solid #ddd; }
   .pv-head { display: flex; gap: 18px; align-items: center; padding: 20px; border-bottom: 1px solid #eee; flex-wrap: wrap; }
-  .pv-photo { width: 92px; height: 92px; border-radius: 8px; overflow: hidden; background: #f0ece6; flex-shrink: 0; display:flex; align-items:center; justify-content:center; color:#999; }
-  .pv-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .pv-photo { width: 92px; height: 92px; border-radius: 8px; overflow: hidden; background: #f0ece6; flex-shrink: 0; display:flex; align-items:center; justify-content:center; color:#999; position: relative; }
+  .pv-photo img { width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
+  .pv-photo:has(img)::after { content: ""; position: absolute; right: 4px; bottom: 4px; width: 56px; height: 14px; background-image: url('/assets/images/logo.png'); background-size: contain; background-repeat: no-repeat; background-position: right bottom; opacity: 0.68; pointer-events: none; z-index: 3; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45)); }
   .pv-photo i { font-size: 40px; }
   .pv-name { font-size: 22px; font-weight: 700; margin: 0; }
   .pv-tagline { font-size: 13px; color: #666; margin: 4px 0 0; }
@@ -173,6 +174,18 @@ function renderSection($title, $rows) {
   .pv-btn { height: 40px; padding: 0 20px; font-size: 13px; border-radius: 0; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; border: 1px solid #ddd; background: #fff; }
   .pv-btn-primary { background: #6b1020; color: #fff; border-color: #6b1020; }
   .pv-empty { text-align: center; color: #888; font-size: 13px; padding: 24px; }
+  .pv-photo:has(img) { cursor: zoom-in; }
+  /* Lightbox — full image on click, same-page modal */
+  .pv-lightbox[hidden] { display: none !important; }
+  .pv-lightbox { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 16px; }
+  .pv-lightbox-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.78); backdrop-filter: blur(4px); }
+  .pv-lightbox-content { position: relative; max-width: min(92vw, 720px); max-height: 88vh; background: #fff; padding: 8px; border-radius: 10px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); display: flex; flex-direction: column; align-items: center; }
+  .pv-lightbox-photo { position: relative; display: flex; align-items: center; justify-content: center; max-width: 100%; max-height: 80vh; overflow: hidden; background: #f0ece6; border-radius: 8px; }
+  .pv-lightbox-photo img { max-width: 100%; max-height: 80vh; width: auto; height: auto; object-fit: contain; display: block; user-select: none; -webkit-user-drag: none; }
+  .pv-lightbox-photo:has(img)::after { content: ""; position: absolute; right: 8px; bottom: 8px; width: min(36%, 140px); height: 20px; background-image: url('/assets/images/logo.png'); background-size: contain; background-repeat: no-repeat; background-position: right bottom; opacity: 0.62; pointer-events: none; z-index: 3; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.45)); }
+  .pv-lightbox-close { position: absolute; top: -12px; right: -12px; width: 36px; height: 36px; border: none; border-radius: 50%; background: #1a1a1a; color: #fff; font-size: 22px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 4; }
+  .pv-lightbox-close:hover { background: #000; }
+  .pv-lightbox-caption { margin-top: 8px; font-size: 13px; font-weight: 600; color: #333; text-align: center; }
 </style>
 <main class="bg-[#f4f2ee]" style="min-height:100vh;">
   <div class="pv-wrap">
@@ -185,7 +198,7 @@ function renderSection($title, $rows) {
       <div class="pv-head">
         <div class="pv-photo">
           <?php if (!empty($profile['profile_photo'])): ?>
-            <img src="<?php echo htmlspecialchars(photo_url($profile['profile_photo'])); ?>" alt="Profile photo">
+            <img src="<?php echo htmlspecialchars(photo_url($profile['profile_photo'])); ?>" alt="Profile photo" draggable="false" oncontextmenu="return false" ondragstart="return false">
           <?php else: ?>
             <i class="bi bi-person-circle"></i>
           <?php endif; ?>
@@ -259,6 +272,55 @@ function renderSection($title, $rows) {
     <?php endif; ?>
   </div>
 </main>
+
+<!-- Full-image lightbox (same-page, triggered by clicking .pv-photo) -->
+<div id="pvLightbox" class="pv-lightbox" hidden aria-hidden="true" role="dialog" aria-label="Profile photo">
+  <div class="pv-lightbox-backdrop" data-close-lightbox></div>
+  <div class="pv-lightbox-content">
+    <button type="button" class="pv-lightbox-close" data-close-lightbox aria-label="Close">&times;</button>
+    <div class="pv-lightbox-photo">
+      <img id="pvLightboxImg" src="" alt="Full profile photo" draggable="false" oncontextmenu="return false" ondragstart="return false">
+    </div>
+    <div class="pv-lightbox-caption" id="pvLightboxCaption"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var photoEl = document.querySelector('.pv-photo img');
+  var box = document.querySelector('.pv-photo');
+  var lb = document.getElementById('pvLightbox');
+  var lbImg = document.getElementById('pvLightboxImg');
+  var lbCap = document.getElementById('pvLightboxCaption');
+  if (!photoEl || !box || !lb || !lbImg) return;
+  var nameEl = document.querySelector('.pv-name');
+  var nameText = nameEl ? nameEl.textContent.trim().split('\n')[0].trim() : '';
+  function openLb() {
+    var src = photoEl.getAttribute('src');
+    if (!src) return;
+    lbImg.src = src;
+    if (lbCap) lbCap.textContent = nameText || 'Profile photo';
+    lb.hidden = false;
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLb() {
+    lb.hidden = true;
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    // keep src to avoid flicker, or clear: lbImg.removeAttribute('src');
+  }
+  box.addEventListener('click', openLb);
+  photoEl.addEventListener('click', function (e) { e.stopPropagation(); openLb(); });
+  lb.addEventListener('click', function (e) {
+    if (e.target.hasAttribute('data-close-lightbox') || e.target.closest('[data-close-lightbox]')) closeLb();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !lb.hidden) closeLb();
+  });
+})();
+</script>
+
 <?php if (!$isOwner && $currentUserId): ?>
 <script>
 (function () {
