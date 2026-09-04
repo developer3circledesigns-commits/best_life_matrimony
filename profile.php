@@ -225,28 +225,55 @@ function cv($user, $key, $compare) {
 }
 
 /* ── Profile completion % ────────────────────────── */
+// Human-readable labels — single source of truth, avoids hard-coded raw DB keys in UI
+$fieldLabels = [
+  'full_name' => 'Full Name',
+  'date_of_birth' => 'Date of Birth',
+  'gender' => 'Gender',
+  'marital_status' => 'Marital Status',
+  'height' => 'Height',
+  'weight' => 'Weight',
+  'body_type' => 'Body Type',
+  'complexion' => 'Complexion',
+  'blood_group' => 'Blood Group',
+  'religion' => 'Religion',
+  'caste' => 'Caste',
+  'sub_caste' => 'Sub-Caste',
+  'gothram' => 'Gothram',
+  'star_sign' => 'Star / Nakshatra',
+  'zodiac' => 'Rasi / Zodiac',
+  'dosham' => 'Dosham',
+  'mother_tongue' => 'Mother Tongue',
+  'country' => 'Country',
+  'state' => 'State',
+  'city' => 'City',
+  'citizenship' => 'Citizenship',
+  'highest_education' => 'Highest Education',
+  'education_detail' => 'Education Detail',
+  'occupation' => 'Occupation',
+  'occupation_type' => 'Occupation Type',
+  'annual_income' => 'Annual Income',
+  'family_type' => 'Family Type',
+  'family_status' => 'Family Status',
+  'family_values' => 'Family Values',
+  'father_name' => "Father's Name",
+  'mother_name' => "Mother's Name",
+  'diet' => 'Diet',
+  'smoking' => 'Smoking',
+  'drinking' => 'Drinking',
+  'about_self' => 'About Self',
+  'pref_age_min' => 'Partner Min Age',
+  'pref_age_max' => 'Partner Max Age',
+  'pref_height_min' => 'Partner Min Height',
+  'pref_education' => 'Preferred Education',
+  'pref_location' => 'Preferred Location',
+  'profile_photo' => 'Profile Photo',
+];
+
 $pct = 0;
+$missing = [];
 if ($user) {
-  $checkFields = [
-    // Basic
-    'full_name', 'date_of_birth', 'gender', 'marital_status',
-    // Physical
-    'height', 'weight', 'body_type', 'complexion', 'blood_group',
-    // Religious
-    'religion', 'caste', 'sub_caste', 'gothram', 'star_sign', 'zodiac', 'dosham', 'mother_tongue',
-    // Location
-    'country', 'state', 'city', 'citizenship',
-    // Education & Career
-    'highest_education', 'education_detail', 'occupation', 'occupation_type', 'annual_income',
-    // Family
-    'family_type', 'family_status', 'family_values', 'father_name', 'mother_name',
-    // Lifestyle
-    'diet', 'smoking', 'drinking',
-    // About & Preferences
-    'about_self', 'pref_age_min', 'pref_age_max', 'pref_height_min', 'pref_education', 'pref_location',
-    // Photo
-    'profile_photo'
-  ];
+  $checkFields = array_keys($fieldLabels);
   $filled = 0;
   foreach ($checkFields as $cf) {
     if (!empty($user[$cf])) $filled++;
@@ -254,7 +281,7 @@ if ($user) {
   $total = count($checkFields);
   $pct = $total > 0 ? round(($filled / $total) * 100) : 0;
 
-  // Group fields by section for the "what's missing" checklist (UX #8)
+  // Group fields by section for the "what's missing" checklist (UX #8) — uses same label map
   $sections = [
     'Basic & Contact' => ['full_name', 'date_of_birth', 'gender', 'marital_status'],
     'Physical' => ['height', 'weight', 'body_type', 'complexion', 'blood_group'],
@@ -266,7 +293,6 @@ if ($user) {
     'About & Preferences' => ['about_self', 'pref_age_min', 'pref_age_max', 'pref_height_min', 'pref_education', 'pref_location'],
     'Gallery / Photo' => ['profile_photo'],
   ];
-  $missing = [];
   foreach ($sections as $secName => $fields) {
     $secMissing = [];
     foreach ($fields as $f) {
@@ -350,7 +376,7 @@ require_once __DIR__ . '/includes/navbar.php';
           <?php foreach ($missing as $secName => $fields): ?>
             <div class="missing-sec">
               <strong><?php echo htmlspecialchars($secName); ?></strong>
-              <span><?php echo htmlspecialchars(implode(', ', $fields)); ?></span>
+              <span><?php echo htmlspecialchars(implode(', ', array_map(function($f) use ($fieldLabels) { return $fieldLabels[$f] ?? ucwords(str_replace('_', ' ', $f)); }, $fields))); ?></span>
             </div>
           <?php endforeach; ?>
         </div>
