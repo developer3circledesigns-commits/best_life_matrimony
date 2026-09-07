@@ -8,7 +8,7 @@ $navUserId = $_SESSION['user_id'] ?? null;
 ?>
 <!-- Navbar — mirrors Navbar.tsx: sticky with backdrop-blur, transparent border, hide-on-scroll removed for PHP but scroll hiding via JS -->
 <header id="navbar" class="navbar-root sticky top-0 z-50 border-b border-black/5 bg-white backdrop-blur-sm overflow-x-clip transition-transform duration-300" style="z-index: 9999;">
-  <div class="mx-auto flex h-24 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+  <div class="mx-auto flex h-16 sm:h-20 lg:h-24 max-w-6xl items-center justify-between px-3 sm:px-6 lg:px-8">
     <!-- Left: toggle + brand -->
     <div class="flex items-center gap-3">
       <button id="menuToggle" class="sm:hidden inline-flex h-9 w-9 items-center justify-center rounded-md border border-black/10 bg-black/5 text-[#3a0c15] hover:bg-black/10 transition-colors" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
@@ -16,7 +16,7 @@ $navUserId = $_SESSION['user_id'] ?? null;
         <svg class="icon-close hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M6 18L18 6"/></svg>
       </button>
       <a href="./index.php" class="flex items-center gap-2">
-        <img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="w-48 lg:w-64 h-auto object-contain" loading="eager" decoding="async" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline'">
+        <img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="w-20 min-[380px]:w-24 sm:w-28 md:w-40 lg:w-56 xl:w-64 h-auto object-contain" loading="eager" decoding="async" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline'">
         <span class="font-serif text-lg font-semibold tracking-tight text-[#3a0c15]" style="display:none"><?php echo htmlspecialchars($siteConfig['name']); ?></span>
       </a>
     </div>
@@ -50,13 +50,13 @@ $navUserId = $_SESSION['user_id'] ?? null;
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </a>
         <div class="relative">
-          <button type="button" id="acctMenuBtn" class="hidden sm:inline-flex text-sm font-medium text-[#3a0c15]/70 hover:text-[#8a4a2f] transition-colors">My Account <svg class="inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
+          <button type="button" id="acctMenuBtn" class="inline-flex text-sm font-medium text-[#3a0c15]/70 hover:text-[#8a4a2f] transition-colors">My Account <svg class="inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
           <div id="acctMenu" class="hidden absolute right-0 mt-2 w-56 rounded-xl border border-black/5 bg-white p-2 shadow-xl z-50" style="z-index: 10000;">
             <a href="./network.php" class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#3a0c15] hover:bg-black/5">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               My Network
             </a>
-            <a href="./who_viewed_me.php" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#3a0c15] hover:bg-black/5">
+            <a href="./who_viewed_me.php" class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#3a0c15] hover:bg-black/5">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
               Who Viewed Me
             </a>
@@ -85,7 +85,7 @@ $navUserId = $_SESSION['user_id'] ?? null;
           </div>
         </div>
       <?php else: ?>
-        <a href="./login.php" class="hidden sm:inline-flex text-sm font-medium text-[#3a0c15]/70 hover:text-[#8a4a2f] transition-colors">Login</a>
+        <a href="./login.php" class="inline-flex text-sm font-medium text-[#3a0c15]/70 hover:text-[#8a4a2f] transition-colors">Login</a>
         <a href="./register.php" class="inline-flex h-8 items-center justify-center rounded-full border border-[#f6e6b4]/40 bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-5 text-sm font-semibold text-[#3a0c15] shadow-md hover:brightness-110 transition-all">Register Now</a>
       <?php endif; ?>
     </div>
@@ -104,10 +104,11 @@ $navUserId = $_SESSION['user_id'] ?? null;
         </a>
       <?php endforeach; ?>
       <?php if ($navUserId): ?>
-        <div class="pt-4 mt-2 border-t border-black/5 flex items-center gap-4">
+        <div class="pt-4 mt-2 border-t border-black/5 flex flex-wrap items-center gap-x-4 gap-y-2">
+          <a href="./profile.php" class="text-sm font-semibold text-[#8a4a2f]">My Profile</a>
           <?php if (is_admin()): ?><a href="./admin/index.php" class="text-sm font-semibold text-[#8a4a2f]">Admin Panel</a><?php endif; ?>
           <a href="./network.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">My Network</a>
-          <a href="./who_viewed_me.php" target="_blank" rel="noopener noreferrer" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Who Viewed Me</a>
+          <a href="./who_viewed_me.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Who Viewed Me</a>
           <a href="./messages.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Messages</a>
           <a href="./verify.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Verify Account</a>
           <a href="./change_password.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Change Password</a>
@@ -116,7 +117,7 @@ $navUserId = $_SESSION['user_id'] ?? null;
           <a href="./logout.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Logout</a>
         </div>
       <?php else: ?>
-        <div class="pt-4 mt-2 border-t border-black/5 flex items-center gap-4">
+        <div class="pt-4 mt-2 border-t border-black/5 flex flex-wrap items-center gap-x-4 gap-y-2">
           <a href="./login.php" class="text-sm font-medium text-[#3a0c15]/70">Login</a>
           <a href="./about.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">About Us</a>
         </div>

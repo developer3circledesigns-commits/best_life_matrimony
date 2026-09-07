@@ -267,8 +267,12 @@
       window.location.href='./profile_view.php?id='+(pid?encodeURIComponent(pid):'');
     });
     var drawer=$('#filterDrawer'), backdrop=$('#drawerBackdrop');
-    function open(){ drawer.classList.add('open'); backdrop.classList.add('open'); document.body.style.overflow='hidden'; }
-    function close(){ drawer.classList.remove('open'); backdrop.classList.remove('open'); document.body.style.overflow=''; drawer.setAttribute('aria-hidden','true'); }
+    function lockScroll(lock){
+      if(lock){ if(window.__lenis && window.__lenis.stop) window.__lenis.stop(); }
+      else if(window.__lenis && window.__lenis.start) window.__lenis.start();
+    }
+    function open(){ drawer.classList.add('open'); backdrop.classList.add('open'); drawer.setAttribute('aria-hidden','false'); lockScroll(true); }
+    function close(){ drawer.classList.remove('open'); backdrop.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); lockScroll(false); }
     var btn=$('#mobileFilterBtn'); if(btn) btn.addEventListener('click', open);
     var closeBtn=$('.m-drawer-close',drawer); if(closeBtn) closeBtn.addEventListener('click', close);
     if(backdrop) backdrop.addEventListener('click', close);

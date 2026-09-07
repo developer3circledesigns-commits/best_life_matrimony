@@ -4,7 +4,7 @@
     <div id="track-feat" class="absolute inset-0 flex will-change-transform" style="will-change:transform">
       <!-- Intro panel -->
       <div class="shrink-0 w-[44vw] h-full flex flex-col justify-center px-14 border-r border-white/10">
-        <span class="inline-flex w-fit rounded-none border border-white/20 bg-white/10 px-3 py-1.5 text-[11px] tracking-[0.16em] uppercase text-white font-bold" style="border-radius:0">Featured Matches / Profile Showcase</span>
+        <!-- <span class="inline-flex w-fit rounded-none border border-white/20 bg-white/10 px-3 py-1.5 text-[11px] tracking-[0.16em] uppercase text-white font-bold" style="border-radius:0">Featured Matches / Profile Showcase</span> -->
         <h2 class="mt-4 font-serif text-[44px] font-bold leading-[0.9] tracking-tight text-white">Maybe Your Search<br><span class="italic text-[#f6e6b4]">Ends Here.</span></h2>
         <p class="mt-4 text-sm leading-6 text-white/70 max-w-md">A few profiles. A few possibilities. One meaningful connection.</p>
         <p class="mt-6 text-xs tracking-[0.16em] uppercase text-white/40">Scroll →</p>

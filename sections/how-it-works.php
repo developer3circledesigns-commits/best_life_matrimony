@@ -3,7 +3,7 @@
   <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(800px 520px at 15% 20%, rgba(255,246,232,0.06) 0%, transparent 70%), radial-gradient(900px 600px at 85% 85%, rgba(58,12,21,0.28) 0%, transparent 68%);"></div>
   <div class="max-w-6xl mx-auto px-6">
     <div class="text-center max-w-2xl mx-auto mb-12">
-      <span class="inline-flex rounded-none border border-[#e3c877]/20 bg-white/5 px-4 py-1.5 text-[11px] tracking-[0.16em] uppercase text-[#e3c877] font-bold" style="border-radius:0">How It Works</span>
+      <!-- <span class="inline-flex rounded-none border border-[#e3c877]/20 bg-white/5 px-4 py-1.5 text-[11px] tracking-[0.16em] uppercase text-[#e3c877] font-bold" style="border-radius:0">How It Works</span> -->
       <h2 class="mt-4 font-serif text-[32px] sm:text-[42px] font-bold leading-[0.9] tracking-tight text-[#fff6e8]">
         Finding Your Match Can Be <span class="bg-gradient-to-r from-[#f6e6b4] via-[#e3c877] to-[#dcb04a] bg-clip-text text-transparent italic">Simple.</span>
       </h2>

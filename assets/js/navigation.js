@@ -12,12 +12,11 @@
     toggle.querySelector('.icon-menu')?.classList.toggle('hidden', open);
     toggle.querySelector('.icon-close')?.classList.toggle('hidden', !open);
     toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-    // scroll lock when menu open (avoid Lenis conflict)
+    // Lock scroll via Lenis only — body overflow:hidden breaks the sticky navbar
+    // and shifts the scroll position on Lenis smooth-scroll layouts.
     if (open) {
-      document.body.style.overflow = 'hidden';
       if (window.__lenis && window.__lenis.stop) window.__lenis.stop();
     } else {
-      document.body.style.overflow = '';
       if (window.__lenis && window.__lenis.start) window.__lenis.start();
     }
   }
