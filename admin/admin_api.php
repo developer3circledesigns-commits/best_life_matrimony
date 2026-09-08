@@ -72,11 +72,11 @@ try {
       if (profile_complete_percent($targetUser) < 60) throw new Exception('Profile incomplete (<60%), cannot approve. Ask user to complete profile.');
       $db->prepare('UPDATE users SET is_approved = 1, rejected_reason = NULL WHERE id = ?')->execute([$id]);
       log_activity($adminId, 'admin_approve_user', 'user', $id, 'Approved user account');
-      notification_add($id, 'admin', 'Your account has been approved by the admin. You can now access profiles and send messages!');
+      notification_add($id, 'admin', 'Your account has been approved by the admin. You can now access profiles and matches!');
       // Email notification
       try {
         $email = $targetUser['email'] ?? '';
-        if ($email) send_email($email, 'Profile Approved — BestLife Matrimony', '<p>Hi '.htmlspecialchars($targetUser['full_name']).',</p><p>Your profile has been approved! You can now browse matches and send messages.</p><p><a href="'.site_url('matches.php').'">Browse Matches</a></p>');
+        if ($email) send_email($email, 'Profile Approved — BestLife Matrimony', '<p>Hi '.htmlspecialchars($targetUser['full_name']).',</p><p>Your profile has been approved! You can now browse matches.</p><p><a href="'.site_url('matches.php').'">Browse Matches</a></p>');
       } catch (Throwable $e) {}
       echo json_encode(['ok' => true, 'message' => 'User account approved']);
       exit;

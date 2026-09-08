@@ -172,8 +172,7 @@
       // Map simple message keywords to known destinations
       var t = message.toLowerCase();
       var href = './profile.php';
-      if (t.indexOf('message') !== -1) href = './messages.php';
-      else if (t.indexOf('favourite') !== -1 || t.indexOf('interest') !== -1) href = './matches.php';
+      if (t.indexOf('favourite') !== -1 || t.indexOf('interest') !== -1) href = './matches.php';
       else if (t.indexOf('match') !== -1) href = './matches.php';
       window.location.href = href;
     }

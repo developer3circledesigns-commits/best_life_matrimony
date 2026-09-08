@@ -45,7 +45,6 @@ CREATE TABLE `users` (
   `sub_caste` VARCHAR(100) DEFAULT NULL,
   `gothram` VARCHAR(100) DEFAULT NULL,
   `star_sign` VARCHAR(50) DEFAULT NULL,
-  `zodiac` VARCHAR(20) DEFAULT NULL,
   `dosham` ENUM('Yes','No','Not Sure') DEFAULT NULL,
   `mother_tongue` VARCHAR(50) DEFAULT NULL,
   `country` VARCHAR(60) DEFAULT NULL,

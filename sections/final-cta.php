@@ -1,10 +1,10 @@
 <?php // Final CTA Banner — after marquee2 ?>
-<section id="final-cta" class="relative py-16 lg:py-20 overflow-hidden border-t border-white/10" style="background: linear-gradient(145deg, #3a0c15 0%, #4a1322 20%, #5e1e2e 35%, #6e2a2a 52%, #8a4a2f 68%, #a67d3a 82%, #c9a86a 90%, #e3c877 96%, #f6e6b4 100%);">
+<section id="final-cta" class="relative py-16 lg:py-20 overflow-hidden border-t border-white/10" style="background: linear-gradient(145deg, #3a0c15 0%, #4a1322 20%, #5e1e2e 35%, #6e2a2a 52%, #8a4a2f 68%, #a67d3a 82%, #c9a86a 90%, #e3c877 96%, #f6e6b4 100%); margin-top: 0;">
   <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(800px 400px at 50% 10%, rgba(255,246,232,0.07) 0%, transparent 70%), radial-gradient(600px 300px at 90% 90%, rgba(58,12,21,0.25) 0%, transparent 65%);"></div>
   <div id="cta-orb" class="absolute left-1/2 -translate-x-1/2 top-6 w-[600px] h-[300px] rounded-full bg-white/[0.04] blur-[60px] pointer-events-none will-change-transform"></div>
 
-  <div class="relative max-w-4xl mx-auto px-6 text-center">
-    <h2 class="font-serif text-[34px] sm:text-[44px] font-bold leading-[0.9] text-white">Ready to Meet<br><span class="italic text-[#f6e6b4]">Someone Special?</span></h2>
+  <div class="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
+    <h2 class="font-serif text-[28px] sm:text-[34px] md:text-[44px] font-bold leading-[0.9] text-white">Ready to Meet<br><span class="italic text-[#f6e6b4]">Someone Special?</span></h2>
     <p class="mt-4 text-sm sm:text-base leading-7 text-white/70 max-w-2xl mx-auto">Create your BestLife Matrimony profile and take the first step towards a meaningful relationship.</p>
 
     <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">

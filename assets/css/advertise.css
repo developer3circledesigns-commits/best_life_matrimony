@@ -21,3 +21,9 @@ body footer {
   background: #fff !important;
   border-top: 1px solid #eee !important;
 }
+
+/* Guard against any unexpected horizontal scroll across small screens */
+html,
+body {
+  overflow-x: clip;
+}

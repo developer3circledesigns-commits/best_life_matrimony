@@ -1,5 +1,5 @@
 <?php // HeroSection.php — reproduces HeroSection.tsx including parallax layers and staggered entrance ?>
-<section class="hero-section relative min-h-screen h-screen w-full flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8 pt-24 pb-20 overflow-hidden bg-[#3a0c15]" aria-label="Hero">
+<section class="hero-section relative min-h-screen h-screen w-full flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8 pt-20 pb-16 overflow-hidden bg-[#3a0c15]" aria-label="Hero">
   <!-- Background Video — contained within hero only, with parallax translateY -->
   <div data-hero-bg class="hero-bg absolute inset-0 z-0 overflow-hidden pointer-events-none">
     <video
@@ -12,12 +12,13 @@
       preload="auto"
       disablePictureInPicture
       class="h-full w-full object-cover select-none"
+      style="object-fit: cover; object-position: center; filter: brightness(0.9);"
     ></video>
     <div class="absolute inset-0 bg-[#3a0c15]/20 pointer-events-none"></div>
   </div>
 
   <!-- Hero Content — replicates Framer motion initial/animate + parallax opacity/scale/y -->
-  <div data-hero-content class="hero-content relative z-10 max-w-4xl mx-auto flex flex-col items-center">
+  <div data-hero-content class="hero-content relative z-10 max-w-4xl mx-auto flex flex-col items-center px-4">
     <!-- Main Title -->
     <h1 class="hero-entrance font-serif text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#fff6e8] leading-[1.08]">
       Find Someone Who <span class="text-white italic">Makes Life Better.</span>
@@ -71,6 +72,7 @@
     tryPlay();
   });
   v.addEventListener('canplay', tryPlay, {once:true});
+  v.addEventListener('canplaythrough', tryPlay, {once:true});
   document.addEventListener('visibilitychange', function(){
     if(!document.hidden) tryPlay();
   });
@@ -78,6 +80,9 @@
   var once=function(){ tryPlay(); document.removeEventListener('click',once); document.removeEventListener('touchstart',once); };
   document.addEventListener('click', once, {once:true});
   document.addEventListener('touchstart', once, {once:true});
+  // Ensure video quality - set to high
+  v.setAttribute('playsinline', '');
+  v.setAttribute('webkit-playsinline', '');
   tryPlay();
 })();
 </script>

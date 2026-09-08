@@ -1,11 +1,11 @@
 <?php // Advertise With Us — Poster Strip Loop — auto loop without stops ?>
-<section id="advertise" class="relative py-12 lg:py-16 overflow-hidden border-t border-white/10" style="background: linear-gradient(145deg, #3a0c15 0%, #4a1322 20%, #5e1e2e 35%, #6e2a2a 52%, #8a4a2f 68%, #a67d3a 82%, #c9a86a 90%, #e3c877 96%, #f6e6b4 100%);">
+<section id="advertise" class="relative py-12 lg:py-16 overflow-hidden border-t border-white/10" style="background: linear-gradient(145deg, #3a0c15 0%, #4a1322 20%, #5e1e2e 35%, #6e2a2a 52%, #8a4a2f 68%, #a67d3a 82%, #c9a86a 90%, #e3c877 96%, #f6e6b4 100%); margin-top: 0;">
   <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(700px 400px at 50% 10%, rgba(255,246,232,0.07) 0%, transparent 70%);"></div>
 
-  <div class="relative max-w-6xl mx-auto px-6 text-center">
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 text-center">
     <div class="max-w-3xl mx-auto text-center">
       <span class="inline-flex rounded-none border border-white/20 bg-white/10 px-4 py-1.5 text-[11px] tracking-[0.16em] uppercase text-white font-bold" style="border-radius:0">Advertise With Us</span>
-      <h2 class="mt-4 font-serif text-[32px] sm:text-[42px] font-bold leading-[0.9] text-white text-center">Put Your Brand in Front of a<br><span class="italic text-[#f6e6b4]">Growing Matrimonial Community.</span></h2>
+      <h2 class="mt-4 font-serif text-[26px] sm:text-[32px] md:text-[42px] font-bold leading-[0.9] text-white text-center">Put Your Brand in Front of a<br><span class="italic text-[#f6e6b4]">Growing Matrimonial Community.</span></h2>
       <p class="mt-4 text-sm leading-7 text-white/70 text-center mx-auto">Reach individuals, families and audiences who are actively engaged with matrimonial services and relationship-related decisions.</p>
     </div>
 
@@ -15,7 +15,7 @@
   </div>
 
   <!-- Auto loop strip — square cards — seamless -->
-  <div class="mt-6 overflow-hidden w-screen">
+  <div class="mt-6 overflow-hidden w-screen px-4">
     <div id="strip-adv-loop" class="flex gap-4 will-change-transform" style="will-change:transform">
       <!-- Set A — 10 cards -->
       <div class="shrink-0 w-[180px] aspect-square bg-white border border-white/15 p-4 flex flex-col justify-between" style="border-radius:0"><span class="w-7 h-7 bg-[#3a0c15] text-white grid place-items-center text-xs font-bold" style="border-radius:0">01</span><h3 class="font-bold text-[#3a0c15] text-sm leading-tight">Wedding Services</h3><p class="text-[10px] text-[#3a0c15]/40">Poster</p></div>

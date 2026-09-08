@@ -34,7 +34,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
     $textFields = [
       'full_name', 'phone', 'looking_for', 'date_of_birth', 'gender', 'height', 'body_type', 'complexion',
       'blood_group', 'marital_status', 'about_self', 'religion', 'caste', 'sub_caste', 'gothram',
-      'star_sign', 'zodiac', 'dosham', 'mother_tongue', 'time_of_birth', 'place_of_birth', 'rashi',
+      'star_sign', 'dosham', 'mother_tongue', 'time_of_birth', 'place_of_birth', 'rashi',
       'country', 'state', 'city', 'citizenship',
       'residential_status', 'highest_education', 'education_detail', 'occupation',
       'occupation_type', 'annual_income', 'family_type', 'family_status', 'family_values',
@@ -53,7 +53,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
     $lengthLimits = [
       'full_name' => 150, 'phone' => 30, 'date_of_birth' => 10, 'height' => 20,
       'about_self' => 5000, 'religion' => 50, 'caste' => 100, 'sub_caste' => 100,
-      'gothram' => 100, 'star_sign' => 50, 'zodiac' => 20, 'dosham' => 20,
+      'gothram' => 100, 'star_sign' => 50, 'dosham' => 20,
       'mother_tongue' => 50, 'time_of_birth' => 8, 'place_of_birth' => 150, 'rashi' => 50,
       'country' => 60, 'state' => 100, 'city' => 100,
       'citizenship' => 60, 'residential_status' => 20, 'highest_education' => 50,
@@ -330,7 +330,6 @@ $fieldLabels = [
   'sub_caste' => 'Sub-Caste',
   'gothram' => 'Gothram',
   'star_sign' => 'Star / Nakshatra',
-  'zodiac' => 'Rasi / Zodiac',
   'dosham' => 'Dosham',
   'mother_tongue' => 'Mother Tongue',
   'time_of_birth' => 'Time of Birth',
@@ -378,7 +377,7 @@ if ($user) {
   $sections = [
     'Basic & Contact' => ['full_name', 'date_of_birth', 'gender', 'marital_status'],
     'Physical' => ['height', 'weight', 'body_type', 'complexion', 'blood_group'],
-    'Religious & Cultural' => ['religion', 'caste', 'sub_caste', 'gothram', 'star_sign', 'zodiac', 'dosham', 'mother_tongue', 'time_of_birth', 'place_of_birth', 'rashi', 'kattam_image'],
+    'Religious & Cultural' => ['religion', 'caste', 'sub_caste', 'gothram', 'star_sign', 'dosham', 'mother_tongue', 'time_of_birth', 'place_of_birth', 'rashi', 'kattam_image'],
     'Location' => ['country', 'state', 'city', 'citizenship'],
     'Education & Career' => ['highest_education', 'education_detail', 'occupation', 'occupation_type', 'annual_income'],
     'Family' => ['family_type', 'family_status', 'family_values', 'father_name', 'mother_name'],
@@ -711,11 +710,10 @@ require_once __DIR__ . '/includes/navbar.php';
             </div>
             <div class="col-md-6">
               <label class="form-label">Rasi / Moon Sign / Zodiac</label>
-              <select name="zodiac" class="form-select">
-                <option value="">Select</option>
-                <?php foreach (['Aries (Mesha)','Taurus (Vrishabha)','Gemini (Mithuna)','Cancer (Karka)','Leo (Simha)','Virgo (Kanya)','Libra (Tula)','Scorpio (Vrischika)','Sagittarius (Dhanu)','Capricorn (Makara)','Aquarius (Kumbha)','Pisces (Meena)'] as $z): ?>
-                  <?php $zKey = explode(' ', $z)[0]; ?>
-                  <option value="<?php echo $zKey; ?>"<?php echo sv($user, 'zodiac', $zKey); ?>><?php echo $z; ?></option>
+              <select name="rashi" class="form-select">
+                <option value="">Select Rashi</option>
+                <?php foreach ($rashiOptions as $r): ?>
+                  <option value="<?php echo htmlspecialchars($r); ?>"<?php echo sv($user, 'rashi', $r); ?>><?php echo htmlspecialchars($r); ?></option>
                 <?php endforeach; ?>
               </select>
             </div>
@@ -782,15 +780,7 @@ require_once __DIR__ . '/includes/navbar.php';
               <label class="form-label">Place of Birth</label>
               <input type="text" name="place_of_birth" class="form-control" value="<?php pv($user, 'place_of_birth'); ?>" placeholder="e.g. Chennai, Tamil Nadu">
             </div>
-            <div class="col-md-6">
-              <label class="form-label">Rashi</label>
-              <select name="rashi" class="form-select">
-                <option value="">Select Rashi</option>
-                <?php foreach ($rashiOptions as $r): ?>
-                  <option value="<?php echo htmlspecialchars($r); ?>"<?php echo sv($user, 'rashi', $r); ?>><?php echo htmlspecialchars($r); ?></option>
-                <?php endforeach; ?>
-              </select>
-            </div>
+
             <div class="col-12">
               <label class="form-label">Kattam (Birth Chart) — Image (max 5MB)</label>
               <div class="d-flex align-items-start gap-3 flex-wrap">

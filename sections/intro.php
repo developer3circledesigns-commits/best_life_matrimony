@@ -1,11 +1,11 @@
 <?php // IntroSection.php — Full-page flex layout with asymmetric reveal ?>
-<section id="intro" class="relative overflow-hidden border-t border-white/[0.06] min-h-screen flex flex-col" style="background: linear-gradient(145deg, #4a0a1a 0%, #6b1020 15%, #8b1428 30%, #a01830 45%, #8a4a2f 60%, #a67d3a 75%, #c9a86a 85%, #e3c877 95%, #f6e6b4 100%);">
+<section id="intro" class="relative overflow-hidden border-t border-white/[0.06] min-h-screen flex flex-col" style="background: linear-gradient(145deg, #4a0a1a 0%, #6b1020 15%, #8b1428 30%, #a01830 45%, #8a4a2f 60%, #a67d3a 75%, #c9a86a 85%, #e3c877 95%, #f6e6b4 100%); margin-top: 0;">
   <!-- hairline grid -->
   <div class="absolute inset-0 pointer-events-none opacity-[0.04]" style="background-image: linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px); background-size: 120px 120px;"></div>
   <!-- large outline number -->
   <div id="outline-num" class="absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-10 font-display text-[80px] sm:text-[120px] lg:text-[220px] leading-none text-transparent will-change-transform" style="-webkit-text-stroke:1px rgba(255,246,232,0.15); will-change:transform">01</div>
 
-  <div class="relative flex-1 max-w-[1600px] mx-auto w-full px-4 sm:px-6 lg:px-10 py-8 sm:py-12 lg:py-20 flex flex-col lg:flex-row gap-6 lg:gap-6 items-stretch">
+  <div class="relative flex-1 max-w-[1600px] mx-auto w-full px-4 sm:px-6 lg:px-10 py-12 sm:py-16 lg:py-24 flex flex-col lg:flex-row gap-6 lg:gap-6 items-stretch">
     <!-- LEFT — editorial kicker -->
     <div class="hidden lg:flex shrink-0 basis-[60px] flex-col pt-2">
       <p class="text-[11px] tracking-[0.18em] uppercase text-white/30 [writing-mode:vertical-lr]">Brand Promise — 2026</p>

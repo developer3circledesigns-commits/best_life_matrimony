@@ -125,6 +125,26 @@ require_once __DIR__ . '/includes/navbar.php';
   .vf-msg.error{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
   .vf-in{width:100%;padding:11px 14px;border:1px solid #ddd;border-radius:8px;font-size:14px;margin-top:8px}
   .vf-in:focus{outline:none;border-color:#6b1020}
+
+  @media(max-width:640px){
+    .vf-wrap{padding:16px 12px 40px}
+    .vf-head{padding:20px;margin-bottom:12px}
+    .vf-head h1{font-size:20px}
+    .vf-card{padding:20px;margin-bottom:14px}
+    .vf-card h2{font-size:16px}
+    .vf-row{gap:10px}
+    .vf-btn{height:42px;padding:0 14px;font-size:13px}
+    .vf-in{font-size:16px}
+  }
+  @media(max-width:360px){
+    .vf-wrap{padding:12px 10px 32px}
+    .vf-head{padding:16px}
+    .vf-head h1{font-size:18px}
+    .vf-card{padding:16px}
+    .vf-card h2{font-size:15px}
+    .vf-status{padding:5px 10px;font-size:12px}
+    .vf-msg{font-size:12px}
+  }
 </style>
 
 <main class="bg-[#f4f2ee]" style="min-height:100vh;">

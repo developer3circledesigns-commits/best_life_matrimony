@@ -1,5 +1,5 @@
 <?php // Profile Matches Section — Matches Sample 05 Marquee Stagger — lag-free ?>
-<section id="profile-matches" class="relative min-h-screen flex flex-col justify-center py-16 lg:py-20 overflow-hidden will-change-transform" style="background: linear-gradient(135deg, #3a0c15 0%, #4a1322 18%, #5e1e2e 32%, #6e2a2a 48%, #8a4a2f 64%, #a67d3a 78%, #c9a86a 88%, #e3c877 94%, #f6e6b4 100%); min-height:100vh; min-height:100svh; margin-top:-40px; border-radius:0; box-shadow:0 -20px 60px rgba(0,0,0,0.35); z-index:10; will-change:transform;">
+<section id="profile-matches" class="relative min-h-screen flex flex-col justify-center py-16 lg:py-20 overflow-hidden will-change-transform" style="background: linear-gradient(135deg, #3a0c15 0%, #4a1322 18%, #5e1e2e 32%, #6e2a2a 48%, #8a4a2f 64%, #a67d3a 78%, #c9a86a 88%, #e3c877 94%, #f6e6b4 100%); min-height:100vh; min-height:100svh; border-radius:0; box-shadow:0 -20px 60px rgba(0,0,0,0.35); z-index:10; will-change:transform;">
   <!-- vignette to keep text legible on gold wash -->  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(900px 600px at 30% 15%, rgba(58,12,21,0.45) 0%, rgba(58,12,21,0.18) 42%, transparent 72%);"></div>
   <!-- Marquee background — horizontal parallax -->
   <div class="absolute inset-0 flex flex-col justify-center gap-4 opacity-[0.05] pointer-events-none select-none overflow-hidden" aria-hidden="true">
@@ -7,13 +7,13 @@
     <div id="marquee-pm-2" class="flex gap-8 whitespace-nowrap text-[8vw] font-serif italic will-change-transform" style="will-change:transform"><span>Age • Education • Family • Preferences • </span><span>Age • Education • Family • Preferences • </span><span>Age • Education • Family • Preferences • </span></div>
   </div>
 
-  <div class="relative max-w-6xl mx-auto px-6">
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6">
     <div class="max-w-3xl mx-auto text-center">
       <span class="inline-flex rounded-full border border-[#e3c877]/20 bg-white/5 px-4 py-1.5 text-[11px] tracking-[0.16em] uppercase text-[#e3c877] font-bold">Profile Matches</span>
-      <h2 class="mt-4 font-serif text-[34px] sm:text-[44px] font-bold leading-[0.9] tracking-tight text-[#fff6e8] text-center">
+      <h2 class="mt-4 font-serif text-[28px] sm:text-[34px] md:text-[44px] font-bold leading-[0.9] tracking-tight text-[#fff6e8] text-center">
         Meet Profiles That Could Be<br><span class="bg-gradient-to-r from-[#f6e6b4] via-[#e3c877] to-[#dcb04a] bg-clip-text text-transparent italic">Your Perfect Match.</span>
       </h2>
-      <p class="mt-3 text-[15px] leading-7 text-white/60 max-w-2xl mx-auto text-center">Your ideal partner may be closer than you think. Explore our growing community of individuals looking for a meaningful relationship and a lifelong partner.</p>
+      <p class="mt-3 text-[14px] sm:text-[15px] leading-7 text-white/60 max-w-2xl mx-auto text-center">Your ideal partner may be closer than you think. Explore our growing community of individuals looking for a meaningful relationship and a lifelong partner.</p>
     </div>
 
     <div id="grid-pm" class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">

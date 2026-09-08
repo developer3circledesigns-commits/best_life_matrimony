@@ -65,18 +65,18 @@ if (!empty($_SESSION['user_id'])) {
 ?>
 <main class="matches-page" data-user-id="<?php echo intval($_SESSION['user_id'] ?? 0); ?>" data-approved="<?php echo $currentUserApproved; ?>">
   <div class="m-container">
-    <div class="m-header">
+    <div class="m-header text-center sm:text-left">
       <h1 class="m-title">Profile Matches</h1>
       <p class="m-subtitle" id="resultCount"><strong><?php echo $totalProfiles; ?></strong> profiles found</p>
       <span id="sidebarCount" hidden><?php echo $totalProfiles; ?></span>
     </div>
 
-    <div class="m-toolbar">
-      <div class="m-search">
+    <div class="m-toolbar flex-col sm:flex-row">
+      <div class="m-search w-full sm:w-auto">
         <i class="bi bi-search"></i>
         <input type="text" id="mSearch" placeholder="Search by name, city, profession" autocomplete="off">
       </div>
-      <select id="sortSelect" class="m-select" aria-label="Sort profiles">
+      <select id="sortSelect" class="m-select w-full sm:w-auto" aria-label="Sort profiles">
         <option value="recommended">Recommended</option>
         <option value="newest">Newest</option>
         <option value="recently_active">Recently Active</option>

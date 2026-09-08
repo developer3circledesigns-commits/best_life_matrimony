@@ -37,9 +37,6 @@ $navUserId = $_SESSION['user_id'] ?? null;
     <!-- Right: auth / profile -->
     <div class="flex items-center gap-3">
       <?php if ($navUserId): ?>
-        <a href="./messages.php" class="hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-black/5 text-[#3a0c15] hover:bg-black/10 transition-colors" title="Messages" aria-label="Messages">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </a>
         <div class="relative">
           <button type="button" id="notifBell" class="hidden sm:inline-flex relative h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-black/5 text-[#3a0c15] hover:bg-black/10 transition-colors" title="Notifications" aria-label="Notifications">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
@@ -109,7 +106,6 @@ $navUserId = $_SESSION['user_id'] ?? null;
           <?php if (is_admin()): ?><a href="./admin/index.php" class="text-sm font-semibold text-[#8a4a2f]">Admin Panel</a><?php endif; ?>
           <a href="./network.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">My Network</a>
           <a href="./who_viewed_me.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Who Viewed Me</a>
-          <a href="./messages.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Messages</a>
           <a href="./verify.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Verify Account</a>
           <a href="./change_password.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Change Password</a>
           <a href="./account_delete.php" class="text-sm text-red-700">Delete Account</a>

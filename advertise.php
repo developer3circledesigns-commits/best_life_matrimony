@@ -50,17 +50,17 @@ require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 ?>
 <main class="flex-1 bg-[#f4f2ee] text-[#111]">
-  <section class="mx-auto max-w-[900px] px-4 py-12 text-center">
-    <h1 class="mt-3 text-[36px] font-bold leading-[1.05] tracking-[-.02em] text-[#111]">Advertise<br>where trust is<br>earned.</h1>
-    <p class="mx-auto mt-3 max-w-[560px] text-[15px] leading-6 text-[#666]">Brand-safe, moderated, verified audience. No clutter. No dark patterns. Just families making one of life's most important decisions — and the brands they invite in.</p>
-    <div class="mt-5 flex flex-wrap justify-center gap-2">
-      <a href="#enquire" class="inline-flex items-center gap-2 bg-[#6b1020] px-5 py-3 text-sm font-semibold text-white hover:bg-[#e3c877] hover:text-[#3a0c15]">Enquire <i class="bi bi-arrow-right"></i></a>
-      <a href="./contact.php" class="inline-flex items-center gap-2 border border-[#ddd] bg-white px-5 py-3 text-sm font-semibold text-[#111] hover:bg-[#fafafa]"><i class="bi bi-file-earmark-text"></i> Brand Guidelines PDF</a>
+  <section class="mx-auto max-w-[900px] px-4 py-10 text-center sm:py-12">
+    <h1 class="mt-3 text-[30px] font-bold leading-[1.05] tracking-[-.02em] text-[#111] min-[380px]:text-[34px] sm:text-[36px] md:text-[40px]">Advertise<br>where trust is<br>earned.</h1>
+    <p class="mx-auto mt-3 max-w-[560px] text-sm leading-6 text-[#666] min-[380px]:text-[15px]">Brand-safe, moderated, verified audience. No clutter. No dark patterns. Just families making one of life's most important decisions — and the brands they invite in.</p>
+    <div class="mt-5 flex w-full flex-col items-stretch justify-center gap-2 sm:w-auto sm:flex-row">
+      <a href="#enquire" class="inline-flex items-center justify-center gap-2 bg-[#6b1020] px-5 py-3 text-sm font-semibold text-white hover:bg-[#e3c877] hover:text-[#3a0c15]">Enquire <i class="bi bi-arrow-right"></i></a>
+      <a href="./contact.php" class="inline-flex items-center justify-center gap-2 border border-[#ddd] bg-white px-5 py-3 text-sm font-semibold text-[#111] hover:bg-[#fafafa]"><i class="bi bi-file-earmark-text"></i> Brand Guidelines PDF</a>
     </div>
     <p class="mt-3 text-xs text-[#8a7a6a]">Reply in 4 hours • Media kit • Rate card on request</p>
   </section>
 
-  <section class="mx-auto grid max-w-[900px] grid-cols-1 gap-3.5 px-4 pb-6 md:grid-cols-3" aria-label="Trust pillars">
+  <section class="mx-auto grid max-w-[900px] grid-cols-1 gap-3.5 px-4 pb-6 min-[640px]:grid-cols-3" aria-label="Trust pillars">
     <div class="border border-[#eee] bg-white px-4 py-6 text-center">
       <i class="bi bi-shield-lock text-[22px] text-[#111]"></i>
       <p class="mt-2 text-sm font-bold text-[#111]">Brand Safe</p>
@@ -115,7 +115,7 @@ require_once __DIR__ . '/includes/navbar.php';
           <?php if (isset($adErrors['message'])) echo '<span class="text-xs text-red-600">'.$adErrors['message'].'</span>'; ?>
         </label>
         <div class="sm:col-span-2">
-          <button type="submit" class="inline-flex h-11 items-center justify-center rounded bg-[#6b1020] px-8 text-sm font-bold text-white hover:bg-[#e3c877] hover:text-[#3a0c15]">Send Enquiry</button>
+          <button type="submit" class="inline-flex h-11 w-full items-center justify-center rounded bg-[#6b1020] px-8 text-sm font-bold text-white hover:bg-[#e3c877] hover:text-[#3a0c15] sm:w-auto">Send Enquiry</button>
         </div>
       </form>
     </div>

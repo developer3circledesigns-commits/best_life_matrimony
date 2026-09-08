@@ -74,6 +74,25 @@ require_once __DIR__ . '/includes/navbar.php';
   .wv-meta{font-size:13px;color:#666}
   .wv-time{font-size:12px;color:#999;white-space:nowrap}
   .wv-empty{background:#fff;border:1px dashed #ddd;padding:40px;text-align:center;color:#888;font-size:14px;margin-top:16px}
+
+  @media(max-width:640px){
+    .wv-wrap{padding:16px 12px 40px}
+    .wv-head{padding:16px;gap:12px;flex-wrap:wrap}
+    .wv-head h1{font-size:19px}
+    .wv-head p{font-size:12px}
+    .wv-head i{font-size:28px !important}
+    .wv-card{flex-wrap:wrap;gap:10px;padding:12px}
+    .wv-time{flex-basis:100%;white-space:normal;text-align:left;margin-left:62px}
+    .wv-empty{padding:28px 16px}
+  }
+  @media(max-width:360px){
+    .wv-wrap{padding:12px 10px 32px}
+    .wv-avatar{width:46px;height:46px}
+    .wv-name{font-size:14px}
+    .wv-meta{font-size:12px}
+    .wv-time{margin-left:56px}
+    .wv-head h1{font-size:18px}
+  }
 </style>
 <main class="bg-[#f4f2ee]" style="min-height:100vh;">
   <div class="wv-wrap">

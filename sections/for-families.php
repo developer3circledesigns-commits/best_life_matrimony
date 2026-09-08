@@ -1,12 +1,12 @@
 <?php // For Families — Real Book — 6 pages — assets/images 1-6.jpg — pinned until done ?>
-<section id="for-families" class="relative w-screen overflow-hidden border-t border-white/10" style="background: linear-gradient(145deg, #3a0c15 0%, #4a1322 20%, #5e1e2e 35%, #6e2a2a 52%, #8a4a2f 68%, #a67d3a 82%, #c9a86a 90%, #e3c877 96%, #f6e6b4 100%);">
+<section id="for-families" class="relative w-screen overflow-hidden border-t border-white/10" style="background: linear-gradient(145deg, #3a0c15 0%, #4a1322 20%, #5e1e2e 35%, #6e2a2a 52%, #8a4a2f 68%, #a67d3a 82%, #c9a86a 90%, #e3c877 96%, #f6e6b4 100%); margin-top: 0;">
   <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(800px 400px at 50% 12%, rgba(255,246,232,0.07) 0%, transparent 70%);"></div>
 
-  <div id="pin-fam" class="relative hidden lg:flex w-screen h-screen items-center justify-center">
-    <div class="absolute top-8 left-0 right-0 flex items-center justify-center z-30">
-      <h2 class="font-serif text-5xl font-bold text-white tracking-wide">Together We Choose</h2>
+  <div id="pin-fam" class="relative flex w-screen h-screen items-center justify-center">
+    <div class="absolute top-8 left-0 right-0 flex items-center justify-center z-30 px-4">
+      <h2 class="px-4 text-center font-serif text-2xl sm:text-3xl font-bold text-white tracking-wide md:text-4xl lg:text-5xl">Together We Choose</h2>
     </div>
-    <div id="book-fam" class="relative w-[92vw] max-w-6xl h-[72vh] flex book-shadow" style="perspective:2800px; perspective-origin:50% 50%; will-change:transform">
+    <div id="book-fam" class="relative w-[92vw] max-w-6xl h-[50vh] sm:h-[52vh] md:h-[60vh] min-[640px]:h-[72vh] flex book-shadow" style="perspective:2800px; perspective-origin:50% 50%; will-change:transform">
       <style>
         .book-shadow{box-shadow:0 30px 70px rgba(0,0,0,0.45),0 10px 20px rgba(0,0,0,0.25),0 0 0 1px rgba(0,0,0,0.08)}
         .page{backface-visibility:hidden; transform-style:preserve-3d}
@@ -39,58 +39,58 @@
         <!-- RIGHT — 6 pages all white bg -->
         <div class="w-1/2 h-full relative bg-white overflow-hidden" style="perspective:2000px; border-radius:0 2px 2px 0">
           <!-- Base page 06 bottom -->
-          <div class="absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-white">
-            <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-16 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
-            <p class="font-serif italic text-2xl leading-relaxed text-[#3a0c15]">Search Together. Choose Together. Begin Together.</p>
-            <p class="mt-4 text-sm leading-7 text-[#3a0c15]/70">Your family's love, your choice — together from the first page to forever. BestLife Matrimony is here to make every step clearer, kinder and closer to the right match.</p>
-            <p class="mt-3 text-sm leading-7 text-[#3a0c15]/60">Because when families and individuals walk together, the right beginning feels natural.</p>
+          <div class="absolute inset-0 p-2 min-[420px]:p-3 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-center bg-white">
+            <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-6 min-[420px]:h-8 sm:h-14 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
+            <p class="font-serif italic text-[15px] leading-snug text-[#3a0c15] min-[420px]:text-base sm:text-2xl">Search Together. Choose Together. Begin Together.</p>
+            <p class="mt-1.5 min-[420px]:mt-2 sm:mt-4 text-[10px] leading-[13px] min-[420px]:text-[11px] min-[420px]:leading-[15px] min-[640px]:text-sm min-[640px]:leading-7 text-[#3a0c15]/70">Your family's love, your choice — together from the first page to forever. BestLife Matrimony is here to make every step clearer, kinder and closer to the right match.</p>
+            <p class="mt-1.5 min-[420px]:mt-2 sm:mt-3 text-[10px] leading-[13px] min-[420px]:text-[11px] min-[420px]:leading-[15px] min-[640px]:text-sm min-[640px]:leading-7 text-[#3a0c15]/60">Because when families and individuals walk together, the right beginning feels natural.</p>
             </div>
           <!-- Flip 5 — page 05 -->
           <div id="flip-fam-5" class="page absolute inset-0 will-change-transform" style="will-change:transform; transform-origin:left center; transform-style:preserve-3d">
-            <div class="absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
-              <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-16 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
-              <p class="text-sm leading-7 text-[#3a0c15]/70">BestLife Matrimony makes it easier for families to explore suitable profiles while keeping the individual's preferences and expectations at the heart — where respect meets choice.</p>
-              <p class="mt-4 text-sm leading-7 text-[#3a0c15]/70">Search by age, education, location and values — together, yet always prioritising the individual's voice. Your family can guide, while your heart decides.</p>
+            <div class="absolute inset-0 p-2 min-[420px]:p-3 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
+              <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-6 min-[420px]:h-8 sm:h-14 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
+              <p class="text-[10px] leading-[13px] min-[420px]:text-[11px] min-[420px]:leading-[15px] min-[640px]:text-sm min-[640px]:leading-7 text-[#3a0c15]/70">BestLife Matrimony makes it easier for families to explore suitable profiles while keeping the individual's preferences and expectations at the heart — where respect meets choice.</p>
+              <p class="mt-1.5 min-[420px]:mt-2 sm:mt-4 text-[10px] leading-[13px] min-[420px]:text-[11px] min-[420px]:leading-[15px] min-[640px]:text-sm min-[640px]:leading-7 text-[#3a0c15]/70">Search by age, education, location and values — together, yet always prioritising the individual's voice. Your family can guide, while your heart decides.</p>
             </div>
             <div class="page-back absolute inset-0 bg-white" style="backface-visibility:hidden"></div>
           </div>
           <!-- Flip 4 — page 04 -->
           <div id="flip-fam-4" class="page absolute inset-0 will-change-transform" style="will-change:transform; transform-origin:left center; transform-style:preserve-3d">
-            <div class="absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
-              <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-16 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
-              <p class="text-sm leading-7 text-[#3a0c15]/70">Parents, siblings and family members often play an important role in finding the right life partner — with love, wisdom and care.</p>
-              <p class="mt-4 text-sm leading-7 text-[#3a0c15]/70">We help families discover compatible matches with privacy, verification and genuine intent — so every introduction feels trusted and every conversation starts with confidence.</p>
+            <div class="absolute inset-0 p-2 min-[420px]:p-3 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
+              <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-6 min-[420px]:h-8 sm:h-14 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
+              <p class="text-[10px] leading-[13px] min-[420px]:text-[11px] min-[420px]:leading-[15px] min-[640px]:text-sm min-[640px]:leading-7 text-[#3a0c15]/70">Parents, siblings and family members often play an important role in finding the right life partner — with love, wisdom and care.</p>
+              <p class="mt-1.5 min-[420px]:mt-2 sm:mt-4 text-[10px] leading-[13px] min-[420px]:text-[11px] min-[420px]:leading-[15px] min-[640px]:text-sm min-[640px]:leading-7 text-[#3a0c15]/70">We help families discover compatible matches with privacy, verification and genuine intent — so every introduction feels trusted and every conversation starts with confidence.</p>
             </div>
             <div class="page-back absolute inset-0 bg-white" style="backface-visibility:hidden"></div>
           </div>
           <!-- Flip 3 — page 03 -->
           <div id="flip-fam-3" class="page absolute inset-0 will-change-transform" style="will-change:transform; transform-origin:left center; transform-style:preserve-3d">
-            <div class="absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
-              <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-16 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
-              <p class="text-sm leading-7 text-[#3a0c15]/70">Sometimes, the search isn't just yours. It begins with care, continues with conversation, and grows with trust.</p>
-              <p class="mt-4 text-sm leading-7 text-[#3a0c15]/70">The involvement of loved ones brings strength — a second pair of eyes, a lifetime of experience.</p>
-              <p class="mt-3 text-sm leading-7 text-[#3a0c15]/60">We make that shared journey simple, respectful and joyful.</p>
+            <div class="absolute inset-0 p-2 min-[420px]:p-3 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
+              <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-6 min-[420px]:h-8 sm:h-14 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
+              <p class="text-[10px] leading-[13px] min-[420px]:text-[11px] min-[420px]:leading-[15px] min-[640px]:text-sm min-[640px]:leading-7 text-[#3a0c15]/70">Sometimes, the search isn't just yours. It begins with care, continues with conversation, and grows with trust.</p>
+              <p class="mt-1.5 min-[420px]:mt-2 sm:mt-4 text-[10px] leading-[13px] min-[420px]:text-[11px] min-[420px]:leading-[15px] min-[640px]:text-sm min-[640px]:leading-7 text-[#3a0c15]/70">The involvement of loved ones brings strength — a second pair of eyes, a lifetime of experience.</p>
+              <p class="mt-1.5 min-[420px]:mt-2 sm:mt-3 text-[10px] leading-[13px] min-[420px]:text-[11px] min-[420px]:leading-[15px] min-[640px]:text-sm min-[640px]:leading-7 text-[#3a0c15]/60">We make that shared journey simple, respectful and joyful.</p>
             </div>
             <div class="page-back absolute inset-0 bg-white" style="backface-visibility:hidden"></div>
           </div>
           <!-- Flip 2 — page 02 -->
           <div id="flip-fam-2" class="page absolute inset-0 will-change-transform" style="will-change:transform; transform-origin:left center; transform-style:preserve-3d">
-            <div class="absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
-              <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-16 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
-              <p class="font-serif italic text-xl leading-relaxed text-[#3a0c15]">For every family, a story. For every individual, a dream.</p>
-              <p class="mt-4 text-sm leading-7 text-[#3a0c15]/70">Every home holds traditions, values and hopes for the future. We listen to both — the family's wisdom and the individual's heart.</p>
-              <p class="mt-3 text-sm leading-7 text-[#3a0c15]/60">Together, we find someone who respects your roots and shares your tomorrow.</p>
+            <div class="absolute inset-0 p-2 min-[420px]:p-3 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
+              <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-6 min-[420px]:h-8 sm:h-14 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
+              <p class="font-serif italic text-[15px] leading-snug text-[#3a0c15] min-[420px]:text-base sm:text-xl">For every family, a story. For every individual, a dream.</p>
+              <p class="mt-1.5 min-[420px]:mt-2 sm:mt-4 text-[10px] leading-[13px] min-[420px]:text-[11px] min-[420px]:leading-[15px] min-[640px]:text-sm min-[640px]:leading-7 text-[#3a0c15]/70">Every home holds traditions, values and hopes for the future. We listen to both — the family's wisdom and the individual's heart.</p>
+              <p class="mt-1.5 min-[420px]:mt-2 sm:mt-3 text-[10px] leading-[13px] min-[420px]:text-[11px] min-[420px]:leading-[15px] min-[640px]:text-sm min-[640px]:leading-7 text-[#3a0c15]/60">Together, we find someone who respects your roots and shares your tomorrow.</p>
             </div>
             <div class="page-back absolute inset-0 bg-white" style="backface-visibility:hidden"></div>
           </div>
           <!-- Flip 1 — page 01 top -->
           <div id="flip-fam-1" class="page absolute inset-0 will-change-transform" style="will-change:transform; transform-origin:left center; transform-style:preserve-3d; z-index:7">
-            <div class="absolute inset-0 p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
-              <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-16 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
+            <div class="absolute inset-0 p-2 min-[420px]:p-3 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-center bg-white" style="backface-visibility:hidden">
+              <div class="absolute top-3 right-3 lg:top-4 lg:right-4 z-10 pointer-events-none"><img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="h-6 min-[420px]:h-8 sm:h-14 lg:h-20 w-auto object-contain opacity-90" loading="lazy" onerror="this.style.display='none'"></div>
               <span class="inline-flex w-fit border border-[#3a0c15]/10 bg-white px-3 py-1 text-[11px] tracking-[0.16em] uppercase text-[#3a0c15] font-bold" style="border-radius:0">For Families</span>
-              <h2 class="mt-4 font-serif text-[32px] font-bold leading-[0.9] text-[#3a0c15]">Looking for a Life Partner<br><span class="italic text-[#8a4a2f]">for Someone You Love?</span></h2>
-              <p class="mt-4 text-sm leading-7 text-[#3a0c15]/70">When a family searches together, every step is filled with care, hope and shared dreams. BestLife Matrimony honours that bond.</p>
-              <p class="mt-3 text-sm leading-7 text-[#3a0c15]/60">Because finding a partner is not just an individual choice — it is a family blessing, guided by love and trust.</p>
+              <h2 class="mt-1.5 min-[420px]:mt-2 sm:mt-4 font-serif text-lg font-bold leading-[0.9] text-[#3a0c15] min-[420px]:text-[20px] sm:text-[32px]">Looking for a Life Partner<br><span class="italic text-[#8a4a2f]">for Someone You Love?</span></h2>
+              <p class="mt-1.5 min-[420px]:mt-2 sm:mt-4 text-[10px] leading-[13px] min-[420px]:text-[11px] min-[420px]:leading-[15px] min-[640px]:text-sm min-[640px]:leading-7 text-[#3a0c15]/70">When a family searches together, every step is filled with care, hope and shared dreams. BestLife Matrimony honours that bond.</p>
+              <p class="mt-1.5 min-[420px]:mt-2 sm:mt-3 text-[10px] leading-[13px] min-[420px]:text-[11px] min-[420px]:leading-[15px] min-[640px]:text-sm min-[640px]:leading-7 text-[#3a0c15]/60">Because finding a partner is not just an individual choice — it is a family blessing, guided by love and trust.</p>
               </div>
             <div class="page-back absolute inset-0 bg-white" style="backface-visibility:hidden"></div>
           </div>
@@ -118,23 +118,6 @@
       <span class="text-[10px] tracking-[0.16em] uppercase text-white/0"></span>
     </div>
   </div>
-
-  <!-- Mobile heading -->
-  <div class="lg:hidden w-full pt-8 pb-4 text-center">
-    <h2 class="font-serif text-3xl font-bold text-white tracking-wide">Together We Choose</h2>
-  </div>
-
-  <!-- Mobile swipe — 6 images -->
-  <div class="lg:hidden w-full">
-    <div class="flex overflow-x-auto snap-x snap-mandatory w-full" style="scrollbar-width:none">
-      <div class="snap-center shrink-0 w-screen p-4"><div class="bg-white overflow-hidden border border-white/15"><div class="h-56 overflow-hidden"><img src="<?php echo asset('images/1.jpg'); ?>" class="w-full h-full object-cover" alt="Family 1" loading="lazy"></div><div class="p-6"><h2 class="font-serif text-xl font-bold text-[#3a0c15]">Looking for a Life Partner for Someone You Love?</h2></div></div></div>
-      <div class="snap-center shrink-0 w-screen p-4"><div class="bg-white overflow-hidden border border-white/15"><div class="h-56 overflow-hidden"><img src="<?php echo asset('images/2.jpg'); ?>" class="w-full h-full object-cover" alt="Family 2" loading="lazy"></div><div class="p-6"><p class="text-sm leading-7 text-[#3a0c15]/70">Sometimes, the search isn't just yours.</p></div></div></div>
-      <div class="snap-center shrink-0 w-screen p-4"><div class="bg-white overflow-hidden border border-white/15"><div class="h-56 overflow-hidden"><img src="<?php echo asset('images/3.jpg'); ?>" class="w-full h-full object-cover" alt="Family 3" loading="lazy"></div><div class="p-6"><p class="text-sm leading-7 text-[#3a0c15]/70">Parents, siblings and family members often play an important role.</p></div></div></div>
-      <div class="snap-center shrink-0 w-screen p-4"><div class="bg-white overflow-hidden border border-white/15"><div class="h-56 overflow-hidden"><img src="<?php echo asset('images/4.jpg'); ?>" class="w-full h-full object-cover" alt="Family 4" loading="lazy"></div><div class="p-6"><p class="text-sm leading-7 text-[#3a0c15]/70">BestLife Matrimony makes it easier for families to explore suitable profiles.</p></div></div></div>
-      <div class="snap-center shrink-0 w-screen p-4"><div class="bg-white overflow-hidden border border-white/15"><div class="h-56 overflow-hidden"><img src="<?php echo asset('images/5.jpg'); ?>" class="w-full h-full object-cover" alt="Family 5" loading="lazy"></div><div class="p-6"><p class="font-serif italic text-[#3a0c15]">At the heart of the journey — individual dreams, family support.</p></div></div></div>
-      <div class="snap-center shrink-0 w-screen p-4"><div class="bg-white overflow-hidden border border-white/15"><div class="h-56 overflow-hidden"><img src="<?php echo asset('images/6.jpg'); ?>" class="w-full h-full object-cover" alt="Family 6" loading="lazy"></div><div class="p-6"><p class="font-serif italic text-xl leading-relaxed text-[#3a0c15]">Search Together. Choose Together. Begin Together.</p><p class="mt-3 text-sm leading-7 text-[#3a0c15]/60">Your family's love, your choice — together from the first page to forever.</p></div></div></div>
-    </div>
-  </div>
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
@@ -147,7 +130,6 @@
   function initFam(){
     var lenis = window.__lenis;
     if(lenis && lenis.on) lenis.on('scroll', ScrollTrigger.update);
-    if(!window.matchMedia('(min-width:1024px)').matches) return;
     var leftImgs = document.querySelectorAll(".left-img-fam");
     gsap.set(leftImgs,{autoAlpha:0});
     // Explicit zIndex + backface handling — prevents previous page ghosting on right side

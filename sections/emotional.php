@@ -49,15 +49,15 @@
   <div class="flex overflow-x-auto snap-x snap-mandatory w-full" style="scrollbar-width:none; -ms-overflow-style:none">
     <div class="snap-center shrink-0 w-screen">
       <div class="h-64 overflow-hidden bg-[#1a0a0f]"><img src="<?php echo asset('images/parallax/couple-varmala.jpg'); ?>" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=800&q=80&auto=format&fit=crop'" alt="Real Indian couple varmala" class="w-full h-full object-cover" loading="lazy"></div>
-      <div class="bg-white p-6"><h2 class="font-serif text-2xl font-bold leading-[0.9] text-[#3a0c15]">Two People. Two Stories.<br><span class="italic text-[#8a4a2f]">One Beautiful Beginning.</span></h2><p class="mt-3 text-sm leading-6 text-[#3a0c15]/60">Every person has a story. Every family has dreams. And sometimes, two stories come together to create a new chapter.</p></div>
+      <div class="bg-white p-6 min-h-[200px] flex flex-col justify-center"><h2 class="font-serif text-2xl font-bold leading-[0.9] text-[#3a0c15]">Two People. Two Stories.<br><span class="italic text-[#8a4a2f]">One Beautiful Beginning.</span></h2><p class="mt-3 text-sm leading-6 text-[#3a0c15]/60">Every person has a story. Every family has dreams. And sometimes, two stories come together to create a new chapter.</p></div>
     </div>
     <div class="snap-center shrink-0 w-screen">
       <div class="h-64 overflow-hidden bg-[#1a0a0f]"><img src="<?php echo asset('images/parallax/couple-walk.jpg'); ?>" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=800&q=80&auto=format&fit=crop'" alt="Real Indian couple walk" class="w-full h-full object-cover" loading="lazy"></div>
-      <div class="bg-[#fdf6e8] p-6"><p class="font-serif italic text-lg leading-relaxed text-[#3a0c15]">BestLife Matrimony is here to help you take that first step.</p></div>
+      <div class="bg-[#fdf6e8] p-6 min-h-[200px] flex flex-col justify-center"><p class="font-serif italic text-lg leading-relaxed text-[#3a0c15]">BestLife Matrimony is here to help you take that first step.</p></div>
     </div>
     <div class="snap-center shrink-0 w-screen">
       <div class="h-64 overflow-hidden bg-[#1a0a0f]"><img src="<?php echo asset('images/second.jpg'); ?>" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&q=80&auto=format&fit=crop'" alt="Real Indian couple" class="w-full h-full object-cover" loading="lazy"></div>
-      <div class="bg-[#3a0c15] p-6"><p class="text-sm leading-6 text-white/80">Whether you're beginning your search or helping someone you love find their life partner, we're here to make the journey easier.</p><a href="<?php echo register_cta_href(); ?>" class="mt-4 inline-flex h-10 px-6 rounded-none bg-white text-[#3a0c15] text-sm font-bold items-center gap-2" style="border-radius:0"><?php echo register_cta_label(); ?> →</a></div>
+      <div class="bg-[#3a0c15] p-6 min-h-[200px] flex flex-col justify-center"><p class="text-sm leading-6 text-white/80">Whether you're beginning your search or helping someone you love find their life partner, we're here to make the journey easier.</p><a href="<?php echo register_cta_href(); ?>" class="mt-4 inline-flex h-10 px-6 rounded-none bg-white text-[#3a0c15] text-sm font-bold items-center gap-2" style="border-radius:0"><?php echo register_cta_label(); ?> →</a></div>
     </div>
   </div>
 </div>

@@ -1,9 +1,9 @@
 <?php // FAQ Section — Accordion Stagger — faq-03-stagger-grid — lag-free ?>
-<section id="faq" class="relative py-16 lg:py-24 overflow-hidden border-t border-white/10" style="background: linear-gradient(145deg, #3a0c15 0%, #4a1322 20%, #5e1e2e 35%, #6e2a2a 52%, #8a4a2f 68%, #a67d3a 82%, #c9a86a 90%, #e3c877 96%, #f6e6b4 100%);">
+<section id="faq" class="relative py-16 lg:py-24 overflow-hidden border-t border-white/10" style="background: linear-gradient(145deg, #3a0c15 0%, #4a1322 20%, #5e1e2e 35%, #6e2a2a 52%, #8a4a2f 68%, #a67d3a 82%, #c9a86a 90%, #e3c877 96%, #f6e6b4 100%); margin-top: 0;">
   <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(700px 400px at 50% 12%, rgba(255,246,232,0.07) 0%, transparent 70%);"></div>
-  <div class="relative max-w-3xl mx-auto px-6">
+  <div class="relative max-w-3xl mx-auto px-4 sm:px-6">
     <div class="text-center">
-      <h2 class="font-serif text-3xl font-bold text-white">Frequently Asked <span class="italic text-[#f6e6b4]">Questions</span></h2>
+      <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white">Frequently Asked <span class="italic text-[#f6e6b4]">Questions</span></h2>
       <div class="mt-6 flex gap-2 max-w-md mx-auto">
         <input type="text" placeholder="Search questions..." class="flex-1 h-11 px-4 rounded-none bg-white border border-white/15 text-sm text-[#3a0c15] placeholder:text-[#3a0c15]/40 focus:outline-none focus:border-[#e3c877]" style="border-radius:0">
         <button class="h-11 px-6 bg-[#3a0c15] text-white text-sm font-bold hover:bg-[#4a1322] transition" style="border-radius:0">Search</button>

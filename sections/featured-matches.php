@@ -1,5 +1,5 @@
 <?php // Featured Matches — Horizontal Pinned Flex — 10 profiles — icons only — lag-free ?>
-<section id="featured-matches" class="relative hidden lg:block border-t border-white/10" style="background: linear-gradient(145deg, #3a0c15 0%, #4a1322 20%, #5e1e2e 35%, #6e2a2a 52%, #8a4a2f 68%, #a67d3a 82%, #c9a86a 90%, #e3c877 96%, #f6e6b4 100%);">
+<section id="featured-matches" class="relative hidden lg:block border-t border-white/10 overflow-hidden" style="background: linear-gradient(145deg, #3a0c15 0%, #4a1322 20%, #5e1e2e 35%, #6e2a2a 52%, #8a4a2f 68%, #a67d3a 82%, #c9a86a 90%, #e3c877 96%, #f6e6b4 100%); margin-top: 0;">
   <div id="pin-feat" class="relative h-screen overflow-hidden">
     <div id="track-feat" class="absolute inset-0 flex will-change-transform" style="will-change:transform">
       <!-- Intro panel -->
@@ -91,7 +91,7 @@
 </section>
 
 <!-- Mobile fallback — grid with icons -->
-<div class="lg:hidden px-6 py-12 border-t border-white/10" style="background: linear-gradient(145deg, #3a0c15 0%, #4a1322 20%, #5e1e2e 35%, #6e2a2a 52%, #8a4a2f 68%, #a67d3a 82%, #c9a86a 90%, #e3c877 96%, #f6e6b4 100%);">
+<div class="lg:hidden px-4 sm:px-6 py-12 border-t border-white/10 overflow-hidden" style="background: linear-gradient(145deg, #3a0c15 0%, #4a1322 20%, #5e1e2e 35%, #6e2a2a 52%, #8a4a2f 68%, #a67d3a 82%, #c9a86a 90%, #e3c877 96%, #f6e6b4 100%); margin-top: 0;">
   <span class="inline-flex rounded-none border border-white/20 bg-white/10 px-3 py-1.5 text-[11px] tracking-[0.16em] uppercase text-white font-bold" style="border-radius:0">Featured Matches / Profile Showcase</span>
   <h2 class="mt-3 font-serif text-3xl font-bold leading-[0.9] text-white">Maybe Your Search<br><span class="italic text-[#f6e6b4]">Ends Here.</span></h2>
   <p class="mt-3 text-sm leading-6 text-white/70">A few profiles. A few possibilities. One meaningful connection.</p>

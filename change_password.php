@@ -64,9 +64,9 @@ require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 ?>
 <main class="flex-1 bg-[#f4f2ee] text-[#2b1a1e]">
-  <section class="mx-auto w-full max-w-xl px-4 py-16 sm:px-6 sm:py-20">
+  <section class="mx-auto w-full max-w-xl px-4 py-12 sm:px-6 sm:py-20">
     <div class="rounded-none border border-[#f6e6b4]/20 bg-white p-6 sm:p-10 shadow-xl">
-      <h1 class="font-serif text-3xl font-bold">Change Password</h1>
+      <h1 class="font-serif text-2xl font-bold sm:text-3xl">Change Password</h1>
       <p class="mt-2 text-[#5a3a3f]">Keep your account secure. Use a password you don't use for other sites.</p>
 
       <?php if ($success): ?>
@@ -79,28 +79,28 @@ require_once __DIR__ . '/includes/navbar.php';
         <?php csrf_field(); ?>
         <label class="text-sm font-medium">Current Password
           <div class="relative mt-1">
-            <input type="password" name="current_password" maxlength="255" required class="w-full rounded-xl border px-4 py-3 pr-11 text-sm focus:outline-none focus:ring-2 focus:ring-[#e3c877] <?php echo isset($errors['current_password'])?'border-red-300 bg-red-50':'border-[#e8d9b5] bg-[#fdf9f1]'; ?>" />
+            <input type="password" name="current_password" maxlength="255" required class="w-full rounded-xl border px-4 py-3 pr-11 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#e3c877] <?php echo isset($errors['current_password'])?'border-red-300 bg-red-50':'border-[#e8d9b5] bg-[#fdf9f1]'; ?>" />
             <button type="button" class="toggle-password absolute inset-y-0 right-0 flex w-11 items-center justify-center text-[#8a4a2f]" aria-label="Show password"><i class="bi bi-eye-slash"></i></button>
           </div>
           <?php if (isset($errors['current_password'])) echo '<span class="text-xs text-red-600">'.$errors['current_password'].'</span>'; ?>
         </label>
         <label class="text-sm font-medium">New Password
           <div class="relative mt-1">
-            <input type="password" name="new_password" maxlength="255" placeholder="At least 8 characters" required class="w-full rounded-xl border px-4 py-3 pr-11 text-sm focus:outline-none focus:ring-2 focus:ring-[#e3c877] <?php echo isset($errors['new_password'])?'border-red-300 bg-red-50':'border-[#e8d9b5] bg-[#fdf9f1]'; ?>" />
+            <input type="password" name="new_password" maxlength="255" placeholder="At least 8 characters" required class="w-full rounded-xl border px-4 py-3 pr-11 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#e3c877] <?php echo isset($errors['new_password'])?'border-red-300 bg-red-50':'border-[#e8d9b5] bg-[#fdf9f1]'; ?>" />
             <button type="button" class="toggle-password absolute inset-y-0 right-0 flex w-11 items-center justify-center text-[#8a4a2f]" aria-label="Show password"><i class="bi bi-eye-slash"></i></button>
           </div>
           <?php if (isset($errors['new_password'])) echo '<span class="text-xs text-red-600">'.$errors['new_password'].'</span>'; ?>
         </label>
         <label class="text-sm font-medium">Confirm New Password
           <div class="relative mt-1">
-            <input type="password" name="new_password_confirm" maxlength="255" placeholder="Re-enter new password" required class="w-full rounded-xl border px-4 py-3 pr-11 text-sm focus:outline-none focus:ring-2 focus:ring-[#e3c877] <?php echo isset($errors['new_password_confirm'])?'border-red-300 bg-red-50':'border-[#e8d9b5] bg-[#fdf9f1]'; ?>" />
+            <input type="password" name="new_password_confirm" maxlength="255" placeholder="Re-enter new password" required class="w-full rounded-xl border px-4 py-3 pr-11 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#e3c877] <?php echo isset($errors['new_password_confirm'])?'border-red-300 bg-red-50':'border-[#e8d9b5] bg-[#fdf9f1]'; ?>" />
             <button type="button" class="toggle-password absolute inset-y-0 right-0 flex w-11 items-center justify-center text-[#8a4a2f]" aria-label="Show password"><i class="bi bi-eye-slash"></i></button>
           </div>
           <?php if (isset($errors['new_password_confirm'])) echo '<span class="text-xs text-red-600">'.$errors['new_password_confirm'].'</span>'; ?>
         </label>
-        <div class="flex flex-wrap gap-3 pt-2">
-          <button type="submit" class="inline-flex h-11 items-center justify-center rounded-full bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-8 text-sm font-bold text-[#3a0c15] hover:brightness-110"><i class="bi bi-shield-lock mr-1"></i>Update Password</button>
-          <a href="./profile.php" class="inline-flex h-11 items-center justify-center rounded-full border border-[#e8d9b5] bg-white px-6 text-sm font-medium text-[#2b1a1e] hover:bg-[#fdf9f1]">Back to Profile</a>
+        <div class="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap">
+          <button type="submit" class="inline-flex h-11 w-full items-center justify-center rounded-full bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-8 text-sm font-bold text-[#3a0c15] hover:brightness-110 sm:w-auto"><i class="bi bi-shield-lock mr-1"></i>Update Password</button>
+          <a href="./profile.php" class="inline-flex h-11 w-full items-center justify-center rounded-full border border-[#e8d9b5] bg-white px-6 text-sm font-medium text-[#2b1a1e] hover:bg-[#fdf9f1] sm:w-auto">Back to Profile</a>
         </div>
       </form>
     </div>

@@ -98,7 +98,6 @@ $religiousRows = [
   'Sub Caste' => v($profile, 'sub_caste'),
   'Gothram' => v($profile, 'gothram'),
   'Star Sign' => v($profile, 'star_sign'),
-  'Zodiac' => v($profile, 'zodiac'),
   'Dosham' => v($profile, 'dosham'),
   'Mother Tongue' => v($profile, 'mother_tongue'),
   'Time of Birth' => v($profile, 'time_of_birth'),
@@ -274,13 +273,10 @@ function renderSection($title, $rows) {
       <a href="./matches.php" class="pv-btn"><i class="bi bi-arrow-left"></i> Back to Matches</a>
       <?php if (!$isOwner): ?>
         <?php if ($currentUserId): ?>
-          <a href="./messages.php?user=<?php echo $profileId; ?>" class="pv-btn pv-btn-primary"><i class="bi bi-chat-dots"></i> Send Message</a>
           <button type="button" class="pv-btn" id="shortlistBtn" data-id="<?php echo $profileId; ?>"><i class="bi bi-bookmark"></i> <span id="shortlistLabel">Shortlist</span></button>
           <button type="button" class="pv-btn" id="interestBtn" data-id="<?php echo $profileId; ?>"><i class="bi bi-suit-heart"></i> <span id="interestLabel">Express Interest</span></button>
           <button type="button" class="pv-btn" id="reportBtn" data-id="<?php echo $profileId; ?>"><i class="bi bi-flag"></i> Report</button>
           <button type="button" class="pv-btn" id="blockBtn" data-id="<?php echo $profileId; ?>" style="color:#b91c1c;"><i class="bi bi-slash-circle"></i> Block</button>
-        <?php else: ?>
-          <a href="./login.php" class="pv-btn pv-btn-primary"><i class="bi bi-chat-dots"></i> Login to Message</a>
         <?php endif; ?>
       <?php endif; ?>
     </div>

@@ -56,6 +56,26 @@ require_once __DIR__ . '/includes/navbar.php';
   .nw-head{background:#fff;border:1px solid #eee;padding:24px;margin-bottom:16px}
   .nw-head h1{font-size:22px;margin:0}
   .nw-head p{margin:4px 0 0;color:#666;font-size:13px}
+
+  @media(max-width:640px){
+    .nw-wrap{padding:16px 12px 40px}
+    .nw-head{padding:16px;margin-bottom:12px}
+    .nw-head h1{font-size:20px}
+    .nw-tabs{gap:0;margin-bottom:16px}
+    .nw-tab{flex:1;padding:12px 6px;text-align:center;font-size:13px;white-space:nowrap}
+    .nw-card{flex-wrap:wrap;gap:10px;padding:12px;margin-bottom:10px}
+    .nw-actions{flex-basis:100%;justify-content:flex-end;margin-left:auto}
+    .nw-btn{height:38px;padding:0 16px;font-size:13px}
+    .nw-empty{padding:28px 16px}
+  }
+  @media(max-width:360px){
+    .nw-wrap{padding:12px 10px 32px}
+    .nw-avatar{width:44px;height:44px}
+    .nw-name{font-size:14px}
+    .nw-meta{font-size:12px}
+    .nw-btn{padding:0 12px}
+    .nw-head h1{font-size:18px}
+  }
 </style>
 
 <main class="bg-[#f4f2ee]" style="min-height:100vh;">

@@ -1,10 +1,10 @@
 <?php // How It Works — Timeline Sticky (02) — lag-free ?>
-<section id="how-it-works" class="relative border-t border-white/10 py-16 lg:py-20 overflow-hidden" style="background: linear-gradient(145deg, #3a0c15 0%, #4a1322 20%, #5e1e2e 35%, #6e2a2a 52%, #8a4a2f 68%, #a67d3a 82%, #c9a86a 90%, #e3c877 96%, #f6e6b4 100%);">
+<section id="how-it-works" class="relative border-t border-white/10 py-16 lg:py-24 overflow-hidden" style="background: linear-gradient(145deg, #3a0c15 0%, #4a1322 20%, #5e1e2e 35%, #6e2a2a 52%, #8a4a2f 68%, #a67d3a 82%, #c9a86a 90%, #e3c877 96%, #f6e6b4 100%);">
   <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(800px 520px at 15% 20%, rgba(255,246,232,0.06) 0%, transparent 70%), radial-gradient(900px 600px at 85% 85%, rgba(58,12,21,0.28) 0%, transparent 68%);"></div>
-  <div class="max-w-6xl mx-auto px-6">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
     <div class="text-center max-w-2xl mx-auto mb-12">
       <!-- <span class="inline-flex rounded-none border border-[#e3c877]/20 bg-white/5 px-4 py-1.5 text-[11px] tracking-[0.16em] uppercase text-[#e3c877] font-bold" style="border-radius:0">How It Works</span> -->
-      <h2 class="mt-4 font-serif text-[32px] sm:text-[42px] font-bold leading-[0.9] tracking-tight text-[#fff6e8]">
+      <h2 class="mt-4 font-serif text-[26px] sm:text-[32px] md:text-[42px] font-bold leading-[0.9] tracking-tight text-[#fff6e8]">
         Finding Your Match Can Be <span class="bg-gradient-to-r from-[#f6e6b4] via-[#e3c877] to-[#dcb04a] bg-clip-text text-transparent italic">Simple.</span>
       </h2>
     </div>
