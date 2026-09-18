@@ -274,6 +274,60 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
       $setClauses[] = "`kattam_image` = NULL";
     }
 
+    /* Handle Amsa Kattam Image — DB-only storage (no folder, base64 data URI in MEDIUMTEXT, max 5MB) */
+    $amsaKattamUploaded = false;
+    $amsaKattamError = null;
+    if (!empty($_FILES['amsa_kattam_image_file']['tmp_name']) || (!empty($_FILES['amsa_kattam_image_file']['error']) && $_FILES['amsa_kattam_image_file']['error'] !== UPLOAD_ERR_NO_FILE)) {
+      $err = $_FILES['amsa_kattam_image_file']['error'] ?? UPLOAD_ERR_NO_FILE;
+      if ($err !== UPLOAD_ERR_OK) {
+        if ($err === UPLOAD_ERR_INI_SIZE || $err === UPLOAD_ERR_FORM_SIZE) $amsaKattamError = 'Amsa Kattam image too large — server allows ' . ini_get('upload_max_filesize') . ', limit is 5MB.';
+        elseif ($err !== UPLOAD_ERR_NO_FILE) $amsaKattamError = 'Amsa Kattam upload failed (error ' . $err . ').';
+      } else {
+        $tmpPath = $_FILES['amsa_kattam_image_file']['tmp_name'];
+        $fileSize = $_FILES['amsa_kattam_image_file']['size'];
+        $ext = strtolower(pathinfo($_FILES['amsa_kattam_image_file']['name'], PATHINFO_EXTENSION));
+        $allowed = ['jpg', 'jpeg', 'png', 'webp'];
+        if (!in_array($ext, $allowed)) {
+          $amsaKattamError = 'Amsa Kattam image must be JPG, PNG or WebP.';
+        } elseif ($fileSize > 5 * 1024 * 1024) {
+          $amsaKattamError = 'Amsa Kattam image too large (max 5MB).';
+        } elseif (!is_uploaded_file($tmpPath)) {
+          $amsaKattamError = 'Invalid upload.';
+        } else {
+          $finfo = finfo_open(FILEINFO_MIME_TYPE);
+          $mime = finfo_file($finfo, $tmpPath);
+          finfo_close($finfo);
+          if (!in_array($mime, ['image/jpeg', 'image/png', 'image/webp'])) {
+            $amsaKattamError = 'Invalid Amsa Kattam file (must be JPEG/PNG/WebP).';
+          } else {
+            $raw = @file_get_contents($tmpPath);
+            if ($raw === false || $raw === '') {
+              $amsaKattamError = 'Could not read uploaded Amsa Kattam file.';
+            } else {
+              if (!empty($user['amsa_kattam_image']) && strpos($user['amsa_kattam_image'], 'data:') !== 0) {
+                $oldFile = photo_fs_path($user['amsa_kattam_image'], __DIR__);
+                if ($oldFile && file_exists($oldFile) && is_file($oldFile)) @unlink($oldFile);
+              }
+              $b64 = base64_encode($raw);
+              $dataUri = 'data:' . $mime . ';base64,' . $b64;
+              $setClauses[] = "`amsa_kattam_image` = ?";
+              $params[] = $dataUri;
+              log_media_for_moderation($userId, 'amsa_kattam_image', 'db:amsa_kattam_' . $userId . '_' . time() . '.' . $ext, $mime, $fileSize);
+              $amsaKattamUploaded = true;
+            }
+          }
+        }
+      }
+      if ($amsaKattamError) $errors['amsa_kattam_image'] = $amsaKattamError;
+    }
+    if (!$amsaKattamUploaded && !empty($_POST['delete_amsa_kattam_image']) && $_POST['delete_amsa_kattam_image'] === '1') {
+      if (!empty($user['amsa_kattam_image']) && strpos($user['amsa_kattam_image'], 'data:') !== 0) {
+        $oldFile = photo_fs_path($user['amsa_kattam_image'], __DIR__);
+        if ($oldFile && file_exists($oldFile) && is_file($oldFile)) @unlink($oldFile);
+      }
+      $setClauses[] = "`amsa_kattam_image` = NULL";
+    }
+
     if (empty($errors)) {
       $params[] = $userId;
       try {
@@ -407,6 +461,10 @@ $kattamPhoto = '';
 if ($user && !empty($user['kattam_image'])) {
   $kattamPhoto = htmlspecialchars(photo_url($user['kattam_image']));
 }
+$amsaKattamPhoto = '';
+if ($user && !empty($user['amsa_kattam_image'])) {
+  $amsaKattamPhoto = htmlspecialchars(photo_url($user['amsa_kattam_image']));
+}
 $rashiOptions = [
   'Mesha (மேஷம்)',
   'Rishabha (ரிஷபம்)',
@@ -422,7 +480,9 @@ $rashiOptions = [
   'Meena (மீனம்)'
 ];
 
-$nakshatras = ['Ashwini','Bharani','Krittika','Rohini','Mrigashira','Ardra','Punarvasu','Pushya','Ashlesha','Magha','Purva Phalguni','Uttara Phalguni','Hasta','Chitra','Swati','Vishakha','Anuradha','Jyeshtha','Mula','Purva Ashadha','Uttara Ashadha','Shravana','Dhanishta','Shatabhisha','Purva Bhadrapada','Uttara Bhadrapada','Revati'];
+$nakshatras = [
+  'Ashwini (அஸ்வினி)','Bharani (பரணி)','Krittika (கார்த்திகை)','Rohini (ரோகிணி)','Mrigashira (மிருகசீரிடம்)','Ardra (திருவாதிரை)','Punarvasu (புனர்பூசம்)','Pushya (பூசம்)','Ashlesha (ஆயில்யம்)','Magha (மகம்)','Purva Phalguni (பூரம்)','Uttara Phalguni (உத்திரம்)','Hasta (அஸ்தம்)','Chitra (சித்திரை)','Swati (சுவாதி)','Vishakha (விசாகம்)','Anuradha (அனுஷம்)','Jyeshtha (கேட்டை)','Mula (மூலம்)','Purva Ashadha (பூராடம்)','Uttara Ashadha (உத்திராடம்)','Shravana (திருவோணம்)','Dhanishta (அவிட்டம்)','Shatabhisha (சதயம்)','Purva Bhadrapada (பூரட்டாதி)','Uttara Bhadrapada (உத்திரட்டாதி)','Revati (ரேவதி)'
+];
 $incomes = ['Below 2 Lakhs','2 - 4 Lakhs','4 - 6 Lakhs','6 - 8 Lakhs','8 - 10 Lakhs','10 - 15 Lakhs','15 - 20 Lakhs','20 - 30 Lakhs','30 - 50 Lakhs','50 Lakhs+'];
 $heights = [
   "4'6\" (137 cm)", "4'7\" (140 cm)", "4'8\" (142 cm)", "4'9\" (145 cm)", "4'10\" (147 cm)", "4'11\" (150 cm)",
@@ -508,7 +568,6 @@ require_once __DIR__ . '/includes/navbar.php';
       <li class="nav-tab" data-tab="preferences"><i class="bi bi-sliders tab-icon"></i><span class="tab-label">Preferences</span></li>
       <li class="nav-tab" data-tab="photos"><i class="bi bi-camera tab-icon"></i><span class="tab-label">Photos</span></li>
       <li class="nav-tab" data-tab="favourites"><i class="bi bi-heart tab-icon"></i><span class="tab-label">Favourites</span></li>
-      <li class="nav-tab"><a href="./who_viewed_me.php" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:6px;color:inherit;text-decoration:none;"><i class="bi bi-eye tab-icon"></i><span class="tab-label">Who Viewed Me</span></a></li>
     </ul>
   </div>
 </div>
@@ -544,6 +603,9 @@ require_once __DIR__ . '/includes/navbar.php';
     <?php if (!empty($errors['kattam_image'])): ?>
       <div class="profile-alert error"><i class="bi bi-exclamation-circle-fill"></i> <?php echo htmlspecialchars($errors['kattam_image']); ?></div>
     <?php endif; ?>
+    <?php if (!empty($errors['amsa_kattam_image'])): ?>
+      <div class="profile-alert error"><i class="bi bi-exclamation-circle-fill"></i> <?php echo htmlspecialchars($errors['amsa_kattam_image']); ?></div>
+    <?php endif; ?>
     <?php if (!empty($errors['time_of_birth'])): ?>
       <div class="profile-alert error"><i class="bi bi-exclamation-circle-fill"></i> <?php echo htmlspecialchars($errors['time_of_birth']); ?></div>
     <?php endif; ?>
@@ -562,6 +624,7 @@ require_once __DIR__ . '/includes/navbar.php';
       <?php csrf_field(); ?>
       <input type="hidden" name="delete_profile_photo" id="delete_profile_photo" value="0">
       <input type="hidden" name="delete_kattam_image" id="delete_kattam_image" value="0">
+      <input type="hidden" name="delete_amsa_kattam_image" id="delete_amsa_kattam_image" value="0">
 
       <!-- 1. PERSONAL -->
       <div class="tab-panel active" id="panel-personal">
@@ -677,8 +740,8 @@ require_once __DIR__ . '/includes/navbar.php';
       <div class="tab-panel" id="panel-religious">
         <div class="section-card">
           <h5><i class="bi bi-book"></i> Religious Details</h5>
-          <div class="row g-2">
-            <div class="col-md-6">
+          <div class="rel-grid">
+            <div class="rel-field">
               <label class="form-label">Religion <span class="required-star">*</span></label>
               <select name="religion" class="form-select" required>
                 <option value="">Select</option>
@@ -687,19 +750,19 @@ require_once __DIR__ . '/includes/navbar.php';
                 <?php endforeach; ?>
               </select>
             </div>
-            <div class="col-md-6">
+            <div class="rel-field">
               <label class="form-label">Caste</label>
               <input type="text" name="caste" class="form-control" value="<?php pv($user, 'caste'); ?>" placeholder="e.g. Brahmin, Iyer, Nadar, etc.">
             </div>
-            <div class="col-md-6">
+            <div class="rel-field">
               <label class="form-label">Sub-Caste</label>
               <input type="text" name="sub_caste" class="form-control" value="<?php pv($user, 'sub_caste'); ?>" placeholder="e.g. Vadama, Smartha">
             </div>
-            <div class="col-md-6">
+            <div class="rel-field">
               <label class="form-label">Gothram</label>
               <input type="text" name="gothram" class="form-control" value="<?php pv($user, 'gothram'); ?>" placeholder="e.g. Kashyapa, Bharadwaj">
             </div>
-            <div class="col-md-6">
+            <div class="rel-field">
               <label class="form-label">Star / Nakshatra</label>
               <select name="star_sign" class="form-select">
                 <option value="">Select</option>
@@ -708,7 +771,7 @@ require_once __DIR__ . '/includes/navbar.php';
                 <?php endforeach; ?>
               </select>
             </div>
-            <div class="col-md-6">
+            <div class="rel-field">
               <label class="form-label">Rasi / Moon Sign / Zodiac</label>
               <select name="rashi" class="form-select">
                 <option value="">Select Rashi</option>
@@ -717,7 +780,7 @@ require_once __DIR__ . '/includes/navbar.php';
                 <?php endforeach; ?>
               </select>
             </div>
-            <div class="col-md-6">
+            <div class="rel-field">
               <label class="form-label">Dosham / Manglik</label>
               <select name="dosham" class="form-select">
                 <option value="">Select</option>
@@ -726,7 +789,7 @@ require_once __DIR__ . '/includes/navbar.php';
                 <?php endforeach; ?>
               </select>
             </div>
-            <div class="col-md-6">
+            <div class="rel-field">
               <label class="form-label">Mother Tongue <span class="required-star">*</span></label>
               <select name="mother_tongue" class="form-select" required>
                 <option value="">Select</option>
@@ -735,7 +798,7 @@ require_once __DIR__ . '/includes/navbar.php';
                 <?php endforeach; ?>
               </select>
             </div>
-            <div class="col-md-6">
+            <div class="rel-field">
               <label class="form-label">Time of Birth <span class="text-muted" style="font-weight:400;font-size:0.7rem;">(IST 12hr)</span></label>
               <?php
                 $tobH = $tobM = $tobP = '';
@@ -776,13 +839,13 @@ require_once __DIR__ . '/includes/navbar.php';
               <input type="hidden" name="time_of_birth" id="time_of_birth_hidden" value="<?php pv($user, 'time_of_birth'); ?>">
               <small class="text-muted" style="font-size:0.68rem;">12-hour IST format</small>
             </div>
-            <div class="col-md-6">
+            <div class="rel-field">
               <label class="form-label">Place of Birth</label>
               <input type="text" name="place_of_birth" class="form-control" value="<?php pv($user, 'place_of_birth'); ?>" placeholder="e.g. Chennai, Tamil Nadu">
             </div>
 
-            <div class="col-12">
-              <label class="form-label">Kattam (Birth Chart) — Image (max 5MB)</label>
+            <div class="rel-field rel-field-full">
+              <label class="form-label">Rashi Kattam (Birth Chart) — Image (max 5MB)</label>
               <div class="d-flex align-items-start gap-3 flex-wrap">
                 <div class="photo-upload-box" id="kattamBox" style="width:120px;height:120px;">
                   <?php if ($kattamPhoto): ?>
@@ -798,10 +861,35 @@ require_once __DIR__ . '/includes/navbar.php';
                   <button class="remove-photo" id="kattamRemoveBtn" data-remove-kattam type="button" title="Remove"<?php if (!$kattamPhoto) echo ' style="display:none;"'; ?>><i class="bi bi-x"></i></button>
                 </div>
                 <div>
-                  <p class="mb-1" style="font-size:0.8rem;color:#666;">Upload your Jathagam Kattam chart (photo of chart). JPG/PNG/WEBP, max 5MB.</p>
+                  <p class="mb-1" style="font-size:0.8rem;color:#666;">Upload your Rashi Kattam chart (photo of chart). JPG/PNG/WEBP, max 5MB.</p>
                   <?php if ($kattamPhoto): ?>
                     <button type="button" class="btn btn-sm btn-outline-danger" data-remove-kattam><i class="bi bi-trash"></i> Delete Kattam</button>
                   <?php endif; ?>
+                </div>
+
+                <div style="margin-left:auto;">
+                  <label class="form-label">Amsa Kattam (Amsa Chart) — Image (max 5MB)</label>
+                  <div class="d-flex align-items-start gap-3">
+                    <div class="photo-upload-box" id="amsaKattamBox" style="width:120px;height:120px;">
+                      <?php if ($amsaKattamPhoto): ?>
+                        <img src="<?php echo $amsaKattamPhoto; ?>" alt="Amsa Kattam" id="amsaKattamPreview" style="display:block;">
+                      <?php else: ?>
+                        <img src="" alt="" style="display:none;" id="amsaKattamPreview">
+                      <?php endif; ?>
+                      <div class="upload-placeholder" id="amsaKattamPlaceholder"<?php if ($amsaKattamPhoto) echo ' style="display:none;"'; ?>>
+                        <i class="bi bi-image"></i>
+                        <span>Upload Amsa Kattam</span>
+                      </div>
+                      <input type="file" name="amsa_kattam_image_file" id="amsa_kattam_image_file" accept="image/jpeg,image/png,image/webp" onchange="previewAmsaKattam(this)">
+                      <button class="remove-photo" id="amsaKattamRemoveBtn" data-remove-amsa-kattam type="button" title="Remove"<?php if (!$amsaKattamPhoto) echo ' style="display:none;"'; ?>><i class="bi bi-x"></i></button>
+                    </div>
+                    <div>
+                      <p class="mb-1" style="font-size:0.8rem;color:#666;">Upload your Amsa Kattam (Navamsa chart) photo. JPG/PNG/WEBP, max 5MB.</p>
+                      <?php if ($amsaKattamPhoto): ?>
+                        <button type="button" class="btn btn-sm btn-outline-danger" data-remove-amsa-kattam><i class="bi bi-trash"></i> Delete Amsa Kattam</button>
+                      <?php endif; ?>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1170,6 +1258,8 @@ require_once __DIR__ . '/includes/navbar.php';
 </div>
 
 </div>
+</div>
+<!-- /.profile-page -->
 
 <?php
 require_once __DIR__ . '/includes/footer.php';

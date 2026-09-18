@@ -23,7 +23,6 @@ if ($currentUserId && (int)$currentUserId !== $profileId && !is_admin() && !can_
 }
 
 $profile = null;
-$viewCount = 0;
 try {
   $db = getDB();
 
@@ -50,10 +49,6 @@ try {
           } catch (Exception $e) { /* ignore */ }
         }
       }
-      // Total unique count of viewers
-      $cnt = $db->prepare('SELECT COUNT(DISTINCT viewer_id) FROM profile_views WHERE profile_id = ?');
-      $cnt->execute([$profileId]);
-      $viewCount = (int) $cnt->fetchColumn();
     }
   }
 } catch (PDOException $e) { /* ignore */ }
@@ -230,7 +225,7 @@ function renderSection($title, $rows) {
               echo htmlspecialchars(implode(' · ', $chips));
             ?>
           </p>
-          <p class="pv-tagline"><i class="bi bi-eye"></i> <?php echo $viewCount; ?> people viewed this profile<?php if ($isOwner): ?> · <a href="./who_viewed_me.php" target="_blank" rel="noopener noreferrer" style="color:#6b1020;font-weight:600;">Who viewed me</a><?php endif; ?></p>
+          
         </div>
       </div>
 
@@ -258,12 +253,24 @@ function renderSection($title, $rows) {
 
       <?php if (!empty($profile['kattam_image'])): ?>
         <div class="pv-about">
-          <h3>Kattam (Birth Chart)</h3>
+          <h3>Rashi Kattam (Birth Chart)</h3>
           <div style="margin-top:8px; max-width:420px;">
             <div class="kattam-wrap">
-              <img id="kattamThumb" class="js-kattam" src="<?php echo htmlspecialchars(photo_url($profile['kattam_image'])); ?>" alt="Kattam (Birth Chart)" style="cursor:zoom-in;user-select:none;-webkit-user-drag:none;" draggable="false" oncontextmenu="return false" ondragstart="return false">
+              <img id="kattamThumb" class="js-kattam" src="<?php echo htmlspecialchars(photo_url($profile['kattam_image'])); ?>" alt="Rashi Kattam (Birth Chart)" style="cursor:zoom-in;user-select:none;-webkit-user-drag:none;" draggable="false" oncontextmenu="return false" ondragstart="return false">
             </div>
             <div style="margin-top:6px;font-size:12px;color:#6b1020;"><i class="bi bi-zoom-in"></i> Click to view full Kattam</div>
+          </div>
+        </div>
+      <?php endif; ?>
+
+      <?php if (!empty($profile['amsa_kattam_image'])): ?>
+        <div class="pv-about">
+          <h3>Amsa Kattam (Amsa Chart)</h3>
+          <div style="margin-top:8px; max-width:420px;">
+            <div class="kattam-wrap">
+              <img id="amsaKattamThumb" class="js-kattam" src="<?php echo htmlspecialchars(photo_url($profile['amsa_kattam_image'])); ?>" alt="Amsa Kattam (Amsa Chart)" style="cursor:zoom-in;user-select:none;-webkit-user-drag:none;" draggable="false" oncontextmenu="return false" ondragstart="return false">
+            </div>
+            <div style="margin-top:6px;font-size:12px;color:#6b1020;"><i class="bi bi-zoom-in"></i> Click to view full Amsa Kattam</div>
           </div>
         </div>
       <?php endif; ?>
@@ -335,7 +342,14 @@ function renderSection($title, $rows) {
   if (kattamEl) {
     kattamEl.addEventListener('click', function (e) {
       e.stopPropagation();
-      openLightbox(kattamEl.getAttribute('src'), 'Kattam (Birth Chart)' + (nameText ? ' — ' + nameText : ''));
+      openLightbox(kattamEl.getAttribute('src'), 'Rashi Kattam (Birth Chart)' + (nameText ? ' — ' + nameText : ''));
+    });
+  }
+  var amsaKattamEl = document.getElementById('amsaKattamThumb');
+  if (amsaKattamEl) {
+    amsaKattamEl.addEventListener('click', function (e) {
+      e.stopPropagation();
+      openLightbox(amsaKattamEl.getAttribute('src'), 'Amsa Kattam (Amsa Chart)' + (nameText ? ' — ' + nameText : ''));
     });
   }
   lb.addEventListener('click', function (e) {

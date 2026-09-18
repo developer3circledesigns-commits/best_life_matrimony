@@ -1,4 +1,26 @@
-<footer class="relative border-t border-[#3a0c15]/10 bg-[#fdf9f1] pt-16 pb-12 text-[#3a0c15] text-center md:text-left">
+<style>
+  /* Shared-footer guard: neutralizes page-level resets (e.g. the Bootstrap
+     stylesheet loaded by profile.php) so this footer renders byte-identical
+     on every page. :where() keeps zero specificity — Tailwind utilities
+     always win; these rules only beat bare-element resets by source order. */
+  :where(.site-footer) a{color:inherit;text-decoration:inherit}
+  :where(.site-footer) ul,:where(.site-footer) ol{margin:0;padding:0;list-style:none}
+  :where(.site-footer) li{margin:0;padding:0}
+  :where(.site-footer) p,:where(.site-footer) h4{margin:0;padding:0;line-height:inherit}
+  :where(.site-footer) img{max-width:100%}
+  /* Bootstrap-utility firewall: profile.php loads Bootstrap, whose
+     !important utilities (.text-center, .px-4, .border, .mt-4, …) would
+     otherwise override the matching Tailwind classes below it.
+     Higher specificity + !important restores the exact Tailwind values. */
+  .site-footer .md\:text-left{text-align:center!important}
+  .site-footer .max-w-6xl{padding-left:1rem!important;padding-right:1rem!important}
+  .site-footer .border-t,.site-footer .border-b,.site-footer .border{border-color:rgba(58,12,21,.1)!important}
+  .site-footer .mt-4{margin-top:1rem!important}
+  @media(min-width:640px){.site-footer .max-w-6xl{padding-left:1.5rem!important;padding-right:1.5rem!important}}
+  @media(min-width:768px){.site-footer .md\:text-left{text-align:left!important}}
+  @media(min-width:1024px){.site-footer .max-w-6xl{padding-left:2rem!important;padding-right:2rem!important}}
+</style>
+<footer class="site-footer relative border-t border-[#3a0c15]/10 bg-[#fdf9f1] pt-16 pb-12 text-[#3a0c15] text-center md:text-left">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-10 pb-12 border-b border-[#3a0c15]/10">
       <!-- Brand -->
@@ -27,6 +49,7 @@
         <ul class="space-y-2 text-sm text-[#3a0c15]/70">
           <?php if (!empty($_SESSION['user_id'])): ?>
             <li><a href="./profile.php" class="hover:text-[#8a4a2f] transition-colors">My Profile</a></li>
+            <li><a href="./notifications.php" class="hover:text-[#8a4a2f] transition-colors">Notifications</a></li>
             <li><a href="./matches.php" class="hover:text-[#8a4a2f] transition-colors">Browse Profiles</a></li>
             <li><a href="./logout.php" class="hover:text-[#8a4a2f] transition-colors">Logout</a></li>
             <?php if (function_exists('is_admin') && is_admin()): ?>
@@ -63,13 +86,13 @@
           </ul>
           <!-- Footer Map -->
           <div class="mt-4 overflow-hidden rounded-none border border-[#3a0c15]/10" style="border-radius:0">
-            <iframe src="https://www.google.com/maps?q=13.054376,80.1927475&z=17&hl=en&output=embed" width="100%" height="180" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="BestLife Matrimony Location"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3886.7060081411737!2d80.19017257507787!3d13.054375987268616!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTPCsDAzJzE1LjgiTiA4MMKwMTEnMzMuOSJF!5e0!3m2!1sen!2sro!4v1789711887289!5m2!1sen!2sro" width="100%" height="180" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="BestLife Matrimony Location"></iframe>
             <a href="https://www.google.com/maps?q=13.054376,80.1927475&z=17&hl=en" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-1.5 bg-[#3a0c15] py-2 text-xs font-semibold text-white hover:bg-[#5a1a25] transition-colors"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> View on Google Maps</a>
           </div>
         </div>
         <div class="space-y-3">
           <h4 class="font-serif text-sm font-bold uppercase tracking-wider text-[#8a4a2f]">Follow Us</h4>
-          <div class="flex items-center justify-center md:justify-start gap-3">
+          <div class="flex gap-2">
             <a href="https://facebook.com" target="_blank" rel="noreferrer" class="flex h-9 w-9 items-center justify-center rounded-full border border-[#3a0c15]/10 bg-white text-[#8a4a2f] hover:bg-[#3a0c15] hover:text-white hover:border-[#3a0c15] transition-all" aria-label="Facebook">
               <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M14 8h3V3h-3c-2.76 0-5 2.24-5 5v3H6v4h3v5h4v-5h3l1-4h-4V8c0-.55.45-1 1-1Z"/></svg>
             </a>
@@ -80,7 +103,7 @@
               <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M23 12c0 3.04-.82 5.37-2.45 7-1.64 1.64-3.97 2.45-7 2.45h-3c-3.04 0-5.37-.82-7-2.45C2.82 17.37 2 15.04 2 12s.82-5.37 2.45-7C6.09 3.36 8.42 2.55 11.45 2.55h3c3.04 0 5.37.82 7 2.45C22.18 6.63 23 8.96 23 12ZM10 16.5l6-4.5-6-4.5v9Z"/></svg>
             </a>
           </div>
-          <p class="text-xs text-[#3a0c15]/50">Facebook | Instagram | YouTube</p>
+          <p class="text-xs text-[#3a0c15]/50 text-center md:text-left">Facebook | Instagram | YouTube</p>
         </div>
       </div>
     </div>

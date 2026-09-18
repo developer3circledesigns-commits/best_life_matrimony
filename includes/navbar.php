@@ -49,13 +49,13 @@ $navUserId = $_SESSION['user_id'] ?? null;
         <div class="relative">
           <button type="button" id="acctMenuBtn" class="inline-flex text-sm font-medium text-[#3a0c15]/70 hover:text-[#8a4a2f] transition-colors">My Account <svg class="inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
           <div id="acctMenu" class="hidden absolute right-0 mt-2 w-56 rounded-xl border border-black/5 bg-white p-2 shadow-xl z-50" style="z-index: 10000;">
+            <a href="./notifications.php" class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#3a0c15] hover:bg-black/5">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              Notifications
+            </a>
             <a href="./network.php" class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#3a0c15] hover:bg-black/5">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               My Network
-            </a>
-            <a href="./who_viewed_me.php" class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#3a0c15] hover:bg-black/5">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              Who Viewed Me
             </a>
             <a href="./verify.php" class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#3a0c15] hover:bg-black/5">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg>
@@ -85,6 +85,11 @@ $navUserId = $_SESSION['user_id'] ?? null;
         <a href="./login.php" class="inline-flex text-sm font-medium text-[#3a0c15]/70 hover:text-[#8a4a2f] transition-colors">Login</a>
         <a href="./register.php" class="inline-flex h-8 items-center justify-center rounded-full border border-[#f6e6b4]/40 bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-5 text-sm font-semibold text-[#3a0c15] shadow-md hover:brightness-110 transition-all">Register Now</a>
       <?php endif; ?>
+      <a href="tel:+917338877275" title="Support hours: Monday to Saturday, 10 AM to 6 PM" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-black/10 bg-black/5 px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-xs font-semibold text-[#3a0c15]/80 hover:bg-black/10 transition-colors">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span class="hidden md:inline">Mon &ndash; Sat &middot; 10 AM &ndash; 6 PM</span>
+        <span class="md:hidden">Mon&ndash;Sat &middot; 10&ndash;6</span>
+      </a>
     </div>
   </div>
 
@@ -103,9 +108,9 @@ $navUserId = $_SESSION['user_id'] ?? null;
       <?php if ($navUserId): ?>
         <div class="pt-4 mt-2 border-t border-black/5 flex flex-wrap items-center gap-x-4 gap-y-2">
           <a href="./profile.php" class="text-sm font-semibold text-[#8a4a2f]">My Profile</a>
+          <a href="./notifications.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Notifications</a>
           <?php if (is_admin()): ?><a href="./admin/index.php" class="text-sm font-semibold text-[#8a4a2f]">Admin Panel</a><?php endif; ?>
           <a href="./network.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">My Network</a>
-          <a href="./who_viewed_me.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Who Viewed Me</a>
           <a href="./verify.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Verify Account</a>
           <a href="./change_password.php" class="text-sm text-[#3a0c15]/60 hover:text-[#8a4a2f]">Change Password</a>
           <a href="./account_delete.php" class="text-sm text-red-700">Delete Account</a>

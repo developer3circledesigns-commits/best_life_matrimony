@@ -290,6 +290,29 @@ body:has(.profile-page) > div {
   margin-right: 0.75rem;
 }
 
+/* ── Religious section — flex layout ──────────────── */
+.rel-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1rem;
+}
+
+.rel-field {
+  flex: 1 1 calc(50% - 0.5rem);
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+}
+
+.rel-field-full {
+  flex: 1 1 100%;
+  min-width: 100%;
+}
+
+.rel-field .form-label {
+  margin-bottom: 0.25rem;
+}
+
 /* ── Photo Upload ────────────────────────────────── */
 .photo-upload-box {
   width: 100px;
@@ -676,6 +699,11 @@ body:has(.profile-page) > div {
     justify-content: center;
     flex-direction: column;
     gap: 0.1rem;
+  }
+
+  .rel-field {
+    flex: 1 1 100%;
+    min-width: 0;
   }
 
   .tabs-nav .nav-tab .tab-label {

@@ -41,6 +41,11 @@ try {
   }
 
   if ($action === 'mark_read') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && !csrf_verify()) {
+      http_response_code(403);
+      echo json_encode(['error' => 'Invalid request']);
+      exit;
+    }
     $ids = [];
     if (isset($_POST['id'])) $ids = [(int) $_POST['id']];
     elseif (isset($_GET['id'])) $ids = [(int) $_GET['id']];
@@ -51,6 +56,27 @@ try {
       $in = implode(',', array_fill(0, count($ids), '?'));
       $params = array_merge($ids, [$userId]);
       $db->prepare("UPDATE notifications SET is_read = 1 WHERE id IN ($in) AND user_id = ?")->execute($params);
+    }
+    echo json_encode(['ok' => true]);
+    exit;
+  }
+
+  if ($action === 'delete') {
+    if (!csrf_verify()) {
+      http_response_code(403);
+      echo json_encode(['error' => 'Invalid request']);
+      exit;
+    }
+    $all = ($_GET['all'] ?? ($_POST['all'] ?? '0')) === '1';
+    if ($all) {
+      $db->prepare('DELETE FROM notifications WHERE user_id = ? AND is_read = 1')->execute([$userId]);
+    } else {
+      $id = (int) ($_POST['id'] ?? ($_GET['id'] ?? 0));
+      if ($id <= 0) {
+        echo json_encode(['error' => 'Missing id']);
+        exit;
+      }
+      $db->prepare('DELETE FROM notifications WHERE id = ? AND user_id = ?')->execute([$id, $userId]);
     }
     echo json_encode(['ok' => true]);
     exit;

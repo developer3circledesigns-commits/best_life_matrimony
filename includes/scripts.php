@@ -150,7 +150,7 @@
       panel.innerHTML = items.map(function (n) {
         var strip = n.message || '';
         return '<a href="#" class="notif-item block rounded-lg px-3 py-2 text-sm text-[#3a0c15] hover:bg-black/5 ' + (n.is_read ? '' : 'border-l-2 border-[#8b0000] font-medium') + '" data-id="' + n.id + '">' + strip + '</a>';
-      }).join('');
+      }).join('') + '<a href="./notifications.php" class="block rounded-lg px-3 py-2 text-center text-sm font-semibold text-[#8a4a2f] hover:bg-black/5">View all notifications</a>';
       var csrf = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
       var itemsEls = panel.querySelectorAll('.notif-item');
       itemsEls.forEach(function (el) {
@@ -169,11 +169,13 @@
     }
 
     function openNotification(message) {
-      // Map simple message keywords to known destinations
+      // Route bell-dropdown clicks to the relevant page
       var t = message.toLowerCase();
-      var href = './profile.php';
-      if (t.indexOf('favourite') !== -1 || t.indexOf('interest') !== -1) href = './matches.php';
-      else if (t.indexOf('match') !== -1) href = './matches.php';
+      var href = './notifications.php';
+      if (t.indexOf('interest') !== -1) href = './network.php?tab=interests';
+      else if (t.indexOf('favourite') !== -1) href = './network.php?tab=shortlist';
+      else if (t.indexOf('viewed your profile') !== -1 || t.indexOf('match') !== -1) href = './matches.php';
+      else if (t.indexOf('verif') !== -1) href = './verify.php';
       window.location.href = href;
     }
 

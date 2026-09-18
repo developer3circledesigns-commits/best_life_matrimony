@@ -119,14 +119,17 @@ require_once __DIR__ . '/includes/navbar.php';
   function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 
   function card(p, actions) {
+    p = p || {};
+    var pid = p.id || p.uid || 0;
+    var pname = p.name || p.full_name || 'Member';
     var photo = p.photo ? '<img src="'+esc(p.photo)+'" alt="">' : '<i class="bi bi-person-fill"></i>';
     var meta = [];
     if (p.age) meta.push(p.age + ' yrs');
     if (p.city) meta.push(p.city);
     if (p.occupation) meta.push(p.occupation);
     return '<div class="nw-card">'
-      + '<a class="nw-avatar" href="./profile_view.php?id='+p.id+'" style="color:inherit;text-decoration:none;">'+photo+'</a>'
-      + '<div class="nw-mid"><a class="nw-name" href="./profile_view.php?id='+p.id+'" style="color:inherit;text-decoration:none;">'+esc(p.name)+'</a>'
+      + '<a class="nw-avatar" href="./profile_view.php?id='+pid+'" style="color:inherit;text-decoration:none;">'+photo+'</a>'
+      + '<div class="nw-mid"><a class="nw-name" href="./profile_view.php?id='+pid+'" style="color:inherit;text-decoration:none;">'+esc(pname)+'</a>'
       + '<div class="nw-meta">'+esc(meta.join(' · '))+'</div>'
       + (p.note ? '<div class="nw-note">'+esc(p.note)+'</div>' : '')
       + '</div>'
@@ -164,6 +167,13 @@ require_once __DIR__ . '/includes/navbar.php';
       var r = document.getElementById('receivedList');
       var s = document.getElementById('sentList');
       var rec = d.received || [], snt = d.sent || [];
+      // interests_api returns full_name/uid/profile_photo + id=interest id; map to card() shape (name/id/photo)
+      function asProfile(p){
+        var ph = p.profile_photo || p.photo || '';
+        // mirror PHP photo_url(): data URIs as-is, otherwise normalize to root-relative URL
+        if (ph && ph.indexOf('data:') !== 0) { ph = '/' + String(ph).replace(/^\.\/+/, '').replace(/^\/+/, ''); }
+        return {id:p.uid, name:p.full_name, photo:ph, age:p.age, city:p.city, occupation:p.occupation, note:p.note, status:p.status};
+      }
       if (!rec.length) r.innerHTML = emptyBox('No interests received yet.');
       else r.innerHTML = rec.map(function(p){
         var statusLabel = {pending:'Pending',accepted:'Accepted',declined:'Declined'}[p.status] || p.status;
@@ -173,7 +183,7 @@ require_once __DIR__ . '/includes/navbar.php';
             + '<button type="button" class="nw-btn nw-btn-danger" data-act="decline" data-iid="'+p.id+'">Decline</button>';
         }
         act += '<a class="nw-btn" href="./profile_view.php?id='+p.uid+'">View</a>';
-        return card(p, act);
+        return card(asProfile(p), act);
       }).join('');
       r.querySelectorAll('button[data-act]').forEach(function(b){
         b.addEventListener('click', function(){
@@ -187,7 +197,7 @@ require_once __DIR__ . '/includes/navbar.php';
         var statusLabel = {pending:'Pending',accepted:'Accepted',declined:'Declined',withdrawn:'Withdrawn'}[p.status] || p.status;
         var act = '<span class="nw-btn" style="border-color:#6b1020;color:#6b1020;">'+statusLabel+'</span>'
           + '<a class="nw-btn" href="./profile_view.php?id='+p.uid+'">View</a>';
-        return card(p, act);
+        return card(asProfile(p), act);
       }).join('');
     }).catch(function(){ document.getElementById('receivedList').innerHTML = emptyBox('Could not load interests.'); });
   }
@@ -211,13 +221,18 @@ require_once __DIR__ . '/includes/navbar.php';
 
   // Tabs
   var tabs = document.querySelectorAll('.nw-tab');
+  function activateTab(name){
+    tabs.forEach(function(x){ x.classList.toggle('active', x.getAttribute('data-tab') === name); });
+    ['shortlist','interests','blocked'].forEach(function(n){ document.getElementById('tab-'+n).style.display = (n === name) ? 'block' : 'none'; });
+  }
   tabs.forEach(function(t){
-    t.addEventListener('click', function(){
-      tabs.forEach(function(x){ x.classList.remove('active'); });
-      t.classList.add('active');
-      ['shortlist','interests','blocked'].forEach(function(n){ document.getElementById('tab-'+n).style.display = (n === t.getAttribute('data-tab')) ? 'block' : 'none'; });
-    });
+    t.addEventListener('click', function(){ activateTab(t.getAttribute('data-tab')); });
   });
+  // Deep-link support: network.php?tab=interests|shortlist|blocked
+  try {
+    var initialTab = new URLSearchParams(window.location.search).get('tab');
+    if (['shortlist','interests','blocked'].indexOf(initialTab) !== -1) activateTab(initialTab);
+  } catch (e) {}
 
   loadShortlists();
   loadInterests();

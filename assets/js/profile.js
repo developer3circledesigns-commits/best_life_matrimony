@@ -94,7 +94,7 @@
      Replaces inline onclick attributes with data-* attributes so
      behaviour stays in JS instead of being scattered through markup. */
   document.addEventListener('click', function (e) {
-    var t = e.target.closest('[data-tab-target], [data-remove-main], [data-remove-kattam], [data-remove-gallery], [data-cancel-form], [data-toggle-open]');
+    var t = e.target.closest('[data-tab-target], [data-remove-main], [data-remove-kattam], [data-remove-amsa-kattam], [data-remove-gallery], [data-cancel-form], [data-toggle-open]');
     if (!t) return;
     if (t.hasAttribute('data-tab-target')) {
       e.preventDefault();
@@ -103,6 +103,8 @@
       removeMainPhoto(e);
     } else if (t.hasAttribute('data-remove-kattam')) {
       removeKattam(e);
+    } else if (t.hasAttribute('data-remove-amsa-kattam')) {
+      removeAmsaKattam(e);
     } else if (t.hasAttribute('data-remove-gallery')) {
       removeGalleryPhoto(e, parseInt(t.getAttribute('data-remove-gallery'), 10) || 0);
     } else if (t.hasAttribute('data-cancel-form')) {
@@ -207,6 +209,48 @@
     var removeBtn = document.getElementById('kattamRemoveBtn');
     var input = document.getElementById('kattam_image_file');
     var deleteField = document.getElementById('delete_kattam_image');
+    if (preview) { preview.src = ''; preview.style.display = 'none'; }
+    if (placeholder) placeholder.style.display = '';
+    if (removeBtn) removeBtn.style.display = 'none';
+    if (input) input.value = '';
+    if (deleteField) deleteField.value = '1';
+  };
+
+  /* ── Amsa Kattam Preview ────────────────────────── */
+  window.previewAmsaKattam = function (input) {
+    if (input.files && input.files[0]) {
+      var file = input.files[0];
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Amsa Kattam image is too large. Maximum size is 5MB.');
+        input.value = '';
+        return;
+      }
+      if (ALLOWED_TYPES.indexOf(file.type) === -1) {
+        alert('Only JPG, PNG or WebP images are allowed for Amsa Kattam.');
+        input.value = '';
+        return;
+      }
+      var reader = new FileReader();
+      var preview = document.getElementById('amsaKattamPreview');
+      var placeholder = document.getElementById('amsaKattamPlaceholder');
+      var removeBtn = document.getElementById('amsaKattamRemoveBtn');
+      var deleteField = document.getElementById('delete_amsa_kattam_image');
+      reader.onload = function (e) {
+        if (preview) { preview.src = e.target.result; preview.style.display = 'block'; }
+        if (placeholder) placeholder.style.display = 'none';
+        if (removeBtn) removeBtn.style.display = 'flex';
+        if (deleteField) deleteField.value = '0';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  };
+  window.removeAmsaKattam = function (e) {
+    e.stopPropagation(); e.preventDefault();
+    var preview = document.getElementById('amsaKattamPreview');
+    var placeholder = document.getElementById('amsaKattamPlaceholder');
+    var removeBtn = document.getElementById('amsaKattamRemoveBtn');
+    var input = document.getElementById('amsa_kattam_image_file');
+    var deleteField = document.getElementById('delete_amsa_kattam_image');
     if (preview) { preview.src = ''; preview.style.display = 'none'; }
     if (placeholder) placeholder.style.display = '';
     if (removeBtn) removeBtn.style.display = 'none';
