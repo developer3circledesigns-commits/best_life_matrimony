@@ -51,10 +51,6 @@
             <li><a href="./profile.php" class="hover:text-[#8a4a2f] transition-colors">My Profile</a></li>
             <li><a href="./notifications.php" class="hover:text-[#8a4a2f] transition-colors">Notifications</a></li>
             <li><a href="./matches.php" class="hover:text-[#8a4a2f] transition-colors">Browse Profiles</a></li>
-            <li><a href="./logout.php" class="hover:text-[#8a4a2f] transition-colors">Logout</a></li>
-            <?php if (function_exists('is_admin') && is_admin()): ?>
-              <li><a href="./admin/index.php" class="font-semibold text-[#8a4a2f] hover:text-[#3a0c15] transition-colors">Admin Panel</a></li>
-            <?php endif; ?>
           <?php else: ?>
             <li><a href="./register.php" class="hover:text-[#8a4a2f] transition-colors">Register Now</a></li>
             <li><a href="./login.php" class="hover:text-[#8a4a2f] transition-colors">Login</a></li>
