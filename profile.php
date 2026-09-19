@@ -36,7 +36,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
       'blood_group', 'marital_status', 'about_self', 'religion', 'caste', 'sub_caste', 'gothram',
       'star_sign', 'dosham', 'mother_tongue', 'time_of_birth', 'place_of_birth', 'rashi',
       'country', 'state', 'city', 'citizenship',
-      'residential_status', 'highest_education', 'education_detail', 'occupation',
+      'residential_status', 'address', 'highest_education', 'education_detail', 'occupation',
       'occupation_type', 'annual_income', 'family_type', 'family_status', 'family_values',
       'father_name', 'father_occupation', 'mother_name', 'mother_occupation',
       'family_location', 'diet', 'smoking', 'drinking',
@@ -56,7 +56,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && isset($_POST['save_profi
       'gothram' => 100, 'star_sign' => 50, 'dosham' => 20,
       'mother_tongue' => 50, 'time_of_birth' => 8, 'place_of_birth' => 150, 'rashi' => 50,
       'country' => 60, 'state' => 100, 'city' => 100,
-      'citizenship' => 60, 'residential_status' => 20, 'highest_education' => 50,
+      'citizenship' => 60, 'residential_status' => 20, 'address' => 255, 'highest_education' => 50,
       'education_detail' => 255, 'occupation' => 150, 'occupation_type' => 50,
       'annual_income' => 50, 'family_type' => 20, 'family_status' => 30,
       'family_values' => 20, 'father_name' => 150, 'father_occupation' => 150,
@@ -394,6 +394,7 @@ $fieldLabels = [
   'state' => 'State',
   'city' => 'City',
   'citizenship' => 'Citizenship',
+  'address' => 'Address',
   'highest_education' => 'Highest Education',
   'education_detail' => 'Education Detail',
   'occupation' => 'Occupation',
@@ -432,7 +433,7 @@ if ($user) {
     'Basic & Contact' => ['full_name', 'date_of_birth', 'gender', 'marital_status'],
     'Physical' => ['height', 'weight', 'body_type', 'complexion', 'blood_group'],
     'Religious & Cultural' => ['religion', 'caste', 'sub_caste', 'gothram', 'star_sign', 'dosham', 'mother_tongue', 'time_of_birth', 'place_of_birth', 'rashi', 'kattam_image'],
-    'Location' => ['country', 'state', 'city', 'citizenship'],
+    'Location' => ['country', 'state', 'city', 'citizenship', 'address'],
     'Education & Career' => ['highest_education', 'education_detail', 'occupation', 'occupation_type', 'annual_income'],
     'Family' => ['family_type', 'family_status', 'family_values', 'father_name', 'mother_name'],
     'Lifestyle' => ['diet', 'smoking', 'drinking'],
@@ -938,6 +939,10 @@ require_once __DIR__ . '/includes/navbar.php';
                   <option value="<?php echo $rs; ?>"<?php echo sv($user, 'residential_status', $rs); ?>><?php echo $rs; ?></option>
                 <?php endforeach; ?>
               </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Address</label>
+              <textarea name="address" class="form-control" rows="2" placeholder="Enter your complete address including street, area, pincode, etc."><?php pv($user, 'address'); ?></textarea>
             </div>
           </div>
         </div>

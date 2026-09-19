@@ -52,6 +52,7 @@ CREATE TABLE `users` (
   `city` VARCHAR(100) DEFAULT NULL,
   `citizenship` VARCHAR(60) DEFAULT NULL,
   `residential_status` ENUM('Owned','Rented','Parents','Family') DEFAULT NULL,
+  `address` VARCHAR(255) DEFAULT NULL,
   `highest_education` ENUM('High School','Bachelors','Masters','Doctorate','Professional') DEFAULT NULL,
   `education_detail` VARCHAR(255) DEFAULT NULL,
   `occupation` VARCHAR(150) DEFAULT NULL,
@@ -112,7 +113,7 @@ CREATE TABLE `schema_meta` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Seed schema_meta version
-INSERT INTO `schema_meta` (`id`, `schema_version`) VALUES (1, 'v12') ON DUPLICATE KEY UPDATE `schema_version` = 'v12';
+INSERT INTO `schema_meta` (`id`, `schema_version`) VALUES (1, 'v13') ON DUPLICATE KEY UPDATE `schema_version` = 'v13';
 
 -- Create favourites table
 CREATE TABLE `favourites` (

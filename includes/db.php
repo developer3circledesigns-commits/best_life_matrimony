@@ -54,7 +54,7 @@ function getDB(array $cfg = null): PDO {
     `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET={$cfg['charset']} COLLATE={$cfg['charset']}_unicode_ci");
-  if (!defined('SCHEMA_VERSION')) define('SCHEMA_VERSION', 'v12'); // v12: amsa kattam image
+  if (!defined('SCHEMA_VERSION')) define('SCHEMA_VERSION', 'v13'); // v13: address field
   $storedVer = $pdo->query('SELECT schema_version FROM schema_meta WHERE id = 1')->fetchColumn();
   $schemaNeedsMigrate = ($storedVer === false) || ($storedVer !== SCHEMA_VERSION);
 
@@ -83,6 +83,7 @@ function getDB(array $cfg = null): PDO {
     "`city` VARCHAR(100) DEFAULT NULL",
     "`citizenship` VARCHAR(60) DEFAULT NULL",
     "`residential_status` ENUM('Owned','Rented','Parents','Family') DEFAULT NULL",
+    "`address` VARCHAR(255) DEFAULT NULL",
     "`highest_education` ENUM('High School','Bachelors','Masters','Doctorate','Professional') DEFAULT NULL",
     "`education_detail` VARCHAR(255) DEFAULT NULL",
     "`occupation` VARCHAR(150) DEFAULT NULL",
@@ -173,6 +174,14 @@ function getDB(array $cfg = null): PDO {
       }
     }
   } catch (Exception $e) { /* ignore image col migration */ }
+
+  // v13: Add address column
+  try {
+    $addressCol = $pdo->query("SHOW FULL COLUMNS FROM `users` LIKE 'address'")->fetch();
+    if (!$addressCol) {
+      $pdo->exec("ALTER TABLE `users` ADD COLUMN `address` VARCHAR(255) DEFAULT NULL AFTER `residential_status`");
+    }
+  } catch (Exception $e) { /* ignore address column migration */ }
 
   // Auto-create favourites table
   try {
