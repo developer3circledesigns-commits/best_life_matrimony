@@ -180,7 +180,7 @@ require_once __DIR__ . '/includes/navbar.php';
       </div>
       <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3886.7060081411737!2d80.19017257507787!3d13.054375987268616!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTPCsDAzJzE1LjgiTiA4MMKwMTEnMzMuOSJF!5e0!3m2!1sen!2sro!4v1789711887289!5m2!1sen!2sro" width="100%" height="420" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="BestLife Matrimony Location - No:2(24/1) kaliamman koil Street, Virugambakkam, Chennai"></iframe>
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 bg-[#fdf9f1] px-6 py-3 text-xs text-[#6b4f00]">
-        <span class="flex items-center gap-1.5"><svg class="h-3.5 w-3.5 text-[#8a4a2f]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> No:2(24/1) kaliamman koil Street, virugambakkam main road, chennai-600092. Land mark Sundar C mahall</span>
+        <span class="flex items-center gap-1.5"><svg class="h-3.5 w-3.5 text-[#8a4a2f]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> No:2(24/1) kaliamman koil Street, virugambakkam main road, chennai-600092. Land mark Sundar shree mahal</span>
         <a href="https://www.google.com/maps?q=13.054376,80.1927475&z=17&hl=en" target="_blank" rel="noopener noreferrer" class="font-semibold text-[#8a4a2f] hover:underline">Get Directions →</a>
       </div>
     </div>
