@@ -41,12 +41,12 @@
         <svg class="h-4 w-4 text-[#e3c877]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
         <span>Trusted Profiles</span>
       </div>
-      <span class="text-[#e3c877]/60" aria-hidden="true">•</span>
+      <span class="hidden sm:inline text-[#e3c877]/60" aria-hidden="true">•</span>
       <div class="flex items-center gap-2" role="listitem">
         <svg class="h-4 w-4 text-[#e3c877]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2.08C10.5 3.5 9.26 3 7.5 3A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7 7-7Z"/><path d="M12 11v5"/></svg>
         <span>Meaningful Matches</span>
       </div>
-      <span class="text-[#e3c877]/60" aria-hidden="true">•</span>
+      <span class="hidden sm:inline text-[#e3c877]/60" aria-hidden="true">•</span>
       <div class="flex items-center gap-2" role="listitem">
         <span class="h-4 w-4 text-[#e3c877] flex items-center justify-center" aria-hidden="true">✦</span>
         <span>A Better Way to Begin</span>

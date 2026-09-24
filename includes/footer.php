@@ -12,12 +12,16 @@
      !important utilities (.text-center, .px-4, .border, .mt-4, …) would
      otherwise override the matching Tailwind classes below it.
      Higher specificity + !important restores the exact Tailwind values. */
-  .site-footer .md\:text-left{text-align:center!important}
+  .site-footer.md\:text-left,.site-footer .md\:text-left{text-align:center!important}
   .site-footer .max-w-6xl{padding-left:1rem!important;padding-right:1rem!important}
   .site-footer .border-t,.site-footer .border-b,.site-footer .border{border-color:rgba(58,12,21,.1)!important}
   .site-footer .mt-4{margin-top:1rem!important}
+  .site-footer .justify-start{justify-content:center!important}
   @media(min-width:640px){.site-footer .max-w-6xl{padding-left:1.5rem!important;padding-right:1.5rem!important}}
-  @media(min-width:768px){.site-footer .md\:text-left{text-align:left!important}}
+  @media(min-width:768px){
+    .site-footer.md\:text-left,.site-footer .md\:text-left{text-align:left!important}
+    .site-footer .md\:justify-start,.site-footer .justify-start{justify-content:flex-start!important}
+  }
   @media(min-width:1024px){.site-footer .max-w-6xl{padding-left:2rem!important;padding-right:2rem!important}}
 </style>
 <footer class="site-footer relative border-t border-[#3a0c15]/10 bg-[#fdf9f1] pt-16 pb-12 text-[#3a0c15] text-center md:text-left">
@@ -88,7 +92,7 @@
         </div>
         <div class="space-y-3">
           <h4 class="font-serif text-sm font-bold uppercase tracking-wider text-[#8a4a2f]">Follow Us</h4>
-          <div class="flex gap-2">
+          <div class="flex justify-center md:justify-start gap-2">
             <a href="https://facebook.com" target="_blank" rel="noreferrer" class="flex h-9 w-9 items-center justify-center rounded-full border border-[#3a0c15]/10 bg-white text-[#8a4a2f] hover:bg-[#3a0c15] hover:text-white hover:border-[#3a0c15] transition-all" aria-label="Facebook">
               <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M14 8h3V3h-3c-2.76 0-5 2.24-5 5v3H6v4h3v5h4v-5h3l1-4h-4V8c0-.55.45-1 1-1Z"/></svg>
             </a>

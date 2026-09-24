@@ -11,9 +11,9 @@ $navUserId = $_SESSION['user_id'] ?? null;
   <div class="mx-auto flex h-16 sm:h-20 lg:h-24 max-w-6xl items-center justify-between px-3 sm:px-6 lg:px-8">
     <!-- Left: toggle + brand -->
     <div class="flex items-center gap-3">
-      <button id="menuToggle" class="sm:hidden inline-flex h-9 w-9 items-center justify-center rounded-md border border-black/10 bg-black/5 text-[#3a0c15] hover:bg-black/10 transition-colors" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
-        <svg class="icon-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-        <svg class="icon-close hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M6 18L18 6"/></svg>
+      <button id="menuToggle" class="sm:hidden inline-flex h-8 w-8 items-center justify-center rounded-md border border-black/10 bg-black/5 text-[#3a0c15] hover:bg-black/10 transition-colors" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <svg class="icon-menu" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg class="icon-close hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M6 18L18 6"/></svg>
       </button>
       <a href="./index.php" class="flex items-center gap-2">
         <img src="<?php echo asset('images/logo.png'); ?>" alt="BestLife Matrimony" class="w-20 min-[380px]:w-24 sm:w-28 md:w-40 lg:w-56 xl:w-64 h-auto object-contain" loading="eager" decoding="async" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline'">
@@ -35,16 +35,16 @@ $navUserId = $_SESSION['user_id'] ?? null;
     </nav>
 
     <!-- Right: auth / profile -->
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2 sm:gap-3">
       <?php if ($navUserId): ?>
         <div class="relative">
-          <button type="button" id="notifBell" class="hidden sm:inline-flex relative h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-black/5 text-[#3a0c15] hover:bg-black/10 transition-colors" title="Notifications" aria-label="Notifications">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <button type="button" id="notifBell" class="hidden sm:inline-flex relative h-8 w-8 lg:h-9 lg:w-9 items-center justify-center rounded-full border border-black/10 bg-black/5 text-[#3a0c15] hover:bg-black/10 transition-colors" title="Notifications" aria-label="Notifications">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
             <span id="notifBadge" class="absolute -top-1 -right-1 hidden h-4 min-w-4 items-center justify-center rounded-full bg-[#8b0000] px-1 text-[10px] font-bold text-white">0</span>
           </button>
         </div>
-        <a href="./profile.php" class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#f6e6b4]/40 bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] text-[#3a0c15] shadow-md hover:brightness-110 transition-all" title="Profile">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <a href="./profile.php" class="inline-flex h-8 w-8 lg:h-9 lg:w-9 items-center justify-center rounded-full border border-[#f6e6b4]/40 bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] text-[#3a0c15] shadow-md hover:brightness-110 transition-all" title="Profile">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </a>
         <div class="relative">
           <button type="button" id="acctMenuBtn" class="inline-flex text-sm font-medium text-[#3a0c15]/70 hover:text-[#8a4a2f] transition-colors">My Account <svg class="inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
@@ -82,13 +82,12 @@ $navUserId = $_SESSION['user_id'] ?? null;
           </div>
         </div>
       <?php else: ?>
-        <a href="./login.php" class="inline-flex text-sm font-medium text-[#3a0c15]/70 hover:text-[#8a4a2f] transition-colors">Login</a>
-        <a href="./register.php" class="inline-flex h-8 items-center justify-center rounded-full border border-[#f6e6b4]/40 bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-5 text-sm font-semibold text-[#3a0c15] shadow-md hover:brightness-110 transition-all">Register Now</a>
+        <a href="./login.php" class="inline-flex text-xs sm:text-sm font-medium text-[#3a0c15]/70 hover:text-[#8a4a2f] transition-colors">Login</a>
+        <a href="./register.php" class="inline-flex h-7 min-[380px]:h-8 sm:h-9 items-center justify-center rounded-full border border-[#f6e6b4]/40 bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-3 min-[380px]:px-4 sm:px-5 text-[11px] min-[380px]:text-xs sm:text-sm font-semibold text-[#3a0c15] shadow-md hover:brightness-110 transition-all whitespace-nowrap">Register Now</a>
       <?php endif; ?>
-      <a href="tel:+917338877275" title="Support hours: Monday to Saturday, 10 AM to 6 PM" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-black/10 bg-black/5 px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-xs font-semibold text-[#3a0c15]/80 hover:bg-black/10 transition-colors">
+      <a href="tel:+917338877275" title="Support hours: Monday to Saturday, 10 AM to 6 PM" class="hidden md:inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-black/10 bg-black/5 px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-xs font-semibold text-[#3a0c15]/80 hover:bg-black/10 transition-colors">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
         <span class="hidden md:inline">Mon &ndash; Sat &middot; 10 AM &ndash; 6 PM</span>
-        <span class="md:hidden">Mon&ndash;Sat &middot; 10&ndash;6</span>
       </a>
     </div>
   </div>
