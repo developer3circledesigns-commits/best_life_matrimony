@@ -4,9 +4,9 @@ $pageDescription = 'Learn about BestLife Matrimony - modern matrimony platform c
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 ?>
-<main class="flex-1 bg-transparent">
+<main class="flex-1 bg-[#f4f2ee]">
   <section class="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
-    <div class="reveal is-visible max-w-3xl rounded-3xl border border-[#f6e6b4]/20 bg-black/35 p-8 sm:p-12 backdrop-blur-md shadow-2xl" style="animation: slide-up .5s ease both;">
+    <div class="reveal is-visible max-w-3xl rounded-none border border-[#f6e6b4]/20 bg-[#6b1020] p-8 sm:p-12 shadow-2xl" style="animation: slide-up .5s ease both;">
       <h1 class="font-serif text-4xl font-bold tracking-tight text-[#fff6e8] sm:text-5xl">About BestLife Matrimony</h1>
       <p class="mt-6 text-lg text-[#f3e6d8]/90">BestLife Matrimony is a modern matrimony platform that combines timeless family values with modern technology. We help individuals and families connect with compatible life partners in a safe, respectful and private environment.</p>
       <p class="mt-4 text-lg text-[#f3e6d8]/80">Built originally with React, TypeScript, Tailwind CSS and HeroUI — now faithfully migrated to PHP, HTML, CSS and vanilla JavaScript with Lenis smooth scrolling and preserved animations.</p>
