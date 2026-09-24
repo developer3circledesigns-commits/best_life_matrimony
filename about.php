@@ -9,7 +9,7 @@ require_once __DIR__ . '/includes/navbar.php';
     <div class="reveal is-visible max-w-3xl rounded-none border border-[#f6e6b4]/20 bg-[#6b1020] p-8 sm:p-12 shadow-2xl" style="animation: slide-up .5s ease both;">
       <h1 class="font-serif text-4xl font-bold tracking-tight text-[#fff6e8] sm:text-5xl">About BestLife Matrimony</h1>
       <p class="mt-6 text-lg text-[#f3e6d8]/90">BestLife Matrimony is a modern matrimony platform that combines timeless family values with modern technology. We help individuals and families connect with compatible life partners in a safe, respectful and private environment.</p>
-      <p class="mt-4 text-lg text-[#f3e6d8]/80">Built originally with React, TypeScript, Tailwind CSS and HeroUI — now faithfully migrated to PHP, HTML, CSS and vanilla JavaScript with Lenis smooth scrolling and preserved animations.</p>
+      <p class="mt-4 text-lg text-[#f3e6d8]/80">Every profile on our platform is thoughtfully reviewed to ensure genuineness, so you can search with confidence and focus on what truly matters — finding someone who shares your values, dreams and vision for a beautiful life together.</p>
       <a href="./index.php" class="mt-8 inline-flex h-11 items-center justify-center rounded-full border border-[#f6e6b4]/50 bg-gradient-to-r from-[#dcb04a] via-[#e3c877] to-[#dcb04a] px-8 font-semibold text-[#3a0c15] shadow-lg hover:scale-105 transition-transform">Back to Home</a>
     </div>
   </section>
