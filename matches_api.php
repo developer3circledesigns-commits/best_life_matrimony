@@ -3,11 +3,6 @@ header('Content-Type: application/json');
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/auth.php';
 require_login();
-if (is_admin()) {
-  http_response_code(403);
-  echo json_encode(['error' => 'Admin users cannot access matches']);
-  exit;
-}
 
 try {
   $db = getDB();
@@ -23,18 +18,10 @@ try {
     $params[] = $selfId;
   }
 
-  if (!empty($_GET['gender']) && in_array($_GET['gender'], ['Male', 'Female'])) {
+  $gender = strtolower(trim((string)($_GET['gender'] ?? '')));
+  if ($gender === 'male' || $gender === 'female') {
     $where[] = '`gender` = ?';
-    $params[] = $_GET['gender'];
-  }
-
-  if (!empty($_GET['ageMin']) && $_GET['ageMin'] > 18) {
-    $where[] = 'TIMESTAMPDIFF(YEAR, `date_of_birth`, CURDATE()) >= ?';
-    $params[] = (int) $_GET['ageMin'];
-  }
-  if (!empty($_GET['ageMax']) && $_GET['ageMax'] < 70) {
-    $where[] = 'TIMESTAMPDIFF(YEAR, `date_of_birth`, CURDATE()) <= ?';
-    $params[] = (int) $_GET['ageMax'];
+    $params[] = ucfirst($gender);
   }
 
   foreach (['religion' => 'religions', 'mother_tongue' => 'tongues', 'city' => 'locations', 'highest_education' => 'education', 'occupation' => 'professions', 'marital_status' => 'maritalStatuses', 'caste' => 'castes'] as $dbCol => $paramKey) {
@@ -57,6 +44,28 @@ try {
     $params[] = $q;
   }
 
+  $ageMin = (int)($_GET['ageMin'] ?? 18);
+  $ageMax = (int)($_GET['ageMax'] ?? 70);
+  $hMin = (int)($_GET['hMin'] ?? 54);
+  $hMax = (int)($_GET['hMax'] ?? 76);
+  $salMin = (int)($_GET['salaryMin'] ?? 1);
+  $salMax = (int)($_GET['salaryMax'] ?? 50);
+
+  // Add age filtering in SQL using date_of_birth comparison
+  // Age = current_year - birth_year approximately
+  // We calculate: birth_date should be between (now - ageMax years) and (now - ageMin years)
+  $minDob = date('Y-m-d', strtotime("-$ageMax . ' year'));
+  $maxDob = date('Y-m-d', strtotime("-$ageMin . ' year'));
+  $where[] = "`date_of_birth` BETWEEN ? AND ?";
+  $params[] = $minDob;
+  $params[] = $maxDob;
+
+  // Add basic height guard in SQL (height column starts with digit)
+  $where[] = "`height` REGEXP '^[0-9]'";
+
+  // Add basic salary guard in SQL
+  $where[] = "`annual_income` REGEXP '^[0-9]'";
+
   $sql = 'SELECT `id`,`full_name`,`gender`,`date_of_birth`,`height`,`city`,`religion`,`mother_tongue`,`highest_education`,`occupation`,`marital_status`,`caste`,`annual_income`,`profile_photo`,`created_at`,`updated_at` FROM users WHERE ' . implode(' AND ', $where);
 
   $orderBy = match ($_GET['sort'] ?? 'recommended') {
@@ -65,18 +74,7 @@ try {
     default => '`created_at` DESC',
   };
 
-  // Pagination
-  $perPage = isset($_GET['per_page']) ? max(1, min(100, (int)$_GET['per_page'])) : 24;
-  $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
-  $offset = ($page - 1) * $perPage;
-
-  // Count total matching rows
-  $countSql = 'SELECT COUNT(*) FROM users WHERE ' . implode(' AND ', $where);
-  $cstmt = $db->prepare($countSql);
-  $cstmt->execute($params);
-  $total = (int) $cstmt->fetchColumn();
-
-  $sql .= ' ORDER BY ' . $orderBy . ' LIMIT ' . $perPage . ' OFFSET ' . $offset;
+  $sql = 'SELECT `id`,`full_name`,`gender`,`date_of_birth`,`height`,`city`,`religion`,`mother_tongue`,`highest_education`,`occupation`,`marital_status`,`caste`,`annual_income`,`profile_photo`,`created_at`,`updated_at` FROM users WHERE ' . implode(' AND ', $where) . ' ORDER BY ' . $orderBy;
 
   $stmt = $db->prepare($sql);
   $stmt->execute($params);
@@ -106,6 +104,14 @@ try {
         }
       }
     }
+    $salary = null;
+    if (!empty($r['annual_income']) && preg_match('/(\d+)/', (string)$r['annual_income'], $mSal)) {
+      $salary = (int) $mSal[1];
+    }
+    // Apply exact age, height, and salary filters in PHP (now on filtered subset only)
+    if ($age === null || $age < $ageMin || $age > $ageMax) { continue; }
+    if ($heightInches !== null && ($heightInches < $hMin || $heightInches > $hMax)) { continue; }
+    if ($salary !== null && ($salary < $salMin || $salary > $salMax)) { continue; }
     $profiles[] = [
       'id' => $r['id'],
       'name' => $r['full_name'] ?? '',
@@ -127,6 +133,15 @@ try {
       'active' => strtotime($r['updated_at'] ?? 'now') * 1000,
     ];
   }
+
+  $total = count($profiles);
+
+  // Pagination: fetch the full filtered set, then slice the requested page in PHP
+  $perPage = isset($_GET['per_page']) ? max(1, min(100, (int)$_GET['per_page'])) : 24;
+  $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+
+  $offset = ($page - 1) * $perPage;
+  $profiles = array_slice($profiles, $offset, $perPage);
 
   echo json_encode([
     'profiles' => $profiles,

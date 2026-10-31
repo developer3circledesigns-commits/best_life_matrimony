@@ -5,16 +5,55 @@ $db = getDB();
 $view = $_GET['view'] ?? '';
 $search = trim($_GET['q'] ?? '');
 
-// KPI queries for the dashboard tab
-$kpiUsers   = (int) $db->query('SELECT COUNT(*) FROM users')->fetchColumn();
-$kpiActive  = (int) $db->query('SELECT COUNT(*) FROM users WHERE is_suspended = 0')->fetchColumn();
-$kpiAdmins  = (int) $db->query('SELECT COUNT(*) FROM users WHERE is_admin = 1')->fetchColumn();
-$kpiReports = (int) $db->query("SELECT COUNT(*) FROM reports WHERE status = 'open'")->fetchColumn();
-$kpiPendingV = (int) $db->query("SELECT COUNT(*) FROM verification_requests WHERE status = 'pending'")->fetchColumn();
-$kpiPendingM = (int) $db->query("SELECT COUNT(*) FROM media_moderation WHERE status = 'pending'")->fetchColumn();
-$kpiTodayReg = (int) $db->query('SELECT COUNT(*) FROM users WHERE DATE(created_at) = CURDATE()')->fetchColumn();
-$kpiInts    = (int) $db->query("SELECT COUNT(*) FROM interests WHERE status = 'accepted'")->fetchColumn();
-$kpiPendingApprovals = (int) $db->query('SELECT COUNT(*) FROM users WHERE is_approved = 0 AND email_verified = 0 AND phone_verified = 0 AND id_verified = 0 AND is_admin = 0')->fetchColumn();
+// Single combined query for KPI counts
+$kpiCounts = [];
+try {
+  // Query 1: Users stats
+  $usersStmt = $db->query("SELECT 
+    COUNT(*) AS total_users,
+    SUM(CASE WHEN is_suspended = 0 THEN 1 ELSE 0 END) AS active_users,
+    SUM(CASE WHEN is_admin = 1 THEN 1 ELSE 0 END) AS admin_count,
+    SUM(CASE WHEN is_approved = 0 AND email_verified = 0 AND phone_verified = 0 AND id_verified = 0 AND is_admin = 0 THEN 1 ELSE 0 END) AS pending_approvals_count
+  FROM users");
+  $u = $usersStmt->fetch();
+  $kpiCounts['total_users'] = (int)($u['total_users'] ?? 0);
+  $kpiCounts['active_users'] = (int)($u['active_users'] ?? 0);
+  $kpiCounts['admin_count'] = (int)($u['admin_count'] ?? 0);
+  $kpiCounts['pending_approvals'] = (int)($u['pending_approvals_count'] ?? 0);
+} catch (Exception $e) {}
+
+// Query 2: Reports and moderation
+try {
+  $reportsStmt = $db->query("SELECT COUNT(*) AS open_reports FROM reports WHERE status = 'open'");
+  $r = $reportsStmt->fetch();
+  $kpiCounts['open_reports'] = (int)($r['open_reports'] ?? 0);
+} catch (Exception $e) {}
+
+try {
+  $vmStmt = $db->query("SELECT COUNT(*) AS pending_verifications FROM verification_requests WHERE status = 'pending'");
+  $v = $vmStmt->fetch();
+  $kpiCounts['pending_verifications'] = (int)($v['pending_verifications'] ?? 0);
+} catch (Exception $e) {}
+
+try {
+  $mmStmt = $db->query("SELECT COUNT(*) AS media_pending FROM media_moderation WHERE status = 'pending'");
+  $m = $mmStmt->fetch();
+  $kpiCounts['media_pending'] = (int)($m['media_pending'] ?? 0);
+} catch (Exception $e) {}
+
+// Query 3: Today's registrations
+try {
+  $regStmt = $db->query("SELECT COUNT(*) AS today_registrations FROM users WHERE DATE(created_at) = CURDATE()");
+  $rg = $regStmt->fetch();
+  $kpiCounts['today_registrations'] = (int)($rg['today_registrations'] ?? 0);
+} catch (Exception $e) {}
+
+// Query 4: Accepted interests
+try {
+  $intStmt = $db->query("SELECT COUNT(*) AS accepted_interests FROM interests WHERE status = 'accepted'");
+  $i = $intStmt->fetch();
+  $kpiCounts['accepted_interests'] = (int)($i['accepted_interests'] ?? 0);
+} catch (Exception $e) {}
 
 // Users list query - searchable by ID, name, email, phone, and display ID (BLM-YYYY-XXXXX)
 $sql = 'SELECT id, full_name, email, phone, looking_for, is_admin, is_suspended, email_verified, is_approved, created_at FROM users';
@@ -37,14 +76,14 @@ $users = $us->fetchAll();
 <?php if ($view === 'users' || $view === ''): ?>
   <?php if ($view === ''): ?>
     <div class="adm-grid">
-      <div class="adm-card adm-kpi"><div class="label">Total Users</div><div class="value"><?php echo $kpiUsers; ?></div><div class="sub"><?php echo $kpiActive; ?> active</div></div>
-      <div class="adm-card adm-kpi"><div class="label">Registered Today</div><div class="value"><?php echo $kpiTodayReg; ?></div></div>
-      <div class="adm-card adm-kpi"><div class="label">Admin Accounts</div><div class="value"><?php echo $kpiAdmins; ?></div></div>
-      <div class="adm-card adm-kpi"><div class="label">Pending Approvals</div><div class="value"><?php echo $kpiPendingApprovals; ?></div></div>
-      <div class="adm-card adm-kpi"><div class="label">Open Reports</div><div class="value"><?php echo $kpiReports; ?></div></div>
-      <div class="adm-card adm-kpi"><div class="label">Pending Verifications</div><div class="value"><?php echo $kpiPendingV; ?></div></div>
-      <div class="adm-card adm-kpi"><div class="label">Media To Moderate</div><div class="value"><?php echo $kpiPendingM; ?></div></div>
-      <div class="adm-card adm-kpi"><div class="label">Successful Matches</div><div class="value"><?php echo $kpiInts; ?></div></div>
+      <div class="adm-card adm-kpi"><div class="label">Total Users</div><div class="value"><?php echo $kpiCounts['total_users'] ?? 0; ?></div><div class="sub"><?php echo $kpiCounts['active_users'] ?? 0; ?> active</div></div>
+      <div class="adm-card adm-kpi"><div class="label">Registered Today</div><div class="value"><?php echo $kpiCounts['today_registrations'] ?? 0; ?></div></div>
+      <div class="adm-card adm-kpi"><div class="label">Admin Accounts</div><div class="value"><?php echo $kpiCounts['admin_count'] ?? 0; ?></div></div>
+      <div class="adm-card adm-kpi"><div class="label">Pending Approvals</div><div class="value"><?php echo $kpiCounts['pending_approvals'] ?? 0; ?></div></div>
+      <div class="adm-card adm-kpi"><div class="label">Open Reports</div><div class="value"><?php echo $kpiCounts['open_reports'] ?? 0; ?></div></div>
+      <div class="adm-card adm-kpi"><div class="label">Pending Verifications</div><div class="value"><?php echo $kpiCounts['pending_verifications'] ?? 0; ?></div></div>
+      <div class="adm-card adm-kpi"><div class="label">Media To Moderate</div><div class="value"><?php echo $kpiCounts['media_pending'] ?? 0; ?></div></div>
+      <div class="adm-card adm-kpi"><div class="label">Successful Matches</div><div class="value"><?php echo $kpiCounts['accepted_interests'] ?? 0; ?></div></div>
     </div>
   <?php endif; ?>
 

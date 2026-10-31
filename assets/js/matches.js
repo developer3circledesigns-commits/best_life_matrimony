@@ -74,26 +74,50 @@
         .catch(function(err){ showToast(err && err.error ? err.error : 'Could not add favourite'); });
     }
   }
-  function fetchProfiles(){
-    // Fetch all pages of profiles from the paginated API
-    var perPage = 100;
-    var seen = {};
-    var allPages = [];
-    function loadPage(page){
-      return fetch('./matches_api.php?page='+page+'&per_page='+perPage)
-        .then(function(r){ return r.json(); })
-        .then(function(data){
-          var rows = data.profiles || [];
-          rows.forEach(function(p){ if(!seen[p.id]){ seen[p.id]=1; allPages.push(p); } });
-          if(allPages.length < (data.total||0) && rows.length >= perPage){
-            return loadPage(page+1);
-          }
-          return allPages;
-        });
-    }
-    return loadPage(1)
-      .then(function(list){ ALL = list; })
-      .catch(function(){ ALL = []; });
+  var PAGE_SIZE = 24;
+  var page = 1;
+  var hasMore = false;
+
+  function fetchParams(){
+    var p = { page: '1', per_page: String(PAGE_SIZE), sort: state.sort };
+    if(state.gender!=='all') p.gender = state.gender;
+    p.ageMin = String(state.ageMin); p.ageMax = String(state.ageMax);
+    p.hMin = String(state.hMin); p.hMax = String(state.hMax);
+    p.salaryMin = String(state.salaryMin); p.salaryMax = String(state.salaryMax);
+    var MAP={religions:'religions', tongues:'tongues', locations:'locations', education:'education', professions:'professions', maritalStatuses:'maritalStatuses', castes:'castes'};
+    Object.keys(MAP).forEach(function(k){ var arr=state[MAP[k]]; if(arr.length) p[MAP[k]]=arr.join(','); });
+    if(state.search) p.q = state.search;
+    return p;
+  }
+
+  function fetchProfiles(reset){
+    var params = fetchParams();
+    if(reset){ params.page = '1'; }
+    return fetch('./matches_api.php?' + new URLSearchParams(params).toString())
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        var rows = data.profiles || [];
+        if(reset){ ALL = rows; } else { ALL = ALL.concat(rows); }
+        page = parseInt(data.page || '1', 10);
+        hasMore = parseInt(data.pages || '0', 10) > page;
+        renderProfiles();
+      })
+      .catch(function(){ ALL = []; renderProfiles(); });
+  }
+
+  function loadMore(){
+    if(!hasMore) { return Promise.resolve(); }
+    var params = fetchParams();
+    params.page = String(page + 1);
+    return fetch('./matches_api.php?' + new URLSearchParams(params).toString())
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        var rows = data.profiles || [];
+        if(rows.length){ ALL = ALL.concat(rows); }
+        page = parseInt(data.page || String(page + 1), 10);
+        hasMore = parseInt(data.pages || '0', 10) > page;
+        renderProfiles();
+      });
   }
   function passes(p){
     if(state.gender!=='all' && p.gender!==state.gender) return false;
@@ -140,7 +164,8 @@
     var filtered=applySorting(ALL.filter(passes));
     if(countEl) countEl.innerHTML='<strong>'+fmt(filtered.length)+'</strong> profiles found';
     if(sidebarCountEl) sidebarCountEl.textContent=fmt(filtered.length);
-    if(!filtered.length){ grid.hidden=true; emptyState.hidden=false; return; }
+    var lm = $('#loadMoreBtn'); if (lm) lm.hidden = !hasMore;
+    if (!filtered.length) { grid.hidden = true; emptyState.hidden = false; return; }
     emptyState.hidden=true; grid.hidden=false;
     grid.innerHTML=filtered.map(cardHTML).join('');
   }
@@ -149,7 +174,7 @@
     if(!(state.ageMin===18&&state.ageMax===70)) chips.push({key:'age', label:'Age '+state.ageMin+'–'+state.ageMax});
     if(!(state.hMin===54&&state.hMax===76)) chips.push({key:'height', label:'Height '+ftIn(state.hMin)+' — '+ftIn(state.hMax)});
     if(!(state.salaryMin===1&&state.salaryMax===50)) chips.push({key:'salary', label:'₹'+fmt(state.salaryMin)+' – '+fmt(state.salaryMax)+' LPA'});
-    if(state.gender!=='all') chips.push({key:'gender', label:state.gender==='women'?'Women':'Men'});
+    if(state.gender!=='all') chips.push({key:'gender', label:state.gender==='male'?'Men':'Women'});
     [['religions','religion'],['tongues','tongue'],['locations','location'],['education','education'],['professions','profession'],['maritalStatuses','marital'],['castes','caste']].forEach(function(pair){ state[pair[0]].forEach(function(v){chips.push({key:pair[0], value:v, label:v})}) });
     if(state.search) chips.push({key:'search', label:'"'+state.search+'"'});
     return chips;
@@ -192,7 +217,7 @@
   }
   function loadURL(){
     var p=new URLSearchParams(location.search);
-    if(p.get('g')) state.gender=p.get('g');
+    if(p.get('g')){ var g=p.get('g'); state.gender = (g==='men')?'male':(g==='women')?'female':g; }
     if(p.get('ageMin')) state.ageMin=Math.max(AGE_MIN,parseInt(p.get('ageMin'),10));
     if(p.get('ageMax')) state.ageMax=Math.min(AGE_MAX,parseInt(p.get('ageMax'),10));
     if(p.get('hMin')) state.hMin=Math.max(H_MIN,parseInt(p.get('hMin'),10));
@@ -204,7 +229,8 @@
     state.sort=p.get('sort')||stored||'recommended';
   }
   var urlTimer;
-  function refresh(){ renderChips(); renderProfiles(); clearTimeout(urlTimer); urlTimer=setTimeout(updateURL,200); }
+  var fetchTimer;
+  function refresh(){ renderChips(); renderProfiles(); clearTimeout(urlTimer); urlTimer=setTimeout(updateURL,200); clearTimeout(fetchTimer); fetchTimer=setTimeout(function(){ fetchProfiles(true); }, 150); }
   function showSkeleton(n){
     var html=''; for(var i=0;i<n;i++) html+='<div class="skeleton-card"><div class="shimmer skeleton-image"></div><div class="skeleton-body"><div class="shimmer skeleton-row w60"></div><div class="shimmer skeleton-row w80"></div><div class="shimmer skeleton-row w40"></div></div></div>';
     grid.hidden=false; emptyState.hidden=true; grid.innerHTML=html;
@@ -252,6 +278,7 @@
       syncControls(document); refresh();
     }
     var ec=$('#emptyClear'); if(ec) ec.addEventListener('click', clearAll);
+    var lm = $('#loadMoreBtn'); if(lm) lm.addEventListener('click', function(){ loadMore(); });
     grid.addEventListener('click',function(e){
       var favBtn=e.target.closest('.m-fav-btn');
       if(favBtn){
@@ -290,7 +317,7 @@
     var si=$('#mSearch'); if(si&&state.search) si.value=state.search;
     var ss=$('#sortSelect'); if(ss) ss.value=state.sort;
     showSkeleton(8); syncControls(document); wire();
-    fetchProfiles().then(function(){
+    fetchProfiles(true).then(function(){
       return fetchFavourites();
     }).then(function(){
       renderChips(); renderProfiles(); updateURL();

@@ -7,13 +7,6 @@ require_once __DIR__ . '/includes/auth.php';
 // Params: ?user_id=X (target). Returns 0-100 score + breakdown.
 require_login();
 
-// Admin users cannot use user APIs - return 403
-if (is_admin()) {
-  http_response_code(403);
-  echo json_encode(['error' => 'Admin users cannot access user APIs']);
-  exit;
-}
-
 $userId = $_SESSION['user_id'];
 
 $targetId = isset($_GET['user_id']) ? (int) $_GET['user_id'] : 0;
@@ -77,7 +70,7 @@ try {
     $breakdown[] = ['label' => 'Education', 'points' => $ed, 'match' => $ed > 0];
   }
 
-  // 7. Age compatibility (10) — target within my preference range if set, else within +/-5 years
+  // 7. Age compatibility (10) â€” target within my preference range if set, else within +/-5 years
   $ageMe = null; $ageThem = null;
   if (!empty($me['date_of_birth'])) $ageMe = (int) (new DateTime())->diff(new DateTime($me['date_of_birth']))->y;
   if (!empty($them['date_of_birth'])) $ageThem = (int) (new DateTime())->diff(new DateTime($them['date_of_birth']))->y;

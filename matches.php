@@ -2,12 +2,8 @@
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/auth.php';
 require_login();
-// Admin users have no matrimony profile/matches — send to admin dashboard
-if (is_admin()) {
-  header('Location: ./admin/index.php');
-  exit;
-}
-$pageTitle = 'Profile Matches — BestLife Matrimony';
+
+$pageTitle = 'Profile Matches Ã¢â‚¬â€ BestLife Matrimony';
 $pageDescription = 'Explore compatible profiles curated just for you on BestLife Matrimony.';
 $pageHeadExtra = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">' . "\n"
   . '  <link rel="stylesheet" href="' . asset('css/matches.css') . '" />';
@@ -28,19 +24,45 @@ function getFilterCounts(string $column): array {
   }
 }
 
-$religions   = getFilterCounts('religion');
-$castes      = getFilterCounts('caste');
-$tongues     = getFilterCounts('mother_tongue');
-$locations   = getFilterCounts('city');
-$education   = getFilterCounts('highest_education');
-$professions = getFilterCounts('occupation');
-$marital     = getFilterCounts('marital_status');
-
 $totalProfiles = 0;
 try {
   $db = getDB();
   $totalProfiles = (int) $db->query("SELECT COUNT(*) FROM users WHERE `is_admin` IS NULL OR `is_admin` = 0")->fetchColumn();
 } catch (Exception $e) {}
+
+// Combined filter counts - single query instead of 7 separate ones
+$filterCounts = [];
+try {
+  $db = getDB();
+  $stmt = $db->query("SELECT 
+    CASE WHEN `religion` IS NOT NULL AND `religion` != '' THEN `religion` END AS religion, 
+    CASE WHEN `caste` IS NOT NULL AND `caste` != '' THEN `caste` END AS caste,
+    CASE WHEN `mother_tongue` IS NOT NULL AND `mother_tongue` != '' THEN `mother_tongue` END AS mother_tongue,
+    CASE WHEN `city` IS NOT NULL AND `city` != '' THEN `city` END AS city,
+    CASE WHEN `highest_education` IS NOT NULL AND `highest_education` != '' THEN `highest_education` END AS highest_education,
+    CASE WHEN `occupation` IS NOT NULL AND `occupation` != '' THEN `occupation` END AS occupation,
+    CASE WHEN `marital_status` IS NOT NULL AND `marital_status` != '' THEN `marital_status` END AS marital_status
+  FROM users");
+  $counts = ['religion' => [], 'caste' => [], 'tongues' => [], 'locations' => [], 'education' => [], 'professions' => [], 'marital' => []];
+  while ($row = $stmt->fetch()) {
+    if ($row['religion']) $counts['religion'][$row['religion']] = ($counts['religion'][$row['religion']] ?? 0) + 1;
+    if ($row['caste']) $counts['caste'][$row['caste']] = ($counts['caste'][$row['caste']] ?? 0) + 1;
+    if ($row['mother_tongue']) $counts['tongues'][$row['mother_tongue']] = ($counts['tongues'][$row['mother_tongue']] ?? 0) + 1;
+    if ($row['city']) $counts['locations'][$row['city']] = ($counts['locations'][$row['city']] ?? 0) + 1;
+    if ($row['highest_education']) $counts['education'][$row['highest_education']] = ($counts['education'][$row['highest_education']] ?? 0) + 1;
+    if ($row['occupation']) $counts['professions'][$row['occupation']] = ($counts['professions'][$row['occupation']] ?? 0) + 1;
+    if ($row['marital_status']) $counts['marital'][$row['marital_status']] = ($counts['marital'][$row['marital_status']] ?? 0) + 1;
+  }
+  $religions = array_map('number_format', array_values($counts['religion']));
+  $castes = array_map('number_format', array_values($counts['caste']));
+  $tongues = array_map('number_format', array_values($counts['tongues']));
+  $locations = array_map('number_format', array_values($counts['locations']));
+  $education = array_map('number_format', array_values($counts['education']));
+  $professions = array_map('number_format', array_values($counts['professions']));
+  $marital = array_map('number_format', array_values($counts['marital']));
+} catch (Exception $e) {
+  $religions = $castes = $tongues = $locations = $education = $professions = $marital = [];
+}
 
 function render_filter_group(string $title, array $options, string $group): void {
   echo '<h3 class="m-heading">' . htmlspecialchars($title) . '</h3>';
@@ -96,24 +118,24 @@ if (!empty($_SESSION['user_id'])) {
           <button type="button" class="m-link" id="sidebarClear">Clear all</button>
         </div>
         <h3 class="m-heading">Looking For</h3>
-        <label class="m-option"><span><input type="radio" name="m-gender" value="women"> Women</span></label>
-        <label class="m-option"><span><input type="radio" name="m-gender" value="men"> Men</span></label>
+        <label class="m-option"><span><input type="radio" name="m-gender" value="female"> Women</span></label>
+        <label class="m-option"><span><input type="radio" name="m-gender" value="male"> Men</span></label>
 
-        <h3 class="m-heading">Age <span class="js-age-display">18 – 70 years</span></h3>
+        <h3 class="m-heading">Age <span class="js-age-display">18 Ã¢â‚¬â€œ 70 years</span></h3>
         <div class="m-range js-age-wrap">
           <div class="m-track"></div><div class="m-fill"></div>
           <input type="range" class="js-age-min" min="18" max="70" value="18">
           <input type="range" class="js-age-max" min="18" max="70" value="70">
         </div>
 
-        <h3 class="m-heading">Height <span class="js-height-display">4'6" — 6'4"</span></h3>
+        <h3 class="m-heading">Height <span class="js-height-display">4'6" Ã¢â‚¬â€ 6'4"</span></h3>
         <div class="m-range js-height-wrap">
           <div class="m-track"></div><div class="m-fill"></div>
           <input type="range" class="js-h-min" min="54" max="76" value="54">
           <input type="range" class="js-h-max" min="54" max="76" value="76">
         </div>
 
-        <h3 class="m-heading">Annual Salary <span class="js-salary-display">₹1 – 50 LPA</span></h3>
+        <h3 class="m-heading">Annual Salary <span class="js-salary-display">Ã¢â€šÂ¹1 Ã¢â‚¬â€œ 50 LPA</span></h3>
         <div class="m-range js-salary-wrap">
           <div class="m-track"></div><div class="m-fill"></div>
           <input type="range" class="js-salary-min" min="1" max="50" value="1">
@@ -134,6 +156,9 @@ if (!empty($_SESSION['user_id'])) {
       <section class="m-main">
         <div class="m-grid" id="profileGrid"></div>
 
+        <div id="loadMoreWrap" style="display:flex;justify-content:center;margin-top:16px;">
+          <button type="button" class="m-btn m-btn-primary" id="loadMoreBtn" hidden>Load more</button>
+        </div>
         <div class="m-empty" id="emptyState" hidden>
           <i class="bi bi-search"></i>
           <h4>No profiles found</h4>
@@ -153,24 +178,24 @@ if (!empty($_SESSION['user_id'])) {
     </div>
     <div class="m-drawer-body">
       <h3 class="m-heading">Looking For</h3>
-      <label class="m-option"><span><input type="radio" name="m-gender" value="women"> Women</span></label>
-      <label class="m-option"><span><input type="radio" name="m-gender" value="men"> Men</span></label>
+      <label class="m-option"><span><input type="radio" name="m-gender" value="female"> Women</span></label>
+      <label class="m-option"><span><input type="radio" name="m-gender" value="male"> Men</span></label>
 
-      <h3 class="m-heading">Age <span class="js-age-display">18 – 70 years</span></h3>
+      <h3 class="m-heading">Age <span class="js-age-display">18 Ã¢â‚¬â€œ 70 years</span></h3>
       <div class="m-range js-age-wrap">
         <div class="m-track"></div><div class="m-fill"></div>
         <input type="range" class="js-age-min" min="18" max="70" value="18">
         <input type="range" class="js-age-max" min="18" max="70" value="70">
       </div>
 
-      <h3 class="m-heading">Height <span class="js-height-display">4'6" — 6'4"</span></h3>
+      <h3 class="m-heading">Height <span class="js-height-display">4'6" Ã¢â‚¬â€ 6'4"</span></h3>
       <div class="m-range js-height-wrap">
         <div class="m-track"></div><div class="m-fill"></div>
         <input type="range" class="js-h-min" min="54" max="76" value="54">
         <input type="range" class="js-h-max" min="54" max="76" value="76">
       </div>
 
-      <h3 class="m-heading">Annual Salary <span class="js-salary-display">₹1 – 50 LPA</span></h3>
+      <h3 class="m-heading">Annual Salary <span class="js-salary-display">Ã¢â€šÂ¹1 Ã¢â‚¬â€œ 50 LPA</span></h3>
       <div class="m-range js-salary-wrap">
         <div class="m-track"></div><div class="m-fill"></div>
         <input type="range" class="js-salary-min" min="1" max="50" value="1">

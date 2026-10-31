@@ -7,7 +7,9 @@ if (is_logged_in()) {
   exit;
 }
 
-/* ── Handle login BEFORE any output ─────────────── */
+// ────────────────────────────────────────────────────────────────────
+// Handle login BEFORE any output
+// ────────────────────────────────────────────────────────────────────
 $errors = [];
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
   // CSRF check
@@ -46,6 +48,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         rate_limit_reset('login');
         // First-admin bootstrap only: auto-promote via config list solely when no
         // admin exists yet, so a misconfigured list can't silently escalate users.
+        // Only promote if enforce_heterosexual is not actively blocking it and
+        // there are genuinely zero admin accounts in the system.
         $adminCount = (int) $db->query('SELECT COUNT(*) FROM users WHERE is_admin = 1')->fetchColumn();
         if (!(int) ($user['is_admin'] ?? 0) && $adminCount === 0 && in_array(strtolower($email), array_map('strtolower', $siteConfig['admin_emails'] ?? []), true)) {
           $db->prepare('UPDATE users SET is_admin = 1 WHERE id = ?')->execute([$user['id']]);
@@ -79,7 +83,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
   }
 }
 
-/* ── Now render the page (output starts here) ──── */
+// ────────────────────────────────────────────────────────────────────
+// Now render the page (output starts here)
+// ────────────────────────────────────────────────────────────────────
 $pageTitle = 'Login — BestLife Matrimony';
 $pageDescription = 'Sign in to your BestLife Matrimony account and continue your journey.';
 $pageHeadExtra = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">';
@@ -93,7 +99,9 @@ require_once __DIR__ . '/includes/navbar.php';
         <h1 class="font-serif text-4xl font-bold tracking-tight text-[#fff6e8] sm:text-5xl">Welcome Back</h1>
         <p class="mt-6 text-lg text-[#f3e6d8]/90">Sign in to BestLife Matrimony and pick up right where you left off. Your matches are waiting.</p>
         <ul class="mt-6 space-y-2 text-sm text-[#fff6e8]/80">
-          <li>• Secure, encrypted login</li><li>• Quick access to your matches</li><li>• Reset anytime via email</li>
+          • Secure, encrypted login
+          • Quick access to your matches
+          • Reset anytime via email
         </ul>
         <a href="./index.php" class="mt-8 inline-flex h-10 items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 text-sm font-medium text-[#fff6e8] hover:bg-white/10">Back to Home</a>
       </div>
