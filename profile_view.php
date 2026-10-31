@@ -49,7 +49,7 @@ try {
 } catch (PDOException $e) { /* ignore */ }
 
 if (isset($profile['__blocked__'])) {
-  $pageTitle = 'Account Blocked â€” BestLife Matrimony';
+  $pageTitle = 'Account Blocked — BestLife Matrimony';
   $pageDescription = 'This profile is not available.';
   require_once __DIR__ . '/includes/header.php';
   require_once __DIR__ . '/includes/navbar.php';
@@ -127,7 +127,7 @@ foreach (array_merge($basicRows, $religiousRows, $locationRows, $careerRows, $fa
 
 $isOwner = ($currentUserId && $currentUserId === $profileId);
 
-$pageTitle = 'View Profile â€” BestLife Matrimony';
+$pageTitle = 'View Profile — BestLife Matrimony';
 $pageDescription = 'View a member profile on BestLife Matrimony.';
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
@@ -167,7 +167,7 @@ function renderSection($title, $rows) {
   .pv-btn-primary { background: #6b1020; color: #fff; border-color: #6b1020; }
   .pv-empty { text-align: center; color: #888; font-size: 13px; padding: 24px; }
   .pv-photo:has(img) { cursor: zoom-in; }
-  /* Lightbox â€” full image on click, same-page modal */
+  /* Lightbox — full image on click, same-page modal */
   .pv-lightbox[hidden] { display: none !important; }
   .pv-lightbox { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 16px; }
   .pv-lightbox-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.78); backdrop-filter: blur(4px); }
@@ -186,7 +186,7 @@ function renderSection($title, $rows) {
   <div class="pv-wrap">
     <?php if ($isOwner): ?>
       <div style="background:#dcb04a;color:#3a0c15;padding:10px 14px;font-size:13px;margin-bottom:14px;">
-        <i class="bi bi-person-badge"></i> This is your profile â€” <a href="./profile.php" style="color:inherit;font-weight:700;">edit it here</a>.
+        <i class="bi bi-person-badge"></i> This is your profile — <a href="./profile.php" style="color:inherit;font-weight:700;">edit it here</a>.
       </div>
     <?php endif; ?>
     <div class="pv-card">
@@ -337,14 +337,14 @@ function renderSection($title, $rows) {
   if (kattamEl) {
     kattamEl.addEventListener('click', function (e) {
       e.stopPropagation();
-      openLightbox(kattamEl.getAttribute('src'), 'Rashi Kattam (Birth Chart)' + (nameText ? ' â€” ' + nameText : ''));
+      openLightbox(kattamEl.getAttribute('src'), 'Rashi Kattam (Birth Chart)' + (nameText ? ' — ' + nameText : ''));
     });
   }
   var amsaKattamEl = document.getElementById('amsaKattamThumb');
   if (amsaKattamEl) {
     amsaKattamEl.addEventListener('click', function (e) {
       e.stopPropagation();
-      openLightbox(amsaKattamEl.getAttribute('src'), 'Amsa Kattam (Amsa Chart)' + (nameText ? ' â€” ' + nameText : ''));
+      openLightbox(amsaKattamEl.getAttribute('src'), 'Amsa Kattam (Amsa Chart)' + (nameText ? ' — ' + nameText : ''));
     });
   }
   lb.addEventListener('click', function (e) {
@@ -362,10 +362,10 @@ function renderSection($title, $rows) {
   var profileId = <?php echo $profileId; ?>;
   var csrf = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
 
-  // Match score â€” meaningful heading (matrimony context)
+  // Match score — meaningful heading (matrimony context)
   var scoreWrap = document.createElement('div');
   scoreWrap.style.cssText = 'max-width:860px;margin:14px auto 0;padding:0 16px;';
-  scoreWrap.innerHTML = '<div style="background:#fff;border:1px solid #eee;padding:18px 20px;"><div style="display:flex;align-items:center;gap:6px;"><i class="bi bi-hearts" style="color:#6b1020;"></i><strong style="font-size:14px;">Soulmate Compatibility Score</strong></div><div style="font-size:11px;color:#8a6a4f;margin-top:2px;letter-spacing:.02em;">Thirumana Porutham &bull; Jodi Match &bull; Made for Each Other</div><div id="matchScoreBox" style="margin-top:10px;color:#666;font-size:13px;">Computing match scoreâ€¦</div></div>';
+  scoreWrap.innerHTML = '<div style="background:#fff;border:1px solid #eee;padding:18px 20px;"><div style="display:flex;align-items:center;gap:6px;"><i class="bi bi-hearts" style="color:#6b1020;"></i><strong style="font-size:14px;">Soulmate Compatibility Score</strong></div><div style="font-size:11px;color:#8a6a4f;margin-top:2px;letter-spacing:.02em;">Thirumana Porutham &bull; Jodi Match &bull; Made for Each Other</div><div id="matchScoreBox" style="margin-top:10px;color:#666;font-size:13px;">Computing match score…</div></div>';
   var wrap = document.querySelector('.pv-wrap');
   if (wrap) wrap.appendChild(scoreWrap);
 
@@ -375,7 +375,7 @@ function renderSection($title, $rows) {
       var box = document.getElementById('matchScoreBox');
       if (!box) return;
       if (d.error) { box.innerHTML = 'Not available.'; return; }
-      box.innerHTML = '<div style="margin-bottom:10px;"><span style="font-size:28px;font-weight:800;color:' + d.color + ';">' + d.score + '</span><span style="font-size:14px;color:#666;"> / 100 â€” ' + d.level + '</span></div>'
+      box.innerHTML = '<div style="margin-bottom:10px;"><span style="font-size:28px;font-weight:800;color:' + d.color + ';">' + d.score + '</span><span style="font-size:14px;color:#666;"> / 100 — ' + d.level + '</span></div>'
         + '<div>' + d.breakdown.map(function (b) {
           return '<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dashed #f0ece6;color:' + (b.match ? '#15803d' : '#9a9a9a') + ';"><span>' + b.label + '</span><span>' + b.points + '</span></div>';
         }).join('') + '</div>';

@@ -70,7 +70,7 @@ try {
     $breakdown[] = ['label' => 'Education', 'points' => $ed, 'match' => $ed > 0];
   }
 
-  // 7. Age compatibility (10) â€” target within my preference range if set, else within +/-5 years
+  // 7. Age compatibility (10) — target within my preference range if set, else within +/-5 years
   $ageMe = null; $ageThem = null;
   if (!empty($me['date_of_birth'])) $ageMe = (int) (new DateTime())->diff(new DateTime($me['date_of_birth']))->y;
   if (!empty($them['date_of_birth'])) $ageThem = (int) (new DateTime())->diff(new DateTime($them['date_of_birth']))->y;
