@@ -3,7 +3,7 @@ require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/auth.php';
 require_login();
 
-$pageTitle = 'Profile Matches Ã¢â‚¬â€ BestLife Matrimony';
+$pageTitle = 'Profile Matches – BestLife Matrimony';
 $pageDescription = 'Explore compatible profiles curated just for you on BestLife Matrimony.';
 $pageHeadExtra = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">' . "\n"
   . '  <link rel="stylesheet" href="' . asset('css/matches.css') . '" />';
@@ -121,21 +121,21 @@ if (!empty($_SESSION['user_id'])) {
         <label class="m-option"><span><input type="radio" name="m-gender" value="female"> Women</span></label>
         <label class="m-option"><span><input type="radio" name="m-gender" value="male"> Men</span></label>
 
-        <h3 class="m-heading">Age <span class="js-age-display">18 Ã¢â‚¬â€œ 70 years</span></h3>
+<h3 class="m-heading">Age <span class="js-age-display">18 – 70 years</span></h3>
         <div class="m-range js-age-wrap">
           <div class="m-track"></div><div class="m-fill"></div>
           <input type="range" class="js-age-min" min="18" max="70" value="18">
           <input type="range" class="js-age-max" min="18" max="70" value="70">
         </div>
 
-        <h3 class="m-heading">Height <span class="js-height-display">4'6" Ã¢â‚¬â€ 6'4"</span></h3>
+<h3 class="m-heading">Height <span class="js-height-display">4'6" – 6'4"</span></h3>
         <div class="m-range js-height-wrap">
           <div class="m-track"></div><div class="m-fill"></div>
           <input type="range" class="js-h-min" min="54" max="76" value="54">
           <input type="range" class="js-h-max" min="54" max="76" value="76">
         </div>
 
-        <h3 class="m-heading">Annual Salary <span class="js-salary-display">Ã¢â€šÂ¹1 Ã¢â‚¬â€œ 50 LPA</span></h3>
+<h3 class="m-heading">Annual Salary <span class="js-salary-display">¹ – 50 LPA</span></h3>
         <div class="m-range js-salary-wrap">
           <div class="m-track"></div><div class="m-fill"></div>
           <input type="range" class="js-salary-min" min="1" max="50" value="1">
@@ -181,21 +181,21 @@ if (!empty($_SESSION['user_id'])) {
       <label class="m-option"><span><input type="radio" name="m-gender" value="female"> Women</span></label>
       <label class="m-option"><span><input type="radio" name="m-gender" value="male"> Men</span></label>
 
-      <h3 class="m-heading">Age <span class="js-age-display">18 Ã¢â‚¬â€œ 70 years</span></h3>
+      <h3 class="m-heading">Age <span class="js-age-display">18 – 70 years</span></h3>
       <div class="m-range js-age-wrap">
         <div class="m-track"></div><div class="m-fill"></div>
         <input type="range" class="js-age-min" min="18" max="70" value="18">
         <input type="range" class="js-age-max" min="18" max="70" value="70">
       </div>
 
-      <h3 class="m-heading">Height <span class="js-height-display">4'6" Ã¢â‚¬â€ 6'4"</span></h3>
+      <h3 class="m-heading">Height <span class="js-height-display">4'6" – 6'4"</span></h3>
       <div class="m-range js-height-wrap">
         <div class="m-track"></div><div class="m-fill"></div>
         <input type="range" class="js-h-min" min="54" max="76" value="54">
         <input type="range" class="js-h-max" min="54" max="76" value="76">
       </div>
 
-      <h3 class="m-heading">Annual Salary <span class="js-salary-display">Ã¢â€šÂ¹1 Ã¢â‚¬â€œ 50 LPA</span></h3>
+      <h3 class="m-heading">Annual Salary <span class="js-salary-display">¹ – 50 LPA</span></h3>
       <div class="m-range js-salary-wrap">
         <div class="m-track"></div><div class="m-fill"></div>
         <input type="range" class="js-salary-min" min="1" max="50" value="1">
